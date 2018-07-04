@@ -1,0 +1,15 @@
+h1{
+    text-align: center;
+    border: 1px solid #333;
+    padding: 10px;
+    margin: 10px auto;
+    border-radius: 13px;
+    background-color: #fefe;
+}
+
+
+.main{
+    width:90%;
+    margin: 0 auto;
+    padding: 20px;
+}

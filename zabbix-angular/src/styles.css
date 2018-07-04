@@ -1,1 +1,109 @@
 /* You can add global styles to this file, and also import other style files */
+
+.trNum{
+    display:none;
+  }
+  .GroupH5{
+    display: table-cell;
+    margin: 0;
+    padding: 0 10px;
+  }
+
+  .GroupH5:hover {
+    color:green
+}
+
+  .table thead th.lapos{
+    font-weight: normal;
+    color: #517744;
+  }
+
+  .container2{
+    width:300px;
+    margin: 140px auto;
+  }
+
+  .elementToFadeInAndOut {
+    animation: fadeIn 1s infinite alternate;
+    text-align: center;
+    color: #3b8e3f;
+    font-family: monospace;
+}
+
+@keyframes fadeIn { 
+  from { opacity: 0; } 
+}
+
+  .xBadge{
+    background: red;
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    float: right;
+    border-radius: 30%;
+  }
+  .animate{
+    animation: spin 2s linear infinite;
+  }
+
+  .mainCont{
+    display:none;
+  }
+  .listLoading{
+    margin: 0 auto;
+    margin-top: 10px;
+  }
+  .table thead th.LDT{
+    font-weight: normal;
+    color: #d27470;
+  }
+
+  .tableTag{
+    display: inline-block;
+    padding: 11px;
+    margin-top: 20px;
+    border-radius: 5px;
+    font-weight: 300;
+    margin-bottom: 0;
+    border-bottom: none !important;
+    border-bottom-right-radius: unset;
+    border-bottom-left-radius: unset;
+  }
+
+.table {
+    table-layout: fixed;
+}
+  .table td, .table th {
+    text-align: center;
+}
+  .tableTagGreen{
+    background-color: #dff0d9;
+    border: 1px solid #9ad087;
+  }
+  .tableTagBlue{
+    background-color: #d9edf8;
+    border: 1px solid #a5c5d6;
+  }
+  .tableTagRed{
+    background-color: #f2dfde;
+    border: 1px solid #c59792;
+  }
+
+.loader {
+    border: 16px solid #f3f3f3; /* Light grey */
+    border-top: 16px solid #3498db; /* Blue */
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spin 2s linear infinite;
+    margin: 20px auto;
+}
+
+.total{
+  font-weight: bold;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
