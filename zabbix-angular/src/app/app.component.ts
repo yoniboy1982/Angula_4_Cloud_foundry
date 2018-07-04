@@ -1,3 +1,4 @@
+import { GenDataService } from './gen-data.service';
 import { Component, OnInit } from '@angular/core';
 import * as $ from 'jquery';
 
@@ -9,236 +10,65 @@ import * as $ from 'jquery';
 })
 export class AppComponent implements OnInit{
 
+    constructor(private service:GenDataService){
+
+    }
+
     that = this;
-    arr = ["Distribution", "LDT Security Flag","isVirt","Lapos Git Status"];
+    // arr = ["Distribution", "LDT Security Flag","isVirt","Lapos Git Status"];
 
-    jsonData = {
-      "jsonrpc": "2.0",
-      "method": "item.get",
-      "params": {
-            "output": "extend",
-            // "hostids": [ "10132", "10134", "10126", "10138", "10140", "10182", "10144", "10166", "10148", "10150", "10192", "10154"],
-              "filter": {"name": this.arr} ,
-          "sortfield": "name"
-      },
-      "auth": "3e82b6804f8f61967fea9462631a5946",
-      "id": 1
-    };
+    // jsonData = {
+    //   "jsonrpc": "2.0",
+    //   "method": "item.get",
+    //   "params": {
+    //         "output": "extend",
+    //         // "hostids": [ "10132", "10134", "10126", "10138", "10140", "10182", "10144", "10166", "10148", "10150", "10192", "10154"],
+    //           "filter": {"name": this.arr} ,
+    //       "sortfield": "name"
+    //   },
+    //   "auth": "3e82b6804f8f61967fea9462631a5946",
+    //   "id": 1
+    // };
 
-    dist = this.arr[0];
-    LDT = this.arr[1];
-    isVirt = this.arr[2];
-    Lapos = this.arr[3];
+    // dist = this.arr[0];
+    // LDT = this.arr[1];
+    // isVirt = this.arr[2];
+    // Lapos = this.arr[3];
 
-    mainObj = {};
-    secondObj = {};
-    timestamp30DaysBack = new Date().getTime() - (30 * 24 * 60 * 60 * 1000);
+    // mainObj = {};
+    // secondObj = {};
+    // timestamp30DaysBack = new Date().getTime() - (30 * 24 * 60 * 60 * 1000);
 
 
     ngOnInit(){
     }
 
     ngAfterContentInit(){
+      this.service.promiseToFillDAta.then(function(){
+        debugger;
+      })
 
-      for (let i = 0; i < this.arr.length; i++) {
-        const name = this.arr[i];
-        $('.listLoading').append('\
-                          <li class="list-group-item d-flex justify-content-between align-items-center '+name.replace(/ /g,'')+'">\
-                            '+name+'\
-                            <span class="badge badge-primary badge-pill xBadge animate"></span>\
-                          </li>');
+      // activate = this.geturl(0); 
+      // for (let i = 0; i < this.service.arr.length; i++) {
+      //   const name = this.service.arr[i];
+      //   $('.listLoading').append('\
+      //                     <li class="list-group-item d-flex justify-content-between align-items-center '+name.replace(/ /g,'')+'">\
+      //                       '+name+'\
+      //                       <span class="badge badge-primary badge-pill xBadge animate"></span>\
+      //                     </li>');
         
-      }
+      // }
 
       $('.GroupH5').click(function(){
         $(this).next().find('.newLine').toggle();
         $(this).next().find('.trNum').toggle();
       })
+
+      // this.appendToTable();
     }
 
 
-    //############
-    //ACTIVATE FUNCTION TO FETCH DATA
-    geturl(x){
-                
-      if(!x){
-        x = 0;
-      }
-      var name = this.arr[x].toString();
-      this.jsonData.params.filter.name =  [name];
-      let that = this;
-        $.ajax({
-            url: "https://zabbix.wdf.global.corp.sap/zabbix/api_jsonrpc.php",
-            type: "POST",
-            data: JSON.stringify(this.jsonData),
-            dataType: "json",        
-            contentType: "application/json",
-            error: function (request, status, error) {
-                // console.log(error);
-                // console.log(jsonData.params.filter.name);
 
-            },
-            success: function (data, text) {
-              
-                that.addTomainObj(data);
-
-                console.log(that.jsonData.params.filter.name);
-                var name = that.jsonData.params.filter.name;
-                $('.'+name[0].replace(/ /g,'') + ' .xBadge').css("background","green").removeClass('animate');
-
-                if(x+1 >= that.arr.length){
-                  that.addTo2Object();
-                    return;
-                }
-                x++;
-                setTimeout(() => {
-                  that.geturl(x);
-                }, 3000);
-            }
-            });
-    }
-
-    activate = this.geturl(0);    
-
-
-    addTomainObj(data){
-        for (let x = 0; x < data.result.length; x++) {
-            const elm = data.result[x];
-              if(!this.mainObj[elm.hostid]){
-                this.mainObj[elm.hostid] = [];
-              }
-              this.mainObj[elm.hostid].push(elm);
-          }
-    }
-            
-    addTo2Object(){
-        var that = this;
-        for (var key in this.mainObj) {
-
-            var elmContainer;
-            var breakFor = false;
-            var checkIfVirt = "p";
-            var checkIfLapos;
-            var checkIfLDT;
-
-            loop2:
-            for (let i = 0; i < this.mainObj[key].length; i++) {
-                const elm = this.mainObj[key][i];
-              
-                switch(elm.name) {
-                      case this.dist: //IF DISTREBUITION
-
-                          //### Total clients reported in the last 30 days
-                          //################
-                          
-                          var clock = elm.lastclock + '000';//adding 3 zero's because the date format is not valid
-
-                          //####
-                          var d = new Date(parseInt(clock));
-                          if(d.getFullYear() == 2017)
-                            console.log(d.getFullYear())
-
-                          if(parseInt(clock) < this.timestamp30DaysBack){
-                            // console.log(elm.name)
-                            break loop2;
-                          }
-
-                          if(elm.lastvalue === "0" || elm.lastvalue === ""){
-                            breakFor = true;
-                            break;
-                          }
-                          elmContainer = elm.lastvalue;//GET THE Name OF ELEMENT
-                          
-                          if(elmContainer in this.secondObj){
-                            this.secondObj[elmContainer]["total"]++;
-                          }else{
-                            this.initObj(elmContainer);
-                          }
-                          break;
-
-                      case this.isVirt: //IF isVirt
-
-                            if(elm.lastvalue !== "0"){
-                              checkIfVirt = "v";
-                              this.secondObj[elmContainer]["isVirt"]++;
-                            }else{
-                              this.secondObj[elmContainer]["physical"]++;
-                            }
-                            break;
-
-                      case this.Lapos: //IF Lapos
-                            if(elm.lastvalue === "0"){
-                              checkIfLapos = "isLapos";
-                              // secondObj[Lapos]["isVirt"]++;
-                            }else{
-                              checkIfLapos = "nonLapos";
-                              // secondObj[Lapos]["physical"]++;
-                            }
-
-                            this.secondObj[elmContainer]["Lapos"][checkIfLapos][checkIfVirt]++;
-                            // secondObj[Lapos]["total"]++;
-                            break;
-
-                      case this.LDT: //IF LDT
-                            if(elm.lastvalue === "0"){
-                              checkIfLDT = "isLDT";
-                              // secondObj[LDT]["isVirt"]++;
-                            }else{
-                              checkIfLDT = "nonLDT";
-
-                              // secondObj[LDT]["physical"]++;
-                            }
-                            this.secondObj[elmContainer]["LDT"][checkIfLDT][checkIfVirt]++;
-
-                            // secondObj[LDT]["total"]++;
-                            break;
-                } 
-
-                if (breakFor){
-                  break loop2;
-                }
-                      
-            }
-        }
-        console.log(this.secondObj);
-        this.appendToTable();
-        $('.mainCont').show( "slow", function() {
-          $('.container2').hide();
-          that.addTotalToEachTable()
-        });
-
-    }
-
-    initObj(lastvalue){
-      this.secondObj[lastvalue] = {
-          "total"  : 1,
-          "isVirt"  : 0,
-          "physical"  : 0,
-          "Lapos"  : {
-            "isLapos"  : {
-              "v"  : 0,
-              "p"  : 0 
-            },
-            "nonLapos"  : {
-              "v"  : 0,
-              "p"  : 0 
-            },
-          },
-          "LDT"  : {
-            "isLDT"  : {
-              "v"  : 0,
-              "p"  : 0 
-            },
-            "nonLDT"  : {
-              "v"  : 0,
-              "p"  : 0 
-            },
-          }
-        }
-
-
-    }
-  
 
     //###############
     //NOW ADD TO HTML
@@ -311,16 +141,16 @@ export class AppComponent implements OnInit{
       })
     }
 
-    appendToTable(){
+    appendToTable = function(){
       
-      for (var key in this.secondObj) {
+      for (var key in this.service.secondObj) {
 
-        var elm = this.secondObj[key];
-        var total = this.secondObj[key].total;
-        var isVirt = this.secondObj[key].isVirt;
-        var physical = this.secondObj[key].physical;
-        var elmLapos = this.secondObj[key].Lapos;
-        var elmLDT = this.secondObj[key].LDT;
+        var elm = this.service.secondObj[key];
+        var total = this.service.secondObj[key].total;
+        var isVirt = this.service.secondObj[key].isVirt;
+        var physical = this.service.secondObj[key].physical;
+        var elmLapos = this.service.secondObj[key].Lapos;
+        var elmLDT = this.service.secondObj[key].LDT;
         $('#zabbixTable tbody').append('<tr class="newLine">\n <th scope="row">'+key+'</th>\n <td>'+total+'</td>\n<td>'+physical+'</td>\n <td>'+isVirt+'</td> </tr>');
         
         if(elmLapos !== undefined)

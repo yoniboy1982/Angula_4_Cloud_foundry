@@ -1,3 +1,4 @@
+import { GenDataService } from './gen-data.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
@@ -14,7 +15,7 @@ import { BodyComponent } from './body/body.component';
   imports: [
     BrowserModule
   ],
-  providers: [],
+  providers: [GenDataService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
