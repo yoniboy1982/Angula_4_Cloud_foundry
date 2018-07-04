@@ -1,0 +1,24 @@
+applications:
+# - name: router
+#   host: zabbix-approute-trail
+#   path: router
+#   memory: 128M
+#   env:
+#     destinations: >
+#       [
+#         {
+#           "name":"zabbix",
+#           "url":"https://zabbix-host-trail.cfapps.sap.hana.ondemand.com/",
+#           "forwardAuthToken": true
+#         }
+#       ]
+#   services:
+#     - myuaa
+
+- name: zabbix-angular
+  host: zabbix-angular
+  path: zabbix-angular/dist/zabbix-angular
+  buildpack: https://github.com/cloudfoundry/staticfile-buildpack.git
+  memory: 128M
+  # services:
+  #   - myuaa
