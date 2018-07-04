@@ -9,57 +9,97 @@ import * as $ from 'jquery';
 })
 export class AppComponent implements OnInit{
 
-  that = this;
-  arr = ["Distribution", "LDT Security Flag","isVirt","Lapos Git Status"];
+    that = this;
+    arr = ["Distribution", "LDT Security Flag","isVirt","Lapos Git Status"];
 
-  jsonData = {
-    "jsonrpc": "2.0",
-    "method": "item.get",
-    "params": {
-          "output": "extend",
-          // "hostids": [ "10132", "10134"],
-          // "hostids": [ "10132", "10134", "10126", "10138", "10140", "10182", "10144", "10166", "10148", "10150", "10192", "10154"],
-            "filter": {"name": this.arr} ,
-        "sortfield": "name"
-    },
-    "auth": "3e82b6804f8f61967fea9462631a5946",
-    "id": 1
-  };
+    jsonData = {
+      "jsonrpc": "2.0",
+      "method": "item.get",
+      "params": {
+            "output": "extend",
+            // "hostids": [ "10132", "10134", "10126", "10138", "10140", "10182", "10144", "10166", "10148", "10150", "10192", "10154"],
+              "filter": {"name": this.arr} ,
+          "sortfield": "name"
+      },
+      "auth": "3e82b6804f8f61967fea9462631a5946",
+      "id": 1
+    };
 
-  dist = this.arr[0];
-  LDT = this.arr[1];
-  isVirt = this.arr[2];
-  Lapos = this.arr[3];
+    dist = this.arr[0];
+    LDT = this.arr[1];
+    isVirt = this.arr[2];
+    Lapos = this.arr[3];
 
-  mainObj = {};
-  secondObj = {};
-  timestamp30DaysBack = new Date().getTime() - (30 * 24 * 60 * 60 * 1000);
-
-
-  ngOnInit(){
-  }
+    mainObj = {};
+    secondObj = {};
+    timestamp30DaysBack = new Date().getTime() - (30 * 24 * 60 * 60 * 1000);
 
 
-  ngAfterContentInit(){
-
-
-  // $(document).ready(function(){
-    // debugger;
-    for (let i = 0; i < this.arr.length; i++) {
-      const name = this.arr[i];
-      $('.listLoading').append('\
-                        <li class="list-group-item d-flex justify-content-between align-items-center '+name.replace(/ /g,'')+'">\
-                          '+name+'\
-                          <span class="badge badge-primary badge-pill xBadge animate"></span>\
-                        </li>');
-      
+    ngOnInit(){
     }
 
-    $('.GroupH5').click(function(){
-      $(this).next().find('.newLine').toggle();
-      $(this).next().find('.trNum').toggle();
-    })
-  }
+    ngAfterContentInit(){
+
+      for (let i = 0; i < this.arr.length; i++) {
+        const name = this.arr[i];
+        $('.listLoading').append('\
+                          <li class="list-group-item d-flex justify-content-between align-items-center '+name.replace(/ /g,'')+'">\
+                            '+name+'\
+                            <span class="badge badge-primary badge-pill xBadge animate"></span>\
+                          </li>');
+        
+      }
+
+      $('.GroupH5').click(function(){
+        $(this).next().find('.newLine').toggle();
+        $(this).next().find('.trNum').toggle();
+      })
+    }
+
+
+    //############
+    //ACTIVATE FUNCTION TO FETCH DATA
+    geturl(x){
+                
+      if(!x){
+        x = 0;
+      }
+      var name = this.arr[x].toString();
+      this.jsonData.params.filter.name =  [name];
+      let that = this;
+        $.ajax({
+            url: "https://zabbix.wdf.global.corp.sap/zabbix/api_jsonrpc.php",
+            type: "POST",
+            data: JSON.stringify(this.jsonData),
+            dataType: "json",        
+            contentType: "application/json",
+            error: function (request, status, error) {
+                // console.log(error);
+                // console.log(jsonData.params.filter.name);
+
+            },
+            success: function (data, text) {
+              
+                that.addTomainObj(data);
+
+                console.log(that.jsonData.params.filter.name);
+                var name = that.jsonData.params.filter.name;
+                $('.'+name[0].replace(/ /g,'') + ' .xBadge').css("background","green").removeClass('animate');
+
+                if(x+1 >= that.arr.length){
+                  that.addTo2Object();
+                    return;
+                }
+                x++;
+                setTimeout(() => {
+                  that.geturl(x);
+                }, 3000);
+            }
+            });
+    }
+
+    activate = this.geturl(0);    
+
 
     addTomainObj(data){
         for (let x = 0; x < data.result.length; x++) {
@@ -169,6 +209,40 @@ export class AppComponent implements OnInit{
 
     }
 
+    initObj(lastvalue){
+      this.secondObj[lastvalue] = {
+          "total"  : 1,
+          "isVirt"  : 0,
+          "physical"  : 0,
+          "Lapos"  : {
+            "isLapos"  : {
+              "v"  : 0,
+              "p"  : 0 
+            },
+            "nonLapos"  : {
+              "v"  : 0,
+              "p"  : 0 
+            },
+          },
+          "LDT"  : {
+            "isLDT"  : {
+              "v"  : 0,
+              "p"  : 0 
+            },
+            "nonLDT"  : {
+              "v"  : 0,
+              "p"  : 0 
+            },
+          }
+        }
+
+
+    }
+  
+
+    //###############
+    //NOW ADD TO HTML
+    //##############
     addTotalToEachTable(){
 
       $('table').each(function(){
@@ -258,89 +332,5 @@ export class AppComponent implements OnInit{
       $('.loader').hide();
     }
 
-    initObj(lastvalue){
-      this.secondObj[lastvalue] = {
-          "total"  : 1,
-          "isVirt"  : 0,
-          "physical"  : 0,
-          "Lapos"  : {
-            "isLapos"  : {
-              "v"  : 0,
-              "p"  : 0 
-            },
-            "nonLapos"  : {
-              "v"  : 0,
-              "p"  : 0 
-            },
-          },
-          "LDT"  : {
-            "isLDT"  : {
-              "v"  : 0,
-              "p"  : 0 
-            },
-            "nonLDT"  : {
-              "v"  : 0,
-              "p"  : 0 
-            },
-          }
-        }
-
-
-    }
-
-
-
-
-  // });
-  
-  
-  
-
-
-   geturl(x){
-              
-    if(!x){
-      x = 0;
-    }
-    var name = this.arr[x].toString();
-    this.jsonData.params.filter.name =  [name];
-    let that = this;
-      $.ajax({
-          url: "https://zabbix.wdf.global.corp.sap/zabbix/api_jsonrpc.php",
-          type: "POST",
-          data: JSON.stringify(this.jsonData),
-          dataType: "json",        
-          contentType: "application/json",
-          error: function (request, status, error) {
-              // console.log(error);
-              // console.log(jsonData.params.filter.name);
-
-          },
-          success: function (data, text) {
-            // debugger;
-            that.addTomainObj(data);
-
-              console.log(that.jsonData.params.filter.name);
-              var name = that.jsonData.params.filter.name;
-              // debugger;
-              $('.'+name[0].replace(/ /g,'') + ' .xBadge').css("background","green").removeClass('animate');
-              // $('.'+name.replace(/ /g,'') + ' .xBadge').css("animation","spin 0s linear infinite;");
-
-
-              if(x+1 >= that.arr.length){
-                that.addTo2Object();
-                  return;
-              }
-              x++;
-              setTimeout(() => {
-                that.geturl(x);
-              }, 3000);
-          }
-          });
-      }
-
-    sus = this.geturl(0);
-
-
-  title = 'app';
+    // title = 'app';
 }
