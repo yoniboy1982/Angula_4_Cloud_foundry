@@ -1,3 +1,4 @@
+import { SorterService } from './../sorter.service';
 import { Component, OnInit } from '@angular/core';
 import { GenDataService } from '../gen-data.service';
 import * as $ from 'jquery';
@@ -9,7 +10,7 @@ import * as $ from 'jquery';
 })
 export class BodyComponent implements OnInit {
 
-  constructor(private service:GenDataService){
+  constructor(private service:GenDataService, private sorter:SorterService){
         
   }
 
@@ -17,26 +18,22 @@ export class BodyComponent implements OnInit {
     timestamp = true;
 
     ngOnInit(){
-      this.service.currentMessage.subscribe(message => this.dist = message);
+      this.service.currentMessage.subscribe(message => {
+        // console.log(message)
+        this.dist = message
+      });
     }
 
     ngAfterContentInit(){
+        
+        this.sorter.makeAllSortable(document.body);
 
-      // var that = this;
-
-      // this.service.promiseToFillDAta.then(function(respond){
-      //     that.dist = respond;
-      //     setTimeout(() => {
-      //       that.addTotalToEachTable()
-      //     }, 1000);
-          
-      //     that.timestamp = false;
-      // })
-
-      $('.GroupH5').click(function(){
-        $(this).next().find('.newLine').toggle();
-        $(this).next().find('.trNum').toggle();
-      })
+        $(document).ready(function(){
+          $('.GroupH5').click(function(){
+            $(this).next().find('.newLine').toggle();
+            $(this).next().find('.trNum').toggle();
+          })
+        })
     }
 
     //###############
