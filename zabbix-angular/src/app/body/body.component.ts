@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { GenDataService } from '../gen-data.service';
-
 import * as $ from 'jquery';
 
 @Component({
@@ -18,21 +17,21 @@ export class BodyComponent implements OnInit {
     timestamp = true;
 
     ngOnInit(){
-
+      this.service.currentMessage.subscribe(message => this.dist = message);
     }
 
     ngAfterContentInit(){
 
-      var that = this;
+      // var that = this;
 
-      this.service.promiseToFillDAta.then(function(respond){
-          that.dist = respond;
-          setTimeout(() => {
-            that.addTotalToEachTable()
-          }, 1000);
+      // this.service.promiseToFillDAta.then(function(respond){
+      //     that.dist = respond;
+      //     setTimeout(() => {
+      //       that.addTotalToEachTable()
+      //     }, 1000);
           
-          that.timestamp = false;
-      })
+      //     that.timestamp = false;
+      // })
 
       $('.GroupH5').click(function(){
         $(this).next().find('.newLine').toggle();

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import * as $ from 'jquery';
-import { resolve } from 'q';
+import * as Rx from "rxjs";
 
 
 @Injectable({
@@ -8,8 +8,14 @@ import { resolve } from 'q';
 })
 export class GenDataService {
 
+    private messageSource = new Rx.BehaviorSubject<Object>('default');
+    currentMessage = this.messageSource.asObservable()
+
+
     constructor() { 
       // this.promiseToFillDAta.then()
+      this.messageSource.next(this.secondObj);
+      this.geturl(0);
     }
     
     arr = ["Distribution", "LDT Security Flag","isVirt","Lapos Git Status"];
@@ -31,18 +37,18 @@ export class GenDataService {
     //############
     //ACTIVATE FUNCTION TO FETCH DATA
 
-    promiseToFillDAta = new Promise(function(resolve,req){
+    // promiseToFillDAta = new Promise(function(resolve,req){
+      
+      mainObj = {};
+      secondObj = {};
 
-      var mainObj = {};
-      var secondObj = {};
-
-      function returnArr(){
+      returnArr(){
         return ["Distribution", "LDT Security Flag","isVirt","Lapos Git Status"];
       }
 
-      function geturl(x){
-
-        var arr = returnArr();
+      geturl(x){
+        var that = this;
+        var arr = this.returnArr();
 
         var jsonData = {
           "jsonrpc": "2.0",
@@ -75,49 +81,49 @@ export class GenDataService {
             },
             success: function (data, text) {
 
-                addTomainObj(data);
+                that.addTomainObj(data);
 
                 console.log(jsonData.params.filter.name);
                 var name = jsonData.params.filter.name;
                 $('.'+name[0].replace(/ /g,'') + ' .xBadge').css("background","green").removeClass('animate');
 
                 if(x+1 >= arr.length){
-                  addTo2Object();
-                  addTotal();
-                  resolve(secondObj)
+                  that.addTo2Object();
+                  // addTotal();
+                  // resolve(secondObj)
                   return;
                 }
                 
                 x++;
                 setTimeout(() => {
-                  geturl(x);
+                  that.geturl(x);
                 }, 3000);
             }
             });
       }
 
-      geturl(0);
+      
    
-      function addTomainObj(data){
+      addTomainObj(data){
           for (let x = 0; x < data.result.length; x++) {
               const elm = data.result[x];
-                if(!mainObj[elm.hostid]){
-                  mainObj[elm.hostid] = [];
+                if(!this.mainObj[elm.hostid]){
+                  this.mainObj[elm.hostid] = [];
                 }
-                mainObj[elm.hostid].push(elm);
+                this.mainObj[elm.hostid].push(elm);
             }
       }
 
-      function addTo2Object(){
+      addTo2Object(){
 
           var timestamp30DaysBack = new Date().getTime() - (30 * 24 * 60 * 60 * 1000);
-          var arr = returnArr();
+          var arr = this.returnArr();
           var dist = arr[0];
           var LDT = arr[1];
           var isVirt = arr[2];
           var Lapos = arr[3];
 
-          for (var key in mainObj) {
+          for (var key in this.mainObj) {
 
               var elmContainer;
               var breakFor = false;
@@ -126,8 +132,8 @@ export class GenDataService {
               var checkIfLDT;
 
               loop2:
-              for (let i = 0; i < mainObj[key].length; i++) {
-                  const elm = mainObj[key][i];
+              for (let i = 0; i < this.mainObj[key].length; i++) {
+                  const elm = this.mainObj[key][i];
                 
                   switch(elm.name) {
                         case dist: //IF DISTREBUITION
@@ -153,10 +159,10 @@ export class GenDataService {
                             }
                             elmContainer = elm.lastvalue;//GET THE Name OF ELEMENT
                             
-                            if(elmContainer in secondObj){
-                              secondObj[elmContainer]["total"]++;
+                            if(elmContainer in this.secondObj){
+                              this.secondObj[elmContainer]["total"]++;
                             }else{
-                              initObj(elmContainer);
+                              this.initObj(elmContainer);
                             }
                             break;
 
@@ -164,9 +170,9 @@ export class GenDataService {
 
                               if(elm.lastvalue !== "0"){
                                 checkIfVirt = "v";
-                                secondObj[elmContainer]["isVirt"]++;
+                                this.secondObj[elmContainer]["isVirt"]++;
                               }else{
-                                secondObj[elmContainer]["physical"]++;
+                                this.secondObj[elmContainer]["physical"]++;
                               }
                               break;
 
@@ -179,7 +185,7 @@ export class GenDataService {
                                 // secondObj[Lapos]["physical"]++;
                               }
 
-                              secondObj[elmContainer]["Lapos"][checkIfLapos][checkIfVirt]++;
+                              this.secondObj[elmContainer]["Lapos"][checkIfLapos][checkIfVirt]++;
                               // secondObj[Lapos]["total"]++;
                               break;
 
@@ -192,7 +198,7 @@ export class GenDataService {
 
                                 // secondObj[LDT]["physical"]++;
                               }
-                              secondObj[elmContainer]["LDT"][checkIfLDT][checkIfVirt]++;
+                              this.secondObj[elmContainer]["LDT"][checkIfLDT][checkIfVirt]++;
 
                               // secondObj[LDT]["total"]++;
                               break;
@@ -206,8 +212,8 @@ export class GenDataService {
           }
       }
 
-      function initObj(lastvalue){
-        secondObj[lastvalue] = {
+      initObj(lastvalue){
+        this.secondObj[lastvalue] = {
             "total"  : 1,
             "isVirt"  : 0,
             "physical"  : 0,
@@ -234,10 +240,10 @@ export class GenDataService {
         }
       }
 
-      function addTotal(){
+      addTotal(){
       }
 
-  });
+  // });
 
   
     //

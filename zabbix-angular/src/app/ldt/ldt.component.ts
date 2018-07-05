@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { GenDataService } from '../gen-data.service';
 
 @Component({
   selector: 'app-ldt',
@@ -7,9 +8,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LdtComponent implements OnInit {
 
-  constructor() { }
+  constructor(private service:GenDataService){
+
+  }
+  dist = {};
 
   ngOnInit() {
+    this.service.currentMessage.subscribe(message => this.dist = message);
+  }
+
+  objectKeys(obj) {
+    return Object.keys(obj);
   }
 
 }
