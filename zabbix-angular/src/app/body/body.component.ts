@@ -18,6 +18,7 @@ export class BodyComponent implements OnInit {
     timestamp = true;
 
     ngOnInit(){
+
     }
 
     ngAfterContentInit(){
@@ -25,10 +26,11 @@ export class BodyComponent implements OnInit {
       var that = this;
 
       this.service.promiseToFillDAta.then(function(respond){
-        console.log(respond,'11111')
           that.dist = respond;
-          // that.appendToTable(respond);
-          that.addTotalToEachTable()
+          setTimeout(() => {
+            that.addTotalToEachTable()
+          }, 1000);
+          
           that.timestamp = false;
       })
 
@@ -44,7 +46,7 @@ export class BodyComponent implements OnInit {
     addTotalToEachTable(){
 
       $('table').each(function(){
-
+          
           var tbody = $(this).find('tbody');
           var tfoot = $(this).find('tfoot');
           var tdLength = tbody.find('tr:eq(0) td').length;
@@ -77,10 +79,12 @@ export class BodyComponent implements OnInit {
               }
           })
 
+          
+
           for (var key in OS_object) {
 
               if (OS_object.hasOwnProperty(key)) {
-
+                
                   var htmlTotalElmToAppend = '<tr class="trNum"><th scope="row">'+key+'</th>';
                   for (let td = 0; td < OS_object[key].length; td++) {
                     const tdNum = OS_object[key][td];
@@ -100,11 +104,6 @@ export class BodyComponent implements OnInit {
           htmlTotalElmToAppend += '</tr>';
           
           tfoot.append(htmlTotalElmToAppend);
-
-
-
-
-
 
       })
     }

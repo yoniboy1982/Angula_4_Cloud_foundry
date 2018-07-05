@@ -71,8 +71,6 @@ export class GenDataService {
             contentType: "application/json",
             error: function (request, status, error) {
                 // console.log(error);
-                // console.log(jsonData.params.filter.name);
-
             },
             success: function (data, text) {
 
@@ -84,6 +82,7 @@ export class GenDataService {
 
                 if(x+1 >= arr.length){
                   addTo2Object();
+                  addTotal();
                   resolve(secondObj)
                   return;
                 }
@@ -94,7 +93,6 @@ export class GenDataService {
                 }, 3000);
             }
             });
-
       }
 
       geturl(0);
@@ -233,6 +231,10 @@ export class GenDataService {
               },
             }
         }
+      }
+
+      function addTotal(){
+
       }
 
   })
