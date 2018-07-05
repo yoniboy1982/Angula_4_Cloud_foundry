@@ -8,7 +8,9 @@ import { resolve } from 'q';
 })
 export class GenDataService {
 
-    constructor() { }
+    constructor() { 
+      // this.promiseToFillDAta.then()
+    }
     
     arr = ["Distribution", "LDT Security Flag","isVirt","Lapos Git Status"];
 
@@ -62,7 +64,6 @@ export class GenDataService {
         var name = arr[x].toString();
         jsonData.params.filter.name =  [name];
         
-
         $.ajax({
             url: "https://zabbix.wdf.global.corp.sap/zabbix/api_jsonrpc.php",
             type: "POST",
@@ -70,7 +71,7 @@ export class GenDataService {
             dataType: "json",        
             contentType: "application/json",
             error: function (request, status, error) {
-                // console.log(error);
+                console.log(error);
             },
             success: function (data, text) {
 
@@ -234,9 +235,11 @@ export class GenDataService {
       }
 
       function addTotal(){
-
       }
 
-  })
+  });
+
+  
+    //
       
 }

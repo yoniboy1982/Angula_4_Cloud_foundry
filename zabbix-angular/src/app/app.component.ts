@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
+import { GenDataService } from './gen-data.service';
 
 @Component({
   selector: 'app-root',
