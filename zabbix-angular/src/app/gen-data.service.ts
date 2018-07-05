@@ -9,7 +9,7 @@ import * as Rx from "rxjs";
 export class GenDataService {
 
     private messageSource = new Rx.BehaviorSubject<Object>('{}');
-    currentMessage = this.messageSource.asObservable()
+    currentMessage = this.messageSource.asObservable();
     arr = ["Distribution", "LDT Security Flag","isVirt","Lapos Git Status"];
 
     constructor() { 
@@ -83,8 +83,6 @@ export class GenDataService {
             });
       }
 
-      
-   
       addTomainObj(data){
           for (let x = 0; x < data.result.length; x++) {
               const elm = data.result[x];
