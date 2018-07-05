@@ -8,34 +8,15 @@ import * as Rx from "rxjs";
 })
 export class GenDataService {
 
-    private messageSource = new Rx.BehaviorSubject<Object>('default');
+    private messageSource = new Rx.BehaviorSubject<Object>('{}');
     currentMessage = this.messageSource.asObservable()
-
+    arr = ["Distribution", "LDT Security Flag","isVirt","Lapos Git Status"];
 
     constructor() { 
-      // this.promiseToFillDAta.then()
       this.messageSource.next(this.secondObj);
       this.geturl(0);
     }
     
-    arr = ["Distribution", "LDT Security Flag","isVirt","Lapos Git Status"];
-
-    jsonData = {
-      "jsonrpc": "2.0",
-      "method": "item.get",
-      "params": {
-            "output": "extend",
-            "hostids": [ "10132", "10134","10154"],
-            // "hostids": [ "10132", "10134", "10126", "10138", "10140", "10182", "10144", "10166", "10148", "10150", "10192", "10154"],
-              "filter": {"name": this.arr} ,
-          "sortfield": "name"
-      },
-      "auth": "3e82b6804f8f61967fea9462631a5946",
-      "id": 1
-    };
-
-    //############
-    //ACTIVATE FUNCTION TO FETCH DATA
 
     // promiseToFillDAta = new Promise(function(resolve,req){
       
@@ -55,7 +36,7 @@ export class GenDataService {
           "method": "item.get",
           "params": {
                 "output": "extend",
-                // "hostids": [ "10132", "10134", "10126", "10138", "10140", "10182", "10144", "10166", "10148", "10150", "10192", "10154"],
+                "hostids": [ "10132", "10134", "10126", "10138", "10140", "10182", "10144", "10166", "10148", "10150", "10192", "10154"],
                   "filter": {"name": arr} ,
               "sortfield": "name"
           },
@@ -240,8 +221,8 @@ export class GenDataService {
         }
       }
 
-      addTotal(){
-      }
+      // addTotal(){
+      // }
 
   // });
 

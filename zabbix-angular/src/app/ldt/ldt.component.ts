@@ -8,10 +8,11 @@ import { GenDataService } from '../gen-data.service';
 })
 export class LdtComponent implements OnInit {
 
+  dist = {};
+
   constructor(private service:GenDataService){
 
   }
-  dist = {};
 
   ngOnInit() {
     this.service.currentMessage.subscribe(message => this.dist = message);
