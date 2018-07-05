@@ -8,33 +8,27 @@ import { resolve } from 'q';
 })
 export class GenDataService {
 
-  constructor() { }
-
-  arr = ["Distribution", "LDT Security Flag","isVirt","Lapos Git Status"];
-
-  jsonData = {
-    "jsonrpc": "2.0",
-    "method": "item.get",
-    "params": {
-          "output": "extend",
-          // "hostids": [ "10132", "10134", "10126", "10138", "10140", "10182", "10144", "10166", "10148", "10150", "10192", "10154"],
-            "filter": {"name": this.arr} ,
-        "sortfield": "name"
-    },
-    "auth": "3e82b6804f8f61967fea9462631a5946",
-    "id": 1
-  };
-
-  secondObj = {};
-
-
-
-
-      //############
-    //ACTIVATE FUNCTION TO FETCH DATA
+    constructor() { }
     
+    arr = ["Distribution", "LDT Security Flag","isVirt","Lapos Git Status"];
 
-    // activate = this.geturl(0);    
+    jsonData = {
+      "jsonrpc": "2.0",
+      "method": "item.get",
+      "params": {
+            "output": "extend",
+            "hostids": [ "10132", "10134","10154"],
+            // "hostids": [ "10132", "10134", "10126", "10138", "10140", "10182", "10144", "10166", "10148", "10150", "10192", "10154"],
+              "filter": {"name": this.arr} ,
+          "sortfield": "name"
+      },
+      "auth": "3e82b6804f8f61967fea9462631a5946",
+      "id": 1
+    };
+
+    //############
+    //ACTIVATE FUNCTION TO FETCH DATA
+
     promiseToFillDAta = new Promise(function(resolve,req){
 
       var mainObj = {};
@@ -46,7 +40,6 @@ export class GenDataService {
 
       function geturl(x){
 
-        let that = this;
         var arr = returnArr();
 
         var jsonData = {
@@ -106,130 +99,115 @@ export class GenDataService {
 
       geturl(0);
    
-    function addTomainObj(data){
-        for (let x = 0; x < data.result.length; x++) {
-            const elm = data.result[x];
-              if(!mainObj[elm.hostid]){
-                mainObj[elm.hostid] = [];
-              }
-              mainObj[elm.hostid].push(elm);
-          }
-    }
+      function addTomainObj(data){
+          for (let x = 0; x < data.result.length; x++) {
+              const elm = data.result[x];
+                if(!mainObj[elm.hostid]){
+                  mainObj[elm.hostid] = [];
+                }
+                mainObj[elm.hostid].push(elm);
+            }
+      }
 
+      function addTo2Object(){
 
+          var timestamp30DaysBack = new Date().getTime() - (30 * 24 * 60 * 60 * 1000);
+          var arr = returnArr();
+          var dist = arr[0];
+          var LDT = arr[1];
+          var isVirt = arr[2];
+          var Lapos = arr[3];
 
-    function addTo2Object(){
-      // debugger;
-      // let that = this;
-      // debugger;
-      var timestamp30DaysBack = new Date().getTime() - (30 * 24 * 60 * 60 * 1000);
-      var arr = returnArr();
-      var dist = arr[0];
-      var LDT = arr[1];
-      var isVirt = arr[2];
-      var Lapos = arr[3];
+          for (var key in mainObj) {
 
-      for (var key in mainObj) {
+              var elmContainer;
+              var breakFor = false;
+              var checkIfVirt = "p";
+              var checkIfLapos;
+              var checkIfLDT;
 
-          var elmContainer;
-          var breakFor = false;
-          var checkIfVirt = "p";
-          var checkIfLapos;
-          var checkIfLDT;
+              loop2:
+              for (let i = 0; i < mainObj[key].length; i++) {
+                  const elm = mainObj[key][i];
+                
+                  switch(elm.name) {
+                        case dist: //IF DISTREBUITION
 
-          loop2:
-          for (let i = 0; i < mainObj[key].length; i++) {
-              const elm = mainObj[key][i];
-            
-              switch(elm.name) {
-                    case dist: //IF DISTREBUITION
+                            //### Total clients reported in the last 30 days
+                            //################
+                            
+                            var clock = elm.lastclock + '000';//adding 3 zero's because the date format is not valid
 
-                        //### Total clients reported in the last 30 days
-                        //################
+                            //####
+                            var d = new Date(parseInt(clock));
+                            if(d.getFullYear() == 2017)
+                              console.log(d.getFullYear())
+
+                            if(parseInt(clock) < timestamp30DaysBack){
+                              // console.log(elm.name)
+                              break loop2;
+                            }
+
+                            if(elm.lastvalue === "0" || elm.lastvalue === ""){
+                              breakFor = true;
+                              break;
+                            }
+                            elmContainer = elm.lastvalue;//GET THE Name OF ELEMENT
+                            
+                            if(elmContainer in secondObj){
+                              secondObj[elmContainer]["total"]++;
+                            }else{
+                              initObj(elmContainer);
+                            }
+                            break;
+
+                        case isVirt: //IF isVirt
+
+                              if(elm.lastvalue !== "0"){
+                                checkIfVirt = "v";
+                                secondObj[elmContainer]["isVirt"]++;
+                              }else{
+                                secondObj[elmContainer]["physical"]++;
+                              }
+                              break;
+
+                        case Lapos: //IF Lapos
+                              if(elm.lastvalue === "0"){
+                                checkIfLapos = "isLapos";
+                                // secondObj[Lapos]["isVirt"]++;
+                              }else{
+                                checkIfLapos = "nonLapos";
+                                // secondObj[Lapos]["physical"]++;
+                              }
+
+                              secondObj[elmContainer]["Lapos"][checkIfLapos][checkIfVirt]++;
+                              // secondObj[Lapos]["total"]++;
+                              break;
+
+                        case LDT: //IF LDT
+                              if(elm.lastvalue === "0"){
+                                checkIfLDT = "isLDT";
+                                // secondObj[LDT]["isVirt"]++;
+                              }else{
+                                checkIfLDT = "nonLDT";
+
+                                // secondObj[LDT]["physical"]++;
+                              }
+                              secondObj[elmContainer]["LDT"][checkIfLDT][checkIfVirt]++;
+
+                              // secondObj[LDT]["total"]++;
+                              break;
+                  } 
+
+                  if (breakFor){
+                    break loop2;
+                  }
                         
-                        var clock = elm.lastclock + '000';//adding 3 zero's because the date format is not valid
-
-                        //####
-                        var d = new Date(parseInt(clock));
-                        if(d.getFullYear() == 2017)
-                          console.log(d.getFullYear())
-
-                        if(parseInt(clock) < timestamp30DaysBack){
-                          // console.log(elm.name)
-                          break loop2;
-                        }
-
-                        if(elm.lastvalue === "0" || elm.lastvalue === ""){
-                          breakFor = true;
-                          break;
-                        }
-                        elmContainer = elm.lastvalue;//GET THE Name OF ELEMENT
-                        
-                        if(elmContainer in secondObj){
-                          secondObj[elmContainer]["total"]++;
-                        }else{
-                          initObj(elmContainer);
-                        }
-                        break;
-
-                    case isVirt: //IF isVirt
-
-                          if(elm.lastvalue !== "0"){
-                            checkIfVirt = "v";
-                            secondObj[elmContainer]["isVirt"]++;
-                          }else{
-                            secondObj[elmContainer]["physical"]++;
-                          }
-                          break;
-
-                    case Lapos: //IF Lapos
-                          if(elm.lastvalue === "0"){
-                            checkIfLapos = "isLapos";
-                            // secondObj[Lapos]["isVirt"]++;
-                          }else{
-                            checkIfLapos = "nonLapos";
-                            // secondObj[Lapos]["physical"]++;
-                          }
-
-                          secondObj[elmContainer]["Lapos"][checkIfLapos][checkIfVirt]++;
-                          // secondObj[Lapos]["total"]++;
-                          break;
-
-                    case LDT: //IF LDT
-                          if(elm.lastvalue === "0"){
-                            checkIfLDT = "isLDT";
-                            // secondObj[LDT]["isVirt"]++;
-                          }else{
-                            checkIfLDT = "nonLDT";
-
-                            // secondObj[LDT]["physical"]++;
-                          }
-                          secondObj[elmContainer]["LDT"][checkIfLDT][checkIfVirt]++;
-
-                          // secondObj[LDT]["total"]++;
-                          break;
-              } 
-
-              if (breakFor){
-                break loop2;
               }
-                    
           }
       }
-      
-
-      // console.log(this.secondObj);
-      // that.appendToTable();
-
-      // $('.mainCont').show( "slow", function() {
-      //   $('.container2').hide();
-      //   that.addTotalToEachTable()
-      // });
-
-  }
 
       function initObj(lastvalue){
-          
         secondObj[lastvalue] = {
             "total"  : 1,
             "isVirt"  : 0,
@@ -254,12 +232,8 @@ export class GenDataService {
                 "p"  : 0 
               },
             }
-          }
-
-
+        }
       }
-
-
 
   })
       
