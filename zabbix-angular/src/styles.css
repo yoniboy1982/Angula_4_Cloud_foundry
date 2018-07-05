@@ -47,7 +47,7 @@
   }
 
   .mainCont{
-    display:none;
+    /* display:none; */
   }
   .listLoading{
     margin: 0 auto;

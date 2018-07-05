@@ -10,42 +10,23 @@ import * as $ from 'jquery';
 })
 export class AppComponent implements OnInit{
 
+    timestamp = true;
     constructor(private service:GenDataService){
-
+        
     }
-
-    that = this;
-    // arr = ["Distribution", "LDT Security Flag","isVirt","Lapos Git Status"];
-
-    // jsonData = {
-    //   "jsonrpc": "2.0",
-    //   "method": "item.get",
-    //   "params": {
-    //         "output": "extend",
-    //         // "hostids": [ "10132", "10134", "10126", "10138", "10140", "10182", "10144", "10166", "10148", "10150", "10192", "10154"],
-    //           "filter": {"name": this.arr} ,
-    //       "sortfield": "name"
-    //   },
-    //   "auth": "3e82b6804f8f61967fea9462631a5946",
-    //   "id": 1
-    // };
-
-    // dist = this.arr[0];
-    // LDT = this.arr[1];
-    // isVirt = this.arr[2];
-    // Lapos = this.arr[3];
-
-    // mainObj = {};
-    // secondObj = {};
-    // timestamp30DaysBack = new Date().getTime() - (30 * 24 * 60 * 60 * 1000);
-
 
     ngOnInit(){
     }
 
     ngAfterContentInit(){
-      this.service.promiseToFillDAta.then(function(){
-        // debugger;
+      var that = this;
+
+      this.service.promiseToFillDAta.then(function(respond){
+          that.appendToTable(respond);
+          // $('.container2').hide();
+          that.addTotalToEachTable()
+          that.timestamp = false;
+
       })
 
 
@@ -132,16 +113,16 @@ export class AppComponent implements OnInit{
       })
     }
 
-    appendToTable = function(){
-      
-      for (var key in this.service.secondObj) {
+    appendToTable = function(respond){
+      // debugger;
+      for (var key in respond) {
 
-        var elm = this.service.secondObj[key];
-        var total = this.service.secondObj[key].total;
-        var isVirt = this.service.secondObj[key].isVirt;
-        var physical = this.service.secondObj[key].physical;
-        var elmLapos = this.service.secondObj[key].Lapos;
-        var elmLDT = this.service.secondObj[key].LDT;
+        // var elm = respond[key];
+        var total = respond[key].total;
+        var isVirt = respond[key].isVirt;
+        var physical = respond[key].physical;
+        var elmLapos = respond[key].Lapos;
+        var elmLDT = respond[key].LDT;
         $('#zabbixTable tbody').append('<tr class="newLine">\n <th scope="row">'+key+'</th>\n <td>'+total+'</td>\n<td>'+physical+'</td>\n <td>'+isVirt+'</td> </tr>');
         
         if(elmLapos !== undefined)
@@ -150,7 +131,8 @@ export class AppComponent implements OnInit{
         if(elmLDT !== undefined)
         $('#LDTtable tbody').append('<tr class="newLine">\n <th scope="row">'+key+'</th>\n <td>'+elmLDT.isLDT.p+'</td>\n<td>'+elmLDT.isLDT.v+'</td>\n <td>'+elmLDT.nonLDT.p+'</td> <td>'+elmLDT.nonLDT.v+'</td> </tr>');
       }
-      $('.loader').hide();
+
+      // $('.loader').hide();
     }
 
     // title = 'app';

@@ -25,6 +25,8 @@ export class GenDataService {
     "id": 1
   };
 
+  secondObj = {};
+
 
 
 
@@ -44,6 +46,7 @@ export class GenDataService {
 
       function geturl(x){
 
+        let that = this;
         var arr = returnArr();
 
         var jsonData = {
@@ -65,7 +68,7 @@ export class GenDataService {
         }
         var name = arr[x].toString();
         jsonData.params.filter.name =  [name];
-        let that = this;
+        
 
         $.ajax({
             url: "https://zabbix.wdf.global.corp.sap/zabbix/api_jsonrpc.php",
@@ -88,7 +91,7 @@ export class GenDataService {
 
                 if(x+1 >= arr.length){
                   addTo2Object();
-                  resolve()
+                  resolve(secondObj)
                   return;
                 }
                 
@@ -116,7 +119,9 @@ export class GenDataService {
 
 
     function addTo2Object(){
-
+      // debugger;
+      // let that = this;
+      // debugger;
       var timestamp30DaysBack = new Date().getTime() - (30 * 24 * 60 * 60 * 1000);
       var arr = returnArr();
       var dist = arr[0];
@@ -224,6 +229,7 @@ export class GenDataService {
   }
 
       function initObj(lastvalue){
+          
         secondObj[lastvalue] = {
             "total"  : 1,
             "isVirt"  : 0,
@@ -252,8 +258,9 @@ export class GenDataService {
 
 
       }
+
+
+
   })
-        
-  
-  
+      
 }
