@@ -10,18 +10,22 @@ export class GenDataService {
 
     private messageSource = new Rx.BehaviorSubject<Object>('{}');
     currentMessage = this.messageSource.asObservable();
+
+    private totalSource = new Rx.BehaviorSubject<Object>('{}');
+    currentTotal = this.totalSource.asObservable();
+
+
     arr = ["Distribution", "LDT Security Flag","isVirt","Lapos Git Status"];
 
     constructor() { 
       this.messageSource.next(this.secondObj);
+      this.totalSource.next(this.totalObj);
       this.geturl(0);
     }
     
-
-    // promiseToFillDAta = new Promise(function(resolve,req){
-      
       mainObj = {};
       secondObj = {};
+      totalObj = this.initTotalObj()// total object will hold all total data and will be genarated with second object (line after)
 
       returnArr(){
         return ["Distribution", "LDT Security Flag","isVirt","Lapos Git Status"];
@@ -70,8 +74,6 @@ export class GenDataService {
 
                 if(x+1 >= arr.length){
                   that.addTo2Object();
-                  // addTotal();
-                  // resolve(secondObj)
                   return;
                 }
                 
@@ -143,6 +145,8 @@ export class GenDataService {
                             }else{
                               this.initObj(elmContainer);
                             }
+                            this.totalObj["total"]++;
+
                             break;
 
                         case isVirt: //IF isVirt
@@ -150,36 +154,33 @@ export class GenDataService {
                               if(elm.lastvalue !== "0"){
                                 checkIfVirt = "v";
                                 this.secondObj[elmContainer]["isVirt"]++;
+                                this.totalObj["isVirt"]++;
                               }else{
                                 this.secondObj[elmContainer]["physical"]++;
+                                this.totalObj["physical"]++;
                               }
                               break;
 
                         case Lapos: //IF Lapos
                               if(elm.lastvalue === "0"){
                                 checkIfLapos = "isLapos";
-                                // secondObj[Lapos]["isVirt"]++;
                               }else{
                                 checkIfLapos = "nonLapos";
-                                // secondObj[Lapos]["physical"]++;
                               }
 
                               this.secondObj[elmContainer]["Lapos"][checkIfLapos][checkIfVirt]++;
-                              // secondObj[Lapos]["total"]++;
+                              this.totalObj["Lapos"][checkIfLapos][checkIfVirt]++;
                               break;
 
                         case LDT: //IF LDT
                               if(elm.lastvalue === "0"){
                                 checkIfLDT = "isLDT";
-                                // secondObj[LDT]["isVirt"]++;
                               }else{
                                 checkIfLDT = "nonLDT";
-
-                                // secondObj[LDT]["physical"]++;
                               }
                               this.secondObj[elmContainer]["LDT"][checkIfLDT][checkIfVirt]++;
+                              this.totalObj["LDT"][checkIfLDT][checkIfVirt]++;
 
-                              // secondObj[LDT]["total"]++;
                               break;
                   } 
 
@@ -188,7 +189,9 @@ export class GenDataService {
                   }
                         
               }
-          }
+            }
+
+            console.log(this.totalObj)
       }
 
       initObj(lastvalue){
@@ -219,12 +222,32 @@ export class GenDataService {
         }
       }
 
-      // addTotal(){
-      // }
+      initTotalObj(){
+            return {
+                "total"  : 0,
+                "isVirt"  : 0,
+                "physical"  : 0,
+                "Lapos"  : {
+                  "isLapos"  : {
+                    "v"  : 0,
+                    "p"  : 0 
+                  },
+                  "nonLapos"  : {
+                    "v"  : 0,
+                    "p"  : 0 
+                  },
+                },
+                "LDT"  : {
+                  "isLDT"  : {
+                    "v"  : 0,
+                    "p"  : 0 
+                  },
+                  "nonLDT"  : {
+                    "v"  : 0,
+                    "p"  : 0 
+                  },
+                }
+            }
+      }
 
-  // });
-
-  
-    //
-      
 }

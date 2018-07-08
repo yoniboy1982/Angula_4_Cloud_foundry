@@ -11,6 +11,7 @@ import * as $ from 'jquery';
 export class LdtComponent implements OnInit {
 
   dist = {};
+  total = {};
 
   constructor(private service:GenDataService, private sorter:SorterService){
 
@@ -18,6 +19,9 @@ export class LdtComponent implements OnInit {
 
   ngOnInit() {
     this.service.currentMessage.subscribe(message => this.dist = message);
+    this.service.currentTotal.subscribe(message => {
+      this.total = message
+    });
   }
 
   ngAfterContentInit(){

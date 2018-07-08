@@ -14,25 +14,22 @@
             <th scope="col">Virtual</th>
           </tr>
         </thead>
-        <tbody >
+        <tbody>
             <tr *ngFor="let k of objectKeys(dist)"   class="newLine">
                 <th scope="row">{{k}}</th>
-                <td>{{dist[k].total}}</td>
+                <td ngModel >{{dist[k].total}}</td>
                 <td>{{dist[k].physical}}</td>
                 <td>{{dist[k].isVirt}}</td>
-                <td>{{getSum(dist[k])}}</td>
               </tr>
         </tbody>
   
         <tfoot>
             <tr>
                 <th scope="row">Total</th>
-                <td class="total">{{total}}</td>
-                <td class="total">{{physical}}</td>
-                <td class="total">{{isVirt}}</td>
+                <td class="total">{{total.total}}</td>
+                <td class="total">{{total.physical}}</td>
+                <td class="total">{{total.isVirt}}</td>
             </tr>
-
-
         </tfoot>
       </table>
     </div>
@@ -63,6 +60,13 @@
               <td>{{dist[k].Lapos.nonLapos.p}}</td>
               <td>{{dist[k].Lapos.nonLapos.v}}</td>
             </tr>
+            <tr>
+                <th scope="row">Total</th>
+                <td class="total">{{total.Lapos.isLapos.p}}</td>
+                <td class="total">{{total.Lapos.isLapos.v}}</td>
+                <td class="total">{{total.Lapos.nonLapos.p}}</td>
+                <td class="total">{{total.Lapos.nonLapos.v}}</td>
+            </tr>            
         </tbody>
         <tfoot></tfoot>
       </table>
