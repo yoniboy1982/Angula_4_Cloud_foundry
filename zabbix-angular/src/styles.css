@@ -75,7 +75,7 @@
   .table td, .table th {
     text-align: center;
 }
-  .tableTagGreen{
+  /* .tableTagGreen{
     background-color: #dff0d9;
     border: 1px solid #9ad087;
   }
@@ -86,7 +86,7 @@
   .tableTagRed{
     background-color: #f2dfde;
     border: 1px solid #c59792;
-  }
+  } */
 
 .loader {
     border: 16px solid #f3f3f3; /* Light grey */

@@ -9,6 +9,7 @@ import { MenuComponent } from './menu/menu.component';
 import { BodyComponent } from './body/body.component';
 import { LoaderComponent } from './loader/loader.component';
 import { LdtComponent } from './ldt/ldt.component';
+import { LaposComponent } from './lapos/lapos.component';
 
 @NgModule({
   declarations: [
@@ -16,13 +17,15 @@ import { LdtComponent } from './ldt/ldt.component';
     MenuComponent,
     BodyComponent,
     LoaderComponent,
-    LdtComponent
+    LdtComponent,
+    LaposComponent
   ],
   imports: [
     BrowserModule,
     RouterModule.forRoot([
       {path : '' , component : BodyComponent},
       {path : 'ldt' , component : LdtComponent},
+      {path : 'lapos' , component : LaposComponent},
     ])
   ],
   providers: [GenDataService],

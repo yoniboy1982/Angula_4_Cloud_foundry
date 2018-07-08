@@ -1,4 +1,4 @@
-<div class="container mainCont">
+<!-- <div class="container mainCont"> -->
 
     <div>
       <h5 class="tableTag tableTagBlue">General Physical/Virtual</h5>
@@ -33,45 +33,8 @@
         </tfoot>
       </table>
     </div>
-      <div>
-      <h5 class="tableTag tableTagGreen">Lapos - is Lapos/Non Lapos</h5>
-      <button class="GroupH5 btn">Group +/-</button>
+      
   
-      <table  id="laposTable" class="table table-hover table-striped table-success table-sm">
-        <thead>
-          <tr>
-            <th scope="col"><span>Distribution </span></th>
-            <th scope="col" >Physical</th>
-            <th scope="col" >Virtual</th>
-            <th scope="col" >Physical</th>
-            <th scope="col" >Virtual</th>
-          </tr>
-        <tr class="table-primary">
-            <th scope="col"></th>
-            <th scope="col" colspan="2" class="lapos" >isLAPOS</th>
-            <th scope="col" colspan="2" class="lapos">nonLAPOS</th>
-          </tr>
-        </thead>
-        <tbody>
-            <tr class="newLine" *ngFor="let k of objectKeys(dist)">
-              <th scope="row">{{k}}</th>
-              <td>{{dist[k].Lapos.isLapos.p}}</td>
-              <td>{{dist[k].Lapos.isLapos.v}}</td>
-              <td>{{dist[k].Lapos.nonLapos.p}}</td>
-              <td>{{dist[k].Lapos.nonLapos.v}}</td>
-            </tr>
-            <tr>
-                <th scope="row">Total</th>
-                <td class="total">{{total.Lapos.isLapos.p}}</td>
-                <td class="total">{{total.Lapos.isLapos.v}}</td>
-                <td class="total">{{total.Lapos.nonLapos.p}}</td>
-                <td class="total">{{total.Lapos.nonLapos.v}}</td>
-            </tr>            
-        </tbody>
-        <tfoot></tfoot>
-      </table>
-    </div>
-  
-    </div>
+    <!-- </div> -->
   
   
