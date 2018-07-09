@@ -17,6 +17,8 @@ export class BodyComponent implements OnInit {
 
     dist = {};
     total = {};
+    sum = {};
+    collapse = false;
 
     ngOnInit(){
       this.service.observeMessage.subscribe(message => {
@@ -25,18 +27,19 @@ export class BodyComponent implements OnInit {
       this.service.observeTotal.subscribe(message => {
         this.total = message
       });
+      this.service.observeSum.subscribe(message => {
+        this.sum = message
+      });
     }
 
     ngAfterContentInit(){
         
         this.sorter.makeAllSortable(document.body);
 
-        $(document).ready(function(){
-          $('.GroupH5').click(function(){
-            $(this).next().find('.newLine').toggle();
-            $(this).next().find('.trNum').toggle();
-          })
-        })
+    }
+
+    onClickMeGen(){
+      this.collapse = !this.collapse;
     }
 
     objectKeys(obj) {

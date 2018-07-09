@@ -27,12 +27,6 @@ export class LaposComponent implements OnInit {
   ngAfterContentInit(){
     this.sorter.makeAllSortable(document.body);
 
-    $(document).ready(function(){
-      $('.GroupH5').click(function(){
-        $(this).next().find('.newLine').toggle();
-        $(this).next().find('.trNum').toggle();
-      })
-    })
   }
 
   objectKeys(obj) {

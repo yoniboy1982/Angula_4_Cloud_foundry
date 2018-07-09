@@ -14,10 +14,14 @@ export class GenDataService {
       private totalSource = new Rx.BehaviorSubject<Object>('{}');
       observeTotal = this.totalSource.asObservable();
 
+      private sumSource = new Rx.BehaviorSubject<Object>('{}');
+      observeSum = this.sumSource.asObservable();
+
       arr:Array<string>;
       mainObj:Object;
       secondObj:Object;
       totalObj:Object;
+      sumObj:Object;
       timestamp30DaysBack:Number;
       year:Number;
       currentYear = (new Date()).getFullYear();
@@ -30,6 +34,7 @@ export class GenDataService {
       initVars(year = 0){
         this.mainObj = {};
         this.secondObj = {};
+        this.sumObj = {};
         this.arr = this.returnArr();
         this.totalObj = this.initTotalObj()// total object will hold all total data and will be genarated with second object (line after)
         this.timestamp30DaysBack = 0;// = new Date().getTime() - (30 * 24 * 60 * 60 * 1000);
@@ -38,6 +43,7 @@ export class GenDataService {
         //Subscribe to 
         this.messageSource.next(this.secondObj);
         this.totalSource.next(this.totalObj);
+        this.sumSource.next(this.sumObj);
 
         this.geturl();
       }
@@ -134,6 +140,7 @@ export class GenDataService {
           for (var key in this.mainObj) {
 
               var elmContainer;
+              var elmSum;
               var breakFor = false;
               var checkIfVirt = "p";
               var checkIfLapos;
@@ -161,11 +168,19 @@ export class GenDataService {
                               break;
                             }
                             elmContainer = elm.lastvalue;//GET THE Name OF ELEMENT
-                            
+
+                            elmSum = elmContainer.split("-")[0];
+                            // console.log(elmSum)
                             if(elmContainer in this.secondObj){
                               this.secondObj[elmContainer]["total"]++;
                             }else{
                               this.initObj(elmContainer);
+                            }
+
+                            if(elmSum in this.sumObj){
+                              this.sumObj[elmSum]["total"]++;
+                            }else{
+                              this.initSumObj(elmSum);
                             }
                             this.totalObj["total"]++;
 
@@ -176,9 +191,11 @@ export class GenDataService {
                               if(elm.lastvalue !== "0"){
                                 checkIfVirt = "v";
                                 this.secondObj[elmContainer]["isVirt"]++;
+                                this.sumObj[elmSum]["isVirt"]++;
                                 this.totalObj["isVirt"]++;
                               }else{
                                 this.secondObj[elmContainer]["physical"]++;
+                                this.sumObj[elmSum]["physical"]++;
                                 this.totalObj["physical"]++;
                               }
                               break;
@@ -191,6 +208,7 @@ export class GenDataService {
                               }
 
                               this.secondObj[elmContainer]["Lapos"][checkIfLapos][checkIfVirt]++;
+                              this.sumObj[elmSum]["Lapos"][checkIfLapos][checkIfVirt]++;
                               this.totalObj["Lapos"][checkIfLapos][checkIfVirt]++;
                               break;
                       }
@@ -208,6 +226,7 @@ export class GenDataService {
                             checkIfLDT = "nonLDT";
                           }
                           this.secondObj[elmContainer]["LDT"][checkIfLDT][checkIfVirt]++;
+                          this.sumObj[elmSum]["LDT"][checkIfLDT][checkIfVirt]++;
                           this.totalObj["LDT"][checkIfLDT][checkIfVirt]++;
 
                           break;
@@ -226,6 +245,34 @@ export class GenDataService {
 
       initObj(lastvalue){
         this.secondObj[lastvalue] = {
+            "total"  : 1,
+            "isVirt"  : 0,
+            "physical"  : 0,
+            "Lapos"  : {
+              "isLapos"  : {
+                "v"  : 0,
+                "p"  : 0 
+              },
+              "nonLapos"  : {
+                "v"  : 0,
+                "p"  : 0 
+              },
+            },
+            "LDT"  : {
+              "isLDT"  : {
+                "v"  : 0,
+                "p"  : 0 
+              },
+              "nonLDT"  : {
+                "v"  : 0,
+                "p"  : 0 
+              },
+            }
+        }
+      }
+
+      initSumObj(lastvalue){
+        this.sumObj[lastvalue] = {
             "total"  : 1,
             "isVirt"  : 0,
             "physical"  : 0,
