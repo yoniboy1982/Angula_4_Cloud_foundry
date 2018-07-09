@@ -8,24 +8,36 @@ import * as Rx from "rxjs";
 })
 export class GenDataService {
 
-    private messageSource = new Rx.BehaviorSubject<Object>('{}');
-    currentMessage = this.messageSource.asObservable();
+      private messageSource = new Rx.BehaviorSubject<Object>('{}');
+      currentMessage = this.messageSource.asObservable();
 
-    private totalSource = new Rx.BehaviorSubject<Object>('{}');
-    currentTotal = this.totalSource.asObservable();
+      private totalSource = new Rx.BehaviorSubject<Object>('{}');
+      currentTotal = this.totalSource.asObservable();
 
+      arr = ["Distribution", "LDT Security Flag","isVirt","Lapos Git Status"];
+      mainObj:Object;
+      secondObj:Object;
+      totalObj:Object;
+      timestamp30DaysBack:Number;
+      year:Number;
+      currentYear = (new Date()).getFullYear();
 
-    arr = ["Distribution", "LDT Security Flag","isVirt","Lapos Git Status"];
-
-    constructor() { 
-      this.messageSource.next(this.secondObj);
-      this.totalSource.next(this.totalObj);
-      this.geturl(0);
-    }
+      constructor() { 
+        this.initVars();
+        this.messageSource.next(this.secondObj);
+        this.totalSource.next(this.totalObj);
+        
+      }
     
-      mainObj = {};
-      secondObj = {};
-      totalObj = this.initTotalObj()// total object will hold all total data and will be genarated with second object (line after)
+      initVars(year = 0){
+        this.mainObj = {};
+        this.secondObj = {};
+        this.totalObj = this.initTotalObj()// total object will hold all total data and will be genarated with second object (line after)
+        this.timestamp30DaysBack = 0;// = new Date().getTime() - (30 * 24 * 60 * 60 * 1000);
+        this.year = (year === 0) ? this.currentYear : year
+        this.geturl(0);
+      }
+
 
       returnArr(){
         return ["Distribution", "LDT Security Flag","isVirt","Lapos Git Status"];
@@ -95,9 +107,19 @@ export class GenDataService {
             }
       }
 
+      calctimeByDays(clock,days){
+        var d = new Date(parseInt(clock));
+        this.timestamp30DaysBack = new Date().getTime() - (days * 24 * 60 * 60 * 1000); 
+        return parseInt(clock) < this.timestamp30DaysBack
+      }
+
+      calctimeByYear(clock){
+        var d = new Date(parseInt(clock));
+        return d.getFullYear() !==  this.year;
+      }
+
       addTo2Object(){
 
-          var timestamp30DaysBack = new Date().getTime() - (30 * 24 * 60 * 60 * 1000);
           var arr = this.returnArr();
           var dist = arr[0];
           var LDT = arr[1];
@@ -115,22 +137,17 @@ export class GenDataService {
               loop2:
               for (let i = 0; i < this.mainObj[key].length; i++) {
                   const elm = this.mainObj[key][i];
-                
+                  var clock = elm.lastclock + '000'; //adding 3 zero's because the date format is not valid
+
                   switch(elm.name) {
                         case dist: //IF DISTREBUITION
 
                             //### Total clients reported in the last 30 days
                             //################
                             
-                            var clock = elm.lastclock + '000';//adding 3 zero's because the date format is not valid
+                            var notValidTime = this.calctimeByYear(clock);
 
-                            //####
-                            var d = new Date(parseInt(clock));
-                            if(d.getFullYear() == 2017)
-                              console.log(d.getFullYear())
-
-                            if(parseInt(clock) < timestamp30DaysBack){
-                              // console.log(elm.name)
+                            if(notValidTime){
                               break loop2;
                             }
 
@@ -171,22 +188,30 @@ export class GenDataService {
                               this.secondObj[elmContainer]["Lapos"][checkIfLapos][checkIfVirt]++;
                               this.totalObj["Lapos"][checkIfLapos][checkIfVirt]++;
                               break;
+                      }
 
-                        case LDT: //IF LDT
-                              if(elm.lastvalue === "0"){
-                                checkIfLDT = "isLDT";
-                              }else{
-                                checkIfLDT = "nonLDT";
-                              }
-                              this.secondObj[elmContainer]["LDT"][checkIfLDT][checkIfVirt]++;
-                              this.totalObj["LDT"][checkIfLDT][checkIfVirt]++;
+                      switch(elm.name) {
+                          case LDT: //IF LDT
+                          var notValidTime = this.calctimeByDays(clock,30);
+                          if(notValidTime){
+                            // console.log('xxx',elm)
+                            break;
+                          }
+                          if(elm.lastvalue === "0"){
+                            checkIfLDT = "isLDT";
+                          }else{
+                            checkIfLDT = "nonLDT";
+                          }
+                          this.secondObj[elmContainer]["LDT"][checkIfLDT][checkIfVirt]++;
+                          this.totalObj["LDT"][checkIfLDT][checkIfVirt]++;
 
-                              break;
-                  } 
+                          break;
+                        }
 
                   if (breakFor){
                     break loop2;
                   }
+
                         
               }
             }

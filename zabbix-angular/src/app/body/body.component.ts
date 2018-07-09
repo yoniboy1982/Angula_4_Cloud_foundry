@@ -41,10 +41,14 @@ export class BodyComponent implements OnInit {
         })
     }
 
-    
-
     objectKeys(obj) {
       return Object.keys(obj);
+    }
+
+
+
+    onClickMe() {
+      this.service.initVars(2016);
     }
 
 }

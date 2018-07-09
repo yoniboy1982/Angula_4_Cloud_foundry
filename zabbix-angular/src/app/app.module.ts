@@ -10,6 +10,7 @@ import { BodyComponent } from './body/body.component';
 import { LoaderComponent } from './loader/loader.component';
 import { LdtComponent } from './ldt/ldt.component';
 import { LaposComponent } from './lapos/lapos.component';
+import { TableinfoComponent } from './tableinfo/tableinfo.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { LaposComponent } from './lapos/lapos.component';
     BodyComponent,
     LoaderComponent,
     LdtComponent,
-    LaposComponent
+    LaposComponent,
+    TableinfoComponent
   ],
   imports: [
     BrowserModule,
