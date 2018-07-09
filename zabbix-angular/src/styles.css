@@ -26,7 +26,7 @@
   .elementToFadeInAndOut {
     animation: fadeIn 1s infinite alternate;
     text-align: center;
-    color: #3b8e3f;
+    color: red;
     font-family: monospace;
 }
 
@@ -35,12 +35,13 @@
 }
 
   .xBadge{
-    background: red;
+    background: #efc7c7;
     width: 20px;
     height: 20px;
     display: inline-block;
     float: right;
     border-radius: 30%;
+    /* border: 1px solid red; */
   }
   .animate{
     animation: spin 2s linear infinite;

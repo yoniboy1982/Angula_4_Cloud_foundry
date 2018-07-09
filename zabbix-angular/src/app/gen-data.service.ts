@@ -46,6 +46,7 @@ export class GenDataService {
       }
 
       geturl(x = 0){
+        
         var that = this;
         var arr = this.returnArr();
 

@@ -1,5 +1,10 @@
 <div class="container2">
   <h5 class="elementToFadeInAndOut">Fetching Data...</h5>
-  <ul class="list-group listLoading"></ul>
+  <ul class="list-group listLoading">
+      <li *ngFor="let item of localArr" class="list-group-item d-flex justify-content-between align-items-center {{item.concate}}">
+       {{item.name}}
+        <span class=" xBadge animate"></span>
+      </li>
+  </ul>
   <div class="loader"></div>
 </div>
