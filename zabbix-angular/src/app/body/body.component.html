@@ -1,6 +1,5 @@
 <div>
-<h5 class="tableTag tableTagBlue">General Physical/Virtual</h5>
-<button class="GroupH5 btn" (click)="onClickMeGen($event)">Group +/-</button>
+  <app-button [title]="titleTop" (messageEvent)="reciveMessage($event)"></app-button>
 
 <table  id="zabbixTable" class="table table-hover table-striped table-sm">
   <thead>

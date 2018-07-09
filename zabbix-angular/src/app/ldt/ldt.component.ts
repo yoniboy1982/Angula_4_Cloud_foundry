@@ -12,6 +12,9 @@ export class LdtComponent implements OnInit {
 
   dist = {};
   total = {};
+  titleTop = "LDT - is Secure/non Secure";
+  collapse = false;
+  sum = {};
 
   constructor(private service:GenDataService, private sorter:SorterService){
 
@@ -22,13 +25,23 @@ export class LdtComponent implements OnInit {
     this.service.observeTotal.subscribe(message => {
       this.total = message
     });
+    this.service.observeSum.subscribe(message => {
+      this.sum = message
+    });
   }
 
   ngAfterContentInit(){
     this.sorter.makeAllSortable(document.body);
 
   }
+  onClickMeGen(){
+    this.collapse = !this.collapse;
+  }
 
+  reciveMessage($event){
+    debugger;
+    this.onClickMeGen()
+  }
   objectKeys(obj) {
     return Object.keys(obj);
   }

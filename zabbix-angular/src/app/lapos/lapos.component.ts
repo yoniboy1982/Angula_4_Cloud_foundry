@@ -12,6 +12,10 @@ export class LaposComponent implements OnInit {
 
   dist = {};
   total = {};
+  titleTop= "Lapos - is Lapos/Non Lapos";
+  collapse = false;
+  sum = {};
+
 
   constructor(private service:GenDataService, private sorter:SorterService){
 
@@ -19,16 +23,21 @@ export class LaposComponent implements OnInit {
 
   ngOnInit() {
     this.service.observeMessage.subscribe(message => this.dist = message);
-    this.service.observeTotal.subscribe(message => {
-      this.total = message
-    });
+    this.service.observeTotal.subscribe(message => this.total = message);
+    this.service.observeSum.subscribe(message => this.sum = message);
   }
 
   ngAfterContentInit(){
     this.sorter.makeAllSortable(document.body);
 
   }
+  onClickMeGen(){
+    this.collapse = !this.collapse;
+  }
 
+  reciveMessage($event){
+    this.onClickMeGen()
+  }
   objectKeys(obj) {
     return Object.keys(obj);
   }

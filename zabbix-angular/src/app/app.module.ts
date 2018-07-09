@@ -11,6 +11,7 @@ import { LoaderComponent } from './loader/loader.component';
 import { LdtComponent } from './ldt/ldt.component';
 import { LaposComponent } from './lapos/lapos.component';
 import { TableinfoComponent } from './tableinfo/tableinfo.component';
+import { ButtonComponent } from './button/button.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { TableinfoComponent } from './tableinfo/tableinfo.component';
     LoaderComponent,
     LdtComponent,
     LaposComponent,
-    TableinfoComponent
+    TableinfoComponent,
+    ButtonComponent
   ],
   imports: [
     BrowserModule,

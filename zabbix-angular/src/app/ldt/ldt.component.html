@@ -1,6 +1,8 @@
 <div>
-    <h5 class="tableTag tableTagRed">LDT - is Secure/non Secure</h5>
-    <button class="GroupH5 btn">Group +/-</button>
+    <!-- <h5 class="tableTag tableTagRed">LDT - is Secure/non Secure</h5>
+    <button class="GroupH5 btn">Group +/-</button> -->
+    <app-button [title]="titleTop" (messageEvent)="reciveMessage($event)"></app-button>
+
     <table id="LDTtable" class="table table-hover table-striped  table-sm">
       <thead>
         <tr>
@@ -16,7 +18,7 @@
           <th scope="col" colspan="2" class="LDT">nonSEC</th>
         </tr>          
       </thead>
-      <tbody>
+      <tbody *ngIf="!collapse">
           <tr class="newLine" *ngFor="let k of objectKeys(dist)">
               <td scope="row">{{k}}</td>
               <td>{{dist[k].LDT.isLDT.p}}</td>
@@ -24,14 +26,25 @@
               <td>{{dist[k].LDT.nonLDT.p}}</td>
               <td>{{dist[k].LDT.nonLDT.v}}</td>
             </tr>
-            <tr>
-                <th scope="row">Total</th>
-                <td class="total">{{total.LDT.isLDT.p}}</td>
-                <td class="total">{{total.LDT.isLDT.v}}</td>
-                <td class="total">{{total.LDT.nonLDT.p}}</td>
-                <td class="total">{{total.LDT.nonLDT.v}}</td>
-            </tr>
       </tbody>
-      <tfoot></tfoot>
+      <tbody *ngIf="collapse">
+          <tr class="newLine" *ngFor="let k of objectKeys(sum)">
+              <td scope="row">{{k}}</td>
+              <td>{{sum[k].LDT.isLDT.p}}</td>
+              <td>{{sum[k].LDT.isLDT.v}}</td>
+              <td>{{sum[k].LDT.nonLDT.p}}</td>
+              <td>{{sum[k].LDT.nonLDT.v}}</td>
+            </tr>
+
+      </tbody>
+      <tfoot>
+          <tr>
+              <th scope="row">Total</th>
+              <td class="total">{{total.LDT.isLDT.p}}</td>
+              <td class="total">{{total.LDT.isLDT.v}}</td>
+              <td class="total">{{total.LDT.nonLDT.p}}</td>
+              <td class="total">{{total.LDT.nonLDT.v}}</td>
+          </tr>
+      </tfoot>
     </table>
   </div>

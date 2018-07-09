@@ -19,6 +19,8 @@ export class BodyComponent implements OnInit {
     total = {};
     sum = {};
     collapse = false;
+    // myClass = "tableTagGreen"
+    titleTop = "General Physical/Virtual"
 
     ngOnInit(){
       this.service.observeMessage.subscribe(message => {
@@ -33,13 +35,15 @@ export class BodyComponent implements OnInit {
     }
 
     ngAfterContentInit(){
-        
         this.sorter.makeAllSortable(document.body);
-
     }
 
     onClickMeGen(){
       this.collapse = !this.collapse;
+    }
+
+    reciveMessage($event){
+      this.onClickMeGen()
     }
 
     objectKeys(obj) {

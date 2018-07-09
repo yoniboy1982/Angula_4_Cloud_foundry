@@ -1,6 +1,7 @@
     <div>
-        <h5 class="tableTag tableTagGreen">Lapos - is Lapos/Non Lapos</h5>
-        <button class="GroupH5 btn">Group +/-</button>
+        <!-- <h5 class="tableTag tableTagGreen">Lapos - is Lapos/Non Lapos</h5>
+        <button class="GroupH5 btn">Group +/-</button> -->
+        <app-button [title]="titleTop" (messageEvent)="reciveMessage($event)"></app-button>
     
         <table  id="laposTable" class="table table-hover table-striped table-sm">
           <thead>
@@ -17,7 +18,7 @@
               <th scope="col" colspan="2" class="lapos">nonLAPOS</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody *ngIf="!collapse">
               <tr class="newLine" *ngFor="let k of objectKeys(dist)">
                 <td scope="row">{{k}}</td>
                 <td>{{dist[k].Lapos.isLapos.p}}</td>
@@ -25,14 +26,25 @@
                 <td>{{dist[k].Lapos.nonLapos.p}}</td>
                 <td>{{dist[k].Lapos.nonLapos.v}}</td>
               </tr>
+          </tbody>
+          <tbody *ngIf="collapse">
+              <tr class="newLine" *ngFor="let k of objectKeys(sum)">
+                <td scope="row">{{k}}</td>
+                <td>{{sum[k].Lapos.isLapos.p}}</td>
+                <td>{{sum[k].Lapos.isLapos.v}}</td>
+                <td>{{sum[k].Lapos.nonLapos.p}}</td>
+                <td>{{sum[k].Lapos.nonLapos.v}}</td>
+              </tr>
+                      
+          </tbody>
+          <tfoot>
               <tr>
                   <th scope="row">Total</th>
                   <td class="total">{{total.Lapos.isLapos.p}}</td>
                   <td class="total">{{total.Lapos.isLapos.v}}</td>
                   <td class="total">{{total.Lapos.nonLapos.p}}</td>
                   <td class="total">{{total.Lapos.nonLapos.v}}</td>
-              </tr>            
-          </tbody>
-          <tfoot></tfoot>
+              </tr>   
+          </tfoot>
         </table>
       </div>
