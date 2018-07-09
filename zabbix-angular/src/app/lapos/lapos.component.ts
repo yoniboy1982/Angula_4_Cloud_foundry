@@ -1,7 +1,7 @@
+import { ZFunctionsService } from './../z-functions.service';
 import { SorterService } from './../sorter.service';
 import { Component, OnInit } from '@angular/core';
 import { GenDataService } from '../gen-data.service';
-import * as $ from 'jquery';
 
 @Component({
   selector: 'app-lapos',
@@ -17,7 +17,7 @@ export class LaposComponent implements OnInit {
   sum = {};
 
 
-  constructor(private service:GenDataService, private sorter:SorterService){
+  constructor(private service:GenDataService, private sorter:SorterService,private zFunctions:ZFunctionsService){
 
   }
 
@@ -29,7 +29,6 @@ export class LaposComponent implements OnInit {
 
   ngAfterContentInit(){
     this.sorter.makeAllSortable(document.body);
-
   }
   onClickMeGen(){
     this.collapse = !this.collapse;
@@ -38,8 +37,6 @@ export class LaposComponent implements OnInit {
   reciveMessage($event){
     this.onClickMeGen()
   }
-  objectKeys(obj) {
-    return Object.keys(obj);
-  }
+
 
 }

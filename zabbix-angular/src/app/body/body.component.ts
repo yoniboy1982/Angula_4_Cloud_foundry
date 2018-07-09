@@ -1,7 +1,7 @@
+import { ZFunctionsService } from './../z-functions.service';
 import { SorterService } from './../sorter.service';
 import { Component, OnInit,ChangeDetectionStrategy } from '@angular/core';
 import { GenDataService } from '../gen-data.service';
-import * as $ from 'jquery';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.Default,
@@ -11,27 +11,22 @@ import * as $ from 'jquery';
 })
 export class BodyComponent implements OnInit {
 
-  constructor(private service:GenDataService, private sorter:SorterService){
-        
+  constructor(private service:GenDataService, private sorter:SorterService,private zFunctions:ZFunctionsService){
   }
 
     dist = {};
     total = {};
     sum = {};
+
     collapse = false;
-    // myClass = "tableTagGreen"
     titleTop = "General Physical/Virtual"
 
+    // myClass = "tableTagGreen"
+
     ngOnInit(){
-      this.service.observeMessage.subscribe(message => {
-        this.dist = message
-      });
-      this.service.observeTotal.subscribe(message => {
-        this.total = message
-      });
-      this.service.observeSum.subscribe(message => {
-        this.sum = message
-      });
+      this.service.observeMessage.subscribe(message => this.dist = message);
+      this.service.observeTotal.subscribe(message => this.total = message);
+      this.service.observeSum.subscribe(message => this.sum = message);
     }
 
     ngAfterContentInit(){
@@ -46,7 +41,4 @@ export class BodyComponent implements OnInit {
       this.onClickMeGen()
     }
 
-    objectKeys(obj) {
-      return Object.keys(obj);
-    }
 }

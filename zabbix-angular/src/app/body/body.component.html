@@ -13,7 +13,7 @@
     </tr>
   </thead>
   <tbody *ngIf="!collapse">
-      <tr  *ngFor="let k of objectKeys(dist)"   class="newLine">
+      <tr  *ngFor="let k of zFunctions.objectKeys(dist)"   class="newLine">
           <td scope="row">{{k}}</td>
           <td ngModel >{{dist[k].total}}</td>
           <td>{{dist[k].physical}}</td>
@@ -21,7 +21,7 @@
         </tr>
   </tbody>
   <tbody *ngIf="collapse">
-        <tr  *ngFor="let k of objectKeys(sum)">
+        <tr  *ngFor="let k of zFunctions.objectKeys(sum)">
             <td >{{k}}</td>
             <td>{{sum[k].total}}</td>
             <td>{{sum[k].physical}}</td>

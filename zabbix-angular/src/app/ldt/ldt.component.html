@@ -19,7 +19,7 @@
         </tr>          
       </thead>
       <tbody *ngIf="!collapse">
-          <tr class="newLine" *ngFor="let k of objectKeys(dist)">
+          <tr class="newLine" *ngFor="let k of zFunctions.objectKeys(dist)">
               <td scope="row">{{k}}</td>
               <td>{{dist[k].LDT.isLDT.p}}</td>
               <td>{{dist[k].LDT.isLDT.v}}</td>
@@ -28,7 +28,7 @@
             </tr>
       </tbody>
       <tbody *ngIf="collapse">
-          <tr class="newLine" *ngFor="let k of objectKeys(sum)">
+          <tr class="newLine" *ngFor="let k of zFunctions.objectKeys(sum)">
               <td scope="row">{{k}}</td>
               <td>{{sum[k].LDT.isLDT.p}}</td>
               <td>{{sum[k].LDT.isLDT.v}}</td>
