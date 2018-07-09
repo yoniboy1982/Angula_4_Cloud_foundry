@@ -19,7 +19,7 @@ export class LdtComponent implements OnInit {
 
   ngOnInit() {
     this.service.observeMessage.subscribe(message => this.dist = message);
-    this.service.currentTotal.subscribe(message => {
+    this.service.observeTotal.subscribe(message => {
       this.total = message
     });
   }

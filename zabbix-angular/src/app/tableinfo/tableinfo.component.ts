@@ -9,15 +9,20 @@ import { GenDataService } from '../gen-data.service';
 })
 export class TableinfoComponent implements OnInit {
 
+  currentYear = (new Date()).getFullYear();
+  yearArr = [];
+
   constructor(private service:GenDataService){
 
+    this.yearArr = this.service.yearsArr
   }
-
+  
   ngOnInit() {
   }
 
-  onClickMe() {
-    this.service.initVars();
+  onClickMe($event) {
+    var year = parseInt($event.target.innerText);
+    this.service.initVars(year);
   }
 
 }

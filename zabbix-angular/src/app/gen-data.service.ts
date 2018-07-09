@@ -12,15 +12,16 @@ export class GenDataService {
       observeMessage = this.messageSource.asObservable();
 
       private totalSource = new Rx.BehaviorSubject<Object>('{}');
-      currentTotal = this.totalSource.asObservable();
+      observeTotal = this.totalSource.asObservable();
 
-      arr = ["Distribution", "LDT Security Flag","isVirt","Lapos Git Status"];
+      arr:Array<string>;
       mainObj:Object;
       secondObj:Object;
       totalObj:Object;
       timestamp30DaysBack:Number;
       year:Number;
       currentYear = (new Date()).getFullYear();
+      yearsArr = [];
 
       constructor() { 
         this.initVars();
@@ -29,6 +30,7 @@ export class GenDataService {
       initVars(year = 0){
         this.mainObj = {};
         this.secondObj = {};
+        this.arr = this.returnArr();
         this.totalObj = this.initTotalObj()// total object will hold all total data and will be genarated with second object (line after)
         this.timestamp30DaysBack = 0;// = new Date().getTime() - (30 * 24 * 60 * 60 * 1000);
         this.year = (year === 0) ? this.currentYear : year
@@ -39,7 +41,6 @@ export class GenDataService {
 
         this.geturl();
       }
-
 
       returnArr(){
         return ["Distribution", "LDT Security Flag","isVirt","Lapos Git Status"];
@@ -114,7 +115,12 @@ export class GenDataService {
 
       calctimeByYear(clock){
         var d = new Date(parseInt(clock));
-        return d.getFullYear() !==  this.year;
+        var year = d.getFullYear();
+
+        if(this.yearsArr.indexOf(year) < 0 && year != 1970){//insert year to year array container
+          this.yearsArr.push(year)
+        }
+        return year !==  this.year;
       }
 
       addTo2Object(){
