@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { GenDataService } from './gen-data.service';
 
 @Component({
   selector: 'app-root',
@@ -7,21 +8,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AppComponent{
 
-    constructor(){
-      
-        
-    }
+  dist = {};
+  constructor(private service:GenDataService){
 
-    ngAfterContentInit(){
-      // var that = this;
-      // setTimeout(() => {
-      //   that.makeAllSortable(document.body);
-      // }, 3000);
-      
-    }
+  }
+
+  ngOnInit(){
+    this.service.observeMessage.subscribe(message => {
+      this.dist = message;
+    });
+  }
+  
+  isEmptyObject(obj) {
+    return (obj && (Object.keys(obj).length === 0));
+  }
 
 
-// window.onload = function () {makeAllSortable();};
-
-    // title = 'app';
 }

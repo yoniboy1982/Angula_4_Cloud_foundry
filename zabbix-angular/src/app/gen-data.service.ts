@@ -9,7 +9,7 @@ import * as Rx from "rxjs";
 export class GenDataService {
 
       private messageSource = new Rx.BehaviorSubject<Object>('{}');
-      currentMessage = this.messageSource.asObservable();
+      observeMessage = this.messageSource.asObservable();
 
       private totalSource = new Rx.BehaviorSubject<Object>('{}');
       currentTotal = this.totalSource.asObservable();
@@ -24,9 +24,6 @@ export class GenDataService {
 
       constructor() { 
         this.initVars();
-        this.messageSource.next(this.secondObj);
-        this.totalSource.next(this.totalObj);
-        
       }
     
       initVars(year = 0){
@@ -35,6 +32,11 @@ export class GenDataService {
         this.totalObj = this.initTotalObj()// total object will hold all total data and will be genarated with second object (line after)
         this.timestamp30DaysBack = 0;// = new Date().getTime() - (30 * 24 * 60 * 60 * 1000);
         this.year = (year === 0) ? this.currentYear : year
+
+        //Subscribe to 
+        this.messageSource.next(this.secondObj);
+        this.totalSource.next(this.totalObj);
+
         this.geturl();
       }
 
@@ -60,10 +62,6 @@ export class GenDataService {
           "id": 1
         };
       
-                
-        // if(!x){
-        //   x = 0;
-        // }
         var name = arr[x].toString();
         jsonData.params.filter.name =  [name];
         

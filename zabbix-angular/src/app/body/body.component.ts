@@ -18,10 +18,8 @@ export class BodyComponent implements OnInit {
     dist = {};
     total = {};
 
-    timestamp = true;
-  
     ngOnInit(){
-      this.service.currentMessage.subscribe(message => {
+      this.service.observeMessage.subscribe(message => {
         this.dist = message
       });
       this.service.currentTotal.subscribe(message => {
@@ -44,11 +42,4 @@ export class BodyComponent implements OnInit {
     objectKeys(obj) {
       return Object.keys(obj);
     }
-
-
-
-    onClickMe() {
-      this.service.initVars(2016);
-    }
-
 }

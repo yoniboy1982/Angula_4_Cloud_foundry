@@ -1,7 +1,6 @@
 <div class="main" style="text-align:center">
   <h1 class="display-1" >Linux clients statistics</h1>
-  <app-menu></app-menu>
-  <app-loader *ngIf="timestamp"></app-loader>
-  <router-outlet></router-outlet>
+  <app-loader *ngIf="isEmptyObject(dist)"></app-loader>
+  <app-tableinfo *ngIf="!(isEmptyObject(dist))"></app-tableinfo>
 </div>
 

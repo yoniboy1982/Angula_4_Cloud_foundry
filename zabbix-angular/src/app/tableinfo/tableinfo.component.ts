@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { GenDataService } from '../gen-data.service';
+
 
 @Component({
   selector: 'app-tableinfo',
@@ -7,9 +9,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TableinfoComponent implements OnInit {
 
-  constructor() { }
+  constructor(private service:GenDataService){
+
+  }
 
   ngOnInit() {
+  }
+
+  onClickMe() {
+    this.service.initVars();
   }
 
 }
