@@ -35,7 +35,7 @@ export class GenDataService {
         this.totalObj = this.initTotalObj()// total object will hold all total data and will be genarated with second object (line after)
         this.timestamp30DaysBack = 0;// = new Date().getTime() - (30 * 24 * 60 * 60 * 1000);
         this.year = (year === 0) ? this.currentYear : year
-        this.geturl(0);
+        this.geturl();
       }
 
 
@@ -43,7 +43,7 @@ export class GenDataService {
         return ["Distribution", "LDT Security Flag","isVirt","Lapos Git Status"];
       }
 
-      geturl(x){
+      geturl(x = 0){
         var that = this;
         var arr = this.returnArr();
 
@@ -61,9 +61,9 @@ export class GenDataService {
         };
       
                 
-        if(!x){
-          x = 0;
-        }
+        // if(!x){
+        //   x = 0;
+        // }
         var name = arr[x].toString();
         jsonData.params.filter.name =  [name];
         
