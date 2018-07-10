@@ -15,9 +15,9 @@ export class BodyComponent implements OnInit {
       
     }
 
-    dist = {};
-    total = {};
-    sum = {};
+    dist = <any>{};
+    total = <any>{};
+    sum = <any>{};
     year;
     collapse = false;
     title = "General Physical/Virtual"

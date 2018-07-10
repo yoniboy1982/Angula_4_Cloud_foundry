@@ -49,7 +49,7 @@ export class GenDataService {
       }
 
       returnArr(){
-        return ["Distribution", "LDT Security Flag","isVirt","Lapos Git Status"];
+        return ["Distribution", "LDT Security Flag","isVirt","Lapos Git Status","isNewUI"];
       }
 
       geturl(x = 0){
@@ -62,7 +62,7 @@ export class GenDataService {
           "method": "item.get",
           "params": {
                 "output": "extend",
-                "hostids": [ "10132", "10134", "10126", "10138", "10140", "10182", "10144", "10166", "10148", "10150", "10192", "10154"],
+                // "hostids": [ "10132", "10134", "10126", "10138", "10140", "10182", "10144", "10166", "10148", "10150", "10192", "10154"],
                   "filter": {"name": arr} ,
               "sortfield": "name"
           },
@@ -88,7 +88,9 @@ export class GenDataService {
 
                 console.log(jsonData.params.filter.name);
                 var name = jsonData.params.filter.name;
-                $('.'+name[0].replace(/ /g,'') + ' .xBadge').css("background","green").removeClass('animate');
+                $('.'+name[0].replace(/ /g,'') + ' .xBadge')
+                .addClass('tableTagBlue')
+                .removeClass('animate');
 
                 if(x+1 >= arr.length){
                   that.addTo2Object();
@@ -136,6 +138,7 @@ export class GenDataService {
           var LDT = arr[1];
           var isVirt = arr[2];
           var Lapos = arr[3];
+          var isNewUI = arr[4];
 
           for (var key in this.mainObj) {
 
@@ -144,6 +147,7 @@ export class GenDataService {
               var breakFor = false;
               var checkIfVirt = "p";
               var checkIfLapos;
+              var checkIfisNew;
               var checkIfLDT;
 
               loop2:
@@ -211,6 +215,18 @@ export class GenDataService {
                               this.sumObj[elmSum]["Lapos"][checkIfLapos][checkIfVirt]++;
                               this.totalObj["Lapos"][checkIfLapos][checkIfVirt]++;
                               break;
+
+                        case isNewUI: //IF isNew
+                              if(elm.lastvalue === "0" || elm.lastvalue === "NO"){
+                                checkIfisNew = "isOld";
+                              }else{
+                                checkIfisNew = "isNew";
+                              }
+
+                              this.secondObj[elmContainer]["isNew"][checkIfisNew]++;
+                              this.sumObj[elmSum]["isNew"][checkIfisNew]++;
+                              this.totalObj["isNew"][checkIfisNew]++;
+                              break;                              
                       }
 
                       switch(elm.name) {
@@ -258,6 +274,10 @@ export class GenDataService {
                 "p"  : 0 
               },
             },
+            "isNew"  : {
+              "isNew" : 0,
+              "isOld"  : 0
+            },
             "LDT"  : {
               "isLDT"  : {
                 "v"  : 0,
@@ -286,6 +306,10 @@ export class GenDataService {
                 "p"  : 0 
               },
             },
+            "isNew"  : {
+              "isNew" : 0,
+              "isOld"  : 0
+            },
             "LDT"  : {
               "isLDT"  : {
                 "v"  : 0,
@@ -313,6 +337,10 @@ export class GenDataService {
                     "v"  : 0,
                     "p"  : 0 
                   },
+                },
+                "isNew"  : {
+                  "isNew" : 0,
+                  "isOld"  : 0
                 },
                 "LDT"  : {
                   "isLDT"  : {

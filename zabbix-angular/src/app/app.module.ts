@@ -32,6 +32,7 @@ import { ViewIsnewComponent } from './view-isnew/view-isnew.component';
       {path : '' , component : BodyComponent},
       {path : 'ldt' , component : LdtComponent},
       {path : 'lapos' , component : LaposComponent},
+      {path : 'isNew' , component : ViewIsnewComponent},
     ])
   ],
   providers: [GenDataService],

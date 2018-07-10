@@ -7,7 +7,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MenuComponent implements OnInit {
 
-  constructor() { }
+  arr:Array<String>;
+
+  constructor() {
+    this.arr = []
+   }
 
   ngOnInit() {
     

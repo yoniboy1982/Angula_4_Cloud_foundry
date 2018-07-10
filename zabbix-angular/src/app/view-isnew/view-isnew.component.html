@@ -1,3 +1,65 @@
-<p>
-  view-isnew works!
-</p>
+<div>
+    <app-button [title]="title" [tableclass]="tableclass" (messageEvent)="reciveMessage($event)" [year]="year"></app-button>
+  
+  <table  id="isNewTable" class="table table-hover table-striped table-sm">
+    <thead>
+      <tr>
+        <th>
+          <span>Distribution </span>
+        </th>
+        <th >Total</th>
+        <th scope="col">New</th>
+        <th scope="col">Old</th>
+      </tr>
+    </thead>
+    <tbody *ngIf="!collapse">
+        <tr  *ngFor="let k of zFunctions.objectKeys(dist)"   class="newLine">
+            <td scope="row">{{k}}</td>
+            <td >{{dist[k].total}}</td>
+            <td>{{dist[k].isNew.isNew}}</td>
+            <td>{{dist[k].isNew.isOld}}</td>
+          </tr>
+    </tbody>
+    <tbody *ngIf="collapse">
+        <tr  *ngFor="let k of zFunctions.objectKeys(sum)"   class="newLine">
+            <td scope="row">{{k}}</td>
+            <td >{{sum[k].total}}</td>
+            <td>{{sum[k].isNew.isNew}}</td>
+            <td>{{sum[k].isNew.isOld}}</td>
+          </tr>
+    </tbody>
+    <tfoot>
+        <tr>
+            <th scope="row">Total</th>
+            <td class="total">{{total.total}}</td>
+            <td class="total">{{total.isNew.isNew}}</td>
+            <td class="total">{{total.isNew.isOld}}</td>
+        </tr>  
+  
+    </tfoot>
+  </table>
+  
+  <!-- <table  *ngIf="collapse" class="table table-hover table-striped table-sm">
+    <thead>
+      <tr>
+        <th>
+          <span>Distribution </span>
+        </th>
+        <th >Total</th>
+        <th scope="col">Physical</th>
+        <th scope="col">Virtual</th>
+      </tr>
+    </thead>
+    <tbody>
+  
+    </tbody>
+    <tfoot>
+        <tr>
+            <th scope="row">Total</th>
+            <td class="total">{{total.total}}</td>
+            <td class="total">{{total.physical}}</td>
+            <td class="total">{{total.isVirt}}</td>
+        </tr>
+    </tfoot>
+  </table> -->
+  </div>

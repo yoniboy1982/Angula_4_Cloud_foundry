@@ -10,9 +10,9 @@ import { GenDataService } from '../gen-data.service';
 })
 export class LaposComponent implements OnInit {
 
-  dist = {};
-  total = {};
-  sum = {};
+  dist = <any>{};
+  total = <any>{};
+  sum = <any>{};
 
   title= "Lapos - is Lapos/Non Lapos";
   tableclass = "tableTagRed";

@@ -10,9 +10,9 @@ import { GenDataService } from '../gen-data.service';
 })
 export class LdtComponent implements OnInit {
 
-  dist = {};
-  total = {};
-  sum = {};
+  dist = <any>{};
+  total = <any>{};
+  sum = <any>{};
 
   title = "LDT - is Secure/non Secure";
   tableclass = "tableTagBlue";
