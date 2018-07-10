@@ -8,10 +8,11 @@ import { Component, OnInit, Input,Output,EventEmitter } from '@angular/core';
 export class ButtonComponent implements OnInit {
 
   @Input() title:String;
+  @Input() tableclass:String;
+  @Input() year:String;
   @Output() messageEvent = new EventEmitter<string>();
 
   constructor() { 
-    
   }
 
   sendMessage($event){

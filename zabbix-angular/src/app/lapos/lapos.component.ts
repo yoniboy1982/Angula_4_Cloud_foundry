@@ -12,7 +12,8 @@ export class LaposComponent implements OnInit {
 
   dist = {};
   total = {};
-  titleTop= "Lapos - is Lapos/Non Lapos";
+  title= "Lapos - is Lapos/Non Lapos";
+  tableclass = "tableTagRed"
   collapse = false;
   sum = {};
 

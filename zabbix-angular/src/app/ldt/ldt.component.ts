@@ -14,7 +14,8 @@ export class LdtComponent implements OnInit {
   total = {};
   sum = {};
 
-  titleTop = "LDT - is Secure/non Secure";
+  title = "LDT - is Secure/non Secure";
+  tableclass = "tableTagBlue"
   collapse = false;
 
   constructor(private service:GenDataService, private sorter:SorterService,private zFunctions:ZFunctionsService){
