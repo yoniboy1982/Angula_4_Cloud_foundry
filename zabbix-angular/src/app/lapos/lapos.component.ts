@@ -12,10 +12,12 @@ export class LaposComponent implements OnInit {
 
   dist = {};
   total = {};
-  title= "Lapos - is Lapos/Non Lapos";
-  tableclass = "tableTagRed"
-  collapse = false;
   sum = {};
+
+  title= "Lapos - is Lapos/Non Lapos";
+  tableclass = "tableTagRed";
+  year;
+  collapse = false;
 
 
   constructor(private service:GenDataService, private sorter:SorterService,private zFunctions:ZFunctionsService){
@@ -26,6 +28,8 @@ export class LaposComponent implements OnInit {
     this.service.observeMessage.subscribe(message => this.dist = message);
     this.service.observeTotal.subscribe(message => this.total = message);
     this.service.observeSum.subscribe(message => this.sum = message);
+    this.year = this.service.year;
+
   }
 
   ngAfterContentInit(){

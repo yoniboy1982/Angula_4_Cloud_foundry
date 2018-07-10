@@ -15,7 +15,8 @@ export class LdtComponent implements OnInit {
   sum = {};
 
   title = "LDT - is Secure/non Secure";
-  tableclass = "tableTagBlue"
+  tableclass = "tableTagBlue";
+  year;
   collapse = false;
 
   constructor(private service:GenDataService, private sorter:SorterService,private zFunctions:ZFunctionsService){
@@ -25,6 +26,8 @@ export class LdtComponent implements OnInit {
     this.service.observeMessage.subscribe(message => this.dist = message);
     this.service.observeTotal.subscribe(message => this.total = message);
     this.service.observeSum.subscribe(message => this.sum = message);
+    this.year = this.service.year;
+
   }
 
   ngAfterContentInit(){
