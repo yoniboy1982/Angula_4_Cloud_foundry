@@ -12,6 +12,7 @@ import { LdtComponent } from './ldt/ldt.component';
 import { LaposComponent } from './lapos/lapos.component';
 import { TableinfoComponent } from './tableinfo/tableinfo.component';
 import { ButtonComponent } from './button/button.component';
+import { ViewIsnewComponent } from './view-isnew/view-isnew.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { ButtonComponent } from './button/button.component';
     LdtComponent,
     LaposComponent,
     TableinfoComponent,
-    ButtonComponent
+    ButtonComponent,
+    ViewIsnewComponent
   ],
   imports: [
     BrowserModule,
