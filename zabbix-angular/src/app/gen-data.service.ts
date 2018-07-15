@@ -49,7 +49,13 @@ export class GenDataService {
       }
 
       returnArr(){
-        return ["Distribution", "LDT Security Flag","isVirt","Lapos Git Status","isNewUI"];
+        return [
+          "Distribution",
+          "LDT Security Flag",
+          // "isVirt",
+          // "Lapos Git Status",
+          // "isNewUI"
+      ];
       }
 
       geturl(x = 0){
@@ -62,7 +68,7 @@ export class GenDataService {
           "method": "item.get",
           "params": {
                 "output": "extend",
-                // "hostids": [ "10132", "10134", "10126", "10138", "10140", "10182", "10144", "10166", "10148", "10150", "10192", "10154"],
+                "hostids": [ "10132", "10134", "10126", "10138", "10140", "10182", "10144", "10166", "10148", "10150", "10192", "10154"],
                   "filter": {"name": arr} ,
               "sortfield": "name"
           },

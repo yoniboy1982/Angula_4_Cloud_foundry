@@ -15,7 +15,7 @@ export class ViewIsnewComponent implements OnInit {
   total = <any>{};
   sum = <any>{};
 
-  title= "Is New or Old";
+  title= "LDT clients using NewUI";
   tableclass = "tableTagGreen";
   year;
   collapse = false;

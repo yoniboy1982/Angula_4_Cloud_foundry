@@ -13,9 +13,8 @@
     color:green
 }
 
-  .table thead th.lapos{
-    font-weight: normal;
-    color: #517744;
+th.LDT, th.lapos{
+    /* color: #000; */
   }
 
   .container2{
@@ -53,10 +52,6 @@
   .listLoading{
     margin: 0 auto;
     margin-top: 10px;
-  }
-  .table thead th.LDT{
-    font-weight: normal;
-    color: #d27470;
   }
 
   .tableTag{
