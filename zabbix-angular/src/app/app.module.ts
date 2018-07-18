@@ -13,6 +13,7 @@ import { LaposComponent } from './lapos/lapos.component';
 import { TableinfoComponent } from './tableinfo/tableinfo.component';
 import { ButtonComponent } from './button/button.component';
 import { ViewIsnewComponent } from './view-isnew/view-isnew.component';
+import { HtmlRegionComponent } from './html-region/html-region.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { ViewIsnewComponent } from './view-isnew/view-isnew.component';
     LaposComponent,
     TableinfoComponent,
     ButtonComponent,
-    ViewIsnewComponent
+    ViewIsnewComponent,
+    HtmlRegionComponent
   ],
   imports: [
     BrowserModule,

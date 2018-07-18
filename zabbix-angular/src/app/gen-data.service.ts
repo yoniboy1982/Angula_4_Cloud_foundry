@@ -16,9 +16,16 @@ export class GenDataService {
 
       private sumSource = new Rx.BehaviorSubject<Object>('{}');
       observeSum = this.sumSource.asObservable();
+      
+      private regionSource = new Rx.BehaviorSubject<Object>('{}');
+      observeRigion = this.regionSource.asObservable();
+
+      private selectedRegionSource = new Rx.BehaviorSubject<Object>('{}');
+      observeSelectedRigion = this.selectedRegionSource.asObservable();
 
       arr:Array<string>;
       regionArr:Array<string>;
+      // selectedRegion:String;
       mainObj:Object;
       secondObj:Object;
       totalObj:Object;
@@ -46,18 +53,32 @@ export class GenDataService {
         this.messageSource.next(this.secondObj);
         this.totalSource.next(this.totalObj);
         this.sumSource.next(this.sumObj);
+        this.regionSource.next(this.regionArr);
+        
+
 
         this.geturl();
       }
 
+
+
+
       initSecondObj(){
         this.secondObj = {};
         this.regionArr = ["AMER","APJ","EMEA","0"];
+
+        this.changeSelected(this.regionArr[0]);
+
           for (let index = 0; index < this.regionArr.length; index++) {
               const element = this.regionArr[index];
               this.secondObj[element] = {};
           }
       }
+
+      changeSelected(selectedRegion:string){
+        this.selectedRegionSource.next(selectedRegion);
+      }
+
       returnArr(){
         return [
           "Distribution",
@@ -79,7 +100,7 @@ export class GenDataService {
           "method": "item.get",
           "params": {
                 "output": "extend",
-                // "hostids": [ "10132", "10134", "10126", "10138", "10140", "10182", "10144", "10166", "10148", "10150", "10192", "10154"],
+                "hostids": [ "10132", "10134", "10126", "10138", "10140", "10182", "10144", "10166", "10148", "10150", "10192", "10154"],
                 "filter": {"name": arr} ,
               "sortfield": "name"
           },
