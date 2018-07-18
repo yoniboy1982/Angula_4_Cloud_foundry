@@ -13,6 +13,7 @@ export class LaposComponent implements OnInit {
   dist = <any>{};
   total = <any>{};
   sum = <any>{};
+  selectedRegion = <any>String;
 
   title= "Lapos - is Lapos/Non Lapos";
   tableclass = "tableTagRed";
@@ -28,6 +29,8 @@ export class LaposComponent implements OnInit {
     this.service.observeMessage.subscribe(message => this.dist = message);
     this.service.observeTotal.subscribe(message => this.total = message);
     this.service.observeSum.subscribe(message => this.sum = message);
+    this.service.observeSelectedRigion.subscribe(selected => this.selectedRegion = selected);
+
     this.year = this.service.year;
 
   }

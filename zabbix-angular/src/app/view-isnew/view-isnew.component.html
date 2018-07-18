@@ -13,27 +13,27 @@
       </tr>
     </thead>
     <tbody *ngIf="!collapse">
-        <tr  *ngFor="let k of zFunctions.objectKeys(dist)"   class="newLine">
+        <tr  *ngFor="let k of zFunctions.objectKeys(dist[selectedRegion])"   class="newLine">
             <td scope="row">{{k}}</td>
-            <td >{{dist[k].total}}</td>
-            <td>{{dist[k].isNew.isNew}}</td>
-            <td>{{dist[k].isNew.isOld}}</td>
+            <td >{{dist[selectedRegion][k].total}}</td>
+            <td>{{dist[selectedRegion][k].isNew.isNew}}</td>
+            <td>{{dist[selectedRegion][k].isNew.isOld}}</td>
           </tr>
     </tbody>
     <tbody *ngIf="collapse">
-        <tr  *ngFor="let k of zFunctions.objectKeys(sum)"   class="newLine">
+        <tr  *ngFor="let k of zFunctions.objectKeys(sum[selectedRegion])"   class="newLine">
             <td scope="row">{{k}}</td>
-            <td >{{sum[k].total}}</td>
-            <td>{{sum[k].isNew.isNew}}</td>
-            <td>{{sum[k].isNew.isOld}}</td>
+            <td >{{sum[selectedRegion][k].total}}</td>
+            <td>{{sum[selectedRegion][k].isNew.isNew}}</td>
+            <td>{{sum[selectedRegion][k].isNew.isOld}}</td>
           </tr>
     </tbody>
     <tfoot>
         <tr>
             <th scope="row">Total</th>
-            <td class="total">{{total.total}}</td>
-            <td class="total">{{total.isNew.isNew}}</td>
-            <td class="total">{{total.isNew.isOld}}</td>
+            <td class="total">{{total[selectedRegion].total}}</td>
+            <td class="total">{{total[selectedRegion].isNew.isNew}}</td>
+            <td class="total">{{total[selectedRegion].isNew.isOld}}</td>
         </tr>  
   
     </tfoot>
@@ -56,9 +56,9 @@
     <tfoot>
         <tr>
             <th scope="row">Total</th>
-            <td class="total">{{total.total}}</td>
-            <td class="total">{{total.physical}}</td>
-            <td class="total">{{total.isVirt}}</td>
+            <td class="total">{{total[selectedRegion].total}}</td>
+            <td class="total">{{total[selectedRegion].physical}}</td>
+            <td class="total">{{total[selectedRegion].isVirt}}</td>
         </tr>
     </tfoot>
   </table> -->

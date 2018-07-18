@@ -1,6 +1,4 @@
     <div>
-        <!-- <h5 class="tableTag tableTagGreen">Lapos - is Lapos/Non Lapos</h5>
-        <button class="GroupH5 btn">Group +/-</button> -->
         <app-button [title]="title" [tableclass]="tableclass" (messageEvent)="reciveMessage($event)" [year]="year"></app-button>
     
         <table  id="laposTable" class="table table-hover table-striped table-sm">
@@ -19,31 +17,31 @@
             </tr>
           </thead>
           <tbody *ngIf="!collapse">
-              <tr class="newLine" *ngFor="let k of zFunctions.objectKeys(dist)">
+              <tr class="newLine" *ngFor="let k of zFunctions.objectKeys(dist[selectedRegion])">
                 <td scope="row">{{k}}</td>
-                <td>{{dist[k].Lapos.isLapos.p}}</td>
-                <td>{{dist[k].Lapos.isLapos.v}}</td>
-                <td>{{dist[k].Lapos.nonLapos.p}}</td>
-                <td>{{dist[k].Lapos.nonLapos.v}}</td>
+                <td>{{dist[selectedRegion][k].Lapos.isLapos.p}}</td>
+                <td>{{dist[selectedRegion][k].Lapos.isLapos.v}}</td>
+                <td>{{dist[selectedRegion][k].Lapos.nonLapos.p}}</td>
+                <td>{{dist[selectedRegion][k].Lapos.nonLapos.v}}</td>
               </tr>
           </tbody>
           <tbody *ngIf="collapse">
-              <tr class="newLine" *ngFor="let k of zFunctions.objectKeys(sum)">
+              <tr class="newLine" *ngFor="let k of zFunctions.objectKeys(sum[selectedRegion])">
                 <td scope="row">{{k}}</td>
-                <td>{{sum[k].Lapos.isLapos.p}}</td>
-                <td>{{sum[k].Lapos.isLapos.v}}</td>
-                <td>{{sum[k].Lapos.nonLapos.p}}</td>
-                <td>{{sum[k].Lapos.nonLapos.v}}</td>
+                <td>{{sum[selectedRegion][k].Lapos.isLapos.p}}</td>
+                <td>{{sum[selectedRegion][k].Lapos.isLapos.v}}</td>
+                <td>{{sum[selectedRegion][k].Lapos.nonLapos.p}}</td>
+                <td>{{sum[selectedRegion][k].Lapos.nonLapos.v}}</td>
               </tr>
                       
           </tbody>
           <tfoot>
               <tr>
                   <th scope="row">Total</th>
-                  <td class="total">{{total.Lapos.isLapos.p}}</td>
-                  <td class="total">{{total.Lapos.isLapos.v}}</td>
-                  <td class="total">{{total.Lapos.nonLapos.p}}</td>
-                  <td class="total">{{total.Lapos.nonLapos.v}}</td>
+                  <td class="total">{{total[selectedRegion].Lapos.isLapos.p}}</td>
+                  <td class="total">{{total[selectedRegion].Lapos.isLapos.v}}</td>
+                  <td class="total">{{total[selectedRegion].Lapos.nonLapos.p}}</td>
+                  <td class="total">{{total[selectedRegion].Lapos.nonLapos.v}}</td>
               </tr>   
           </tfoot>
         </table>
