@@ -14,19 +14,13 @@ export class HtmlRegionComponent implements OnInit {
   selectedRegion;
 
   constructor(private service:GenDataService){
-
-    
   }
 
   ngOnInit() {
-
     this.service.observeRigion.subscribe(region => this.regions = region);
     this.service.observeSelectedRigion.subscribe(selected => this.selectedRegion = selected);
-    
-
   }
 
-  
   updateRegion(deviceValue) {
     this.service.changeSelected(deviceValue);
   }

@@ -25,7 +25,6 @@ export class GenDataService {
 
       arr:Array<string>;
       regionArr:Array<string>;
-      // selectedRegion:String;
       mainObj:Object;
       secondObj:Object;
       totalObj:Object;
@@ -40,12 +39,12 @@ export class GenDataService {
       }
     
       initVars(year = 0){
-        this.mainObj = {};
-        this.initSecondObj();
+        this.regionArr = ["AMER","APJ","EMEA","0"];
 
-        this.sumObj = {};
+        this.mainObj = {};
+        this.initAllObjectsj();
+
         this.arr = this.returnArr();
-        this.totalObj = this.initTotalObj()// total object will hold all total data and will be genarated with second object (line after)
         this.timestamp30DaysBack = 0;// = new Date().getTime() - (30 * 24 * 60 * 60 * 1000);
         this.year = (year === 0) ? this.currentYear : year
 
@@ -55,25 +54,26 @@ export class GenDataService {
         this.sumSource.next(this.sumObj);
         this.regionSource.next(this.regionArr);
         
-
-
         this.geturl();
       }
 
 
+      initAllObjectsj(){
 
-
-      initSecondObj(){
-        this.secondObj = {};
-        this.regionArr = ["AMER","APJ","EMEA","0"];
-
-        this.changeSelected(this.regionArr[0]);
+          this.secondObj = {};
+          this.sumObj = {};
+          this.totalObj = {};
+          
+          this.changeSelected(this.regionArr[0]);
 
           for (let index = 0; index < this.regionArr.length; index++) {
               const element = this.regionArr[index];
               this.secondObj[element] = {};
+              this.sumObj[element] = {};
+              this.totalObj[element] = this.initTotalObj(); // total object will hold all total data and will be genarated with second object (line after)
           }
       }
+
 
       changeSelected(selectedRegion:string){
         this.selectedRegionSource.next(selectedRegion);
@@ -100,7 +100,7 @@ export class GenDataService {
           "method": "item.get",
           "params": {
                 "output": "extend",
-                "hostids": [ "10132", "10134", "10126", "10138", "10140", "10182", "10144", "10166", "10148", "10150", "10192", "10154"],
+                // "hostids": [ "10132", "10134", "10126", "10138", "10140", "10182", "10144", "10166", "10148", "10150", "10192", "10154"],
                 "filter": {"name": arr} ,
               "sortfield": "name"
           },
@@ -234,12 +234,13 @@ export class GenDataService {
                               this.initObj(elmContainer,regionPos);
                             }
 
-                            if(elmSum in this.sumObj){
-                              this.sumObj[elmSum]["total"]++;
+                            if(elmSum in this.sumObj[regionPos]){
+                              this.sumObj[regionPos][elmSum]["total"]++;
                             }else{
-                              this.initSumObj(elmSum);
+                              console.log(elmSum,regionPos)
+                              this.addSumObj(elmSum,regionPos);
                             }
-                            this.totalObj["total"]++;
+                            this.totalObj[regionPos]["total"]++;
 
                             break;
 
@@ -248,12 +249,12 @@ export class GenDataService {
                               if(elm.lastvalue !== "0"){
                                 checkIfVirt = "v";
                                 this.secondObj[regionPos][elmContainer]["isVirt"]++;
-                                this.sumObj[elmSum]["isVirt"]++;
-                                this.totalObj["isVirt"]++;
+                                this.sumObj[regionPos][elmSum]["isVirt"]++;
+                                this.totalObj[regionPos]["isVirt"]++;
                               }else{
                                 this.secondObj[regionPos][elmContainer]["physical"]++;
-                                this.sumObj[elmSum]["physical"]++;
-                                this.totalObj["physical"]++;
+                                this.sumObj[regionPos][elmSum]["physical"]++;
+                                this.totalObj[regionPos]["physical"]++;
                               }
                               break;
 
@@ -265,8 +266,8 @@ export class GenDataService {
                               }
 
                               this.secondObj[regionPos][elmContainer]["Lapos"][checkIfLapos][checkIfVirt]++;
-                              this.sumObj[elmSum]["Lapos"][checkIfLapos][checkIfVirt]++;
-                              this.totalObj["Lapos"][checkIfLapos][checkIfVirt]++;
+                              this.sumObj[regionPos][elmSum]["Lapos"][checkIfLapos][checkIfVirt]++;
+                              this.totalObj[regionPos]["Lapos"][checkIfLapos][checkIfVirt]++;
                               break;
 
                         case isNewUI: //IF isNew
@@ -277,8 +278,8 @@ export class GenDataService {
                               }
 
                               this.secondObj[regionPos][elmContainer]["isNew"][checkIfisNew]++;
-                              this.sumObj[elmSum]["isNew"][checkIfisNew]++;
-                              this.totalObj["isNew"][checkIfisNew]++;
+                              this.sumObj[regionPos][elmSum]["isNew"][checkIfisNew]++;
+                              this.totalObj[regionPos]["isNew"][checkIfisNew]++;
                               break;                              
                       }
 
@@ -295,8 +296,8 @@ export class GenDataService {
                             checkIfLDT = "nonLDT";
                           }
                           this.secondObj[regionPos][elmContainer]["LDT"][checkIfLDT][checkIfVirt]++;
-                          this.sumObj[elmSum]["LDT"][checkIfLDT][checkIfVirt]++;
-                          this.totalObj["LDT"][checkIfLDT][checkIfVirt]++;
+                          this.sumObj[regionPos][elmSum]["LDT"][checkIfLDT][checkIfVirt]++;
+                          this.totalObj[regionPos]["LDT"][checkIfLDT][checkIfVirt]++;
 
                           break;
                         }
@@ -344,8 +345,8 @@ export class GenDataService {
         }
       }
 
-      initSumObj(lastvalue){
-        this.sumObj[lastvalue] = {
+      addSumObj(lastvalue,regionPos){
+        this.sumObj[regionPos][lastvalue] = {
             "total"  : 1,
             "isVirt"  : 0,
             "physical"  : 0,

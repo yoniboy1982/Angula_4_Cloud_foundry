@@ -21,23 +21,23 @@
           <td>{{dist[selectedRegion][k].isVirt}}</td>
         </tr>
   </tbody>
-  <!-- <tbody *ngIf="collapse">
-        <tr  *ngFor="let k of zFunctions.objectKeys(sum)">
+  <tbody *ngIf="collapse">
+        <tr  *ngFor="let k of zFunctions.objectKeys(sum[selectedRegion])">
             <td >{{k}}</td>
-            <td>{{sum[k].total}}</td>
-            <td>{{sum[k].physical}}</td>
-            <td>{{sum[k].isVirt}}</td>
+            <td>{{sum[selectedRegion][k].total}}</td>
+            <td>{{sum[selectedRegion][k].physical}}</td>
+            <td>{{sum[selectedRegion][k].isVirt}}</td>
           </tr>
   </tbody>
   <tfoot>
       <tr>
           <th scope="row">Total</th>
-          <td class="total">{{total.total}}</td>
-          <td class="total">{{total.physical}}</td>
-          <td class="total">{{total.isVirt}}</td>
+          <td class="total">{{total[selectedRegion].total}}</td>
+          <td class="total">{{total[selectedRegion].physical}}</td>
+          <td class="total">{{total[selectedRegion].isVirt}}</td>
       </tr>
 
-  </tfoot> -->
+  </tfoot>
 </table>
 
 <!-- <table  *ngIf="collapse" class="table table-hover table-striped table-sm">
