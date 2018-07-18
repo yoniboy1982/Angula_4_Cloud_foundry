@@ -6,6 +6,7 @@ import * as Rx from "rxjs";
 @Injectable({
   providedIn: 'root'
 })
+
 export class GenDataService {
 
       private messageSource = new Rx.BehaviorSubject<Object>('{}');
@@ -20,8 +21,12 @@ export class GenDataService {
       private regionSource = new Rx.BehaviorSubject<Object>('{}');
       observeRigion = this.regionSource.asObservable();
 
-      private selectedRegionSource = new Rx.BehaviorSubject<Object>('{}');
+      private selectedRegionSource  = new Rx.BehaviorSubject<Object>('{}');
       observeSelectedRigion = this.selectedRegionSource.asObservable();
+
+      public showContentSource      = new Rx.BehaviorSubject<Object>('{}');
+      observeShowContent = this.showContentSource.asObservable();
+
 
       arr:Array<string>;
       regionArr:Array<string>;
@@ -31,34 +36,45 @@ export class GenDataService {
       sumObj:Object;
       timestamp30DaysBack:Number;
       year:Number;
+      showContent:Object;
       currentYear = (new Date()).getFullYear();
       yearsArr = [];
 
       constructor() { 
+
+
         this.initVars();
       }
     
       initVars(year = 0){
-        this.regionArr = ["AMER","APJ","EMEA","0"];
+        this.regionArr = ["AMER","APJ","EMEA"];
 
-        this.mainObj = {};
+
+
         this.initAllObjectsj();
 
         this.arr = this.returnArr();
         this.timestamp30DaysBack = 0;// = new Date().getTime() - (30 * 24 * 60 * 60 * 1000);
-        this.year = (year === 0) ? this.currentYear : year
+        this.year = (year === 0) ? this.currentYear : year;
+
+
 
         //Subscribe to 
         this.messageSource.next(this.secondObj);
         this.totalSource.next(this.totalObj);
         this.sumSource.next(this.sumObj);
         this.regionSource.next(this.regionArr);
+        this.showContentSource.next(this.showContent);
         
+
         this.geturl();
       }
 
 
       initAllObjectsj(){
+
+          this.mainObj = {};
+          this.showContent = {};
 
           this.secondObj = {};
           this.sumObj = {};
@@ -100,7 +116,7 @@ export class GenDataService {
           "method": "item.get",
           "params": {
                 "output": "extend",
-                // "hostids": [ "10132", "10134", "10126", "10138", "10140", "10182", "10144", "10166", "10148", "10150", "10192", "10154"],
+                "hostids": [ "10132", "10134", "10126", "10138", "10140", "10182", "10144", "10166", "10148", "10150", "10192", "10154"],
                 "filter": {"name": arr} ,
               "sortfield": "name"
           },
@@ -201,7 +217,7 @@ export class GenDataService {
                 var a = this.regionArr.indexOf(regionPos);
 
               if (a < 0) {
-                  console.log(a,regionPos)
+                  // console.log(a,regionPos)
                   continue;
               }
 
@@ -237,7 +253,7 @@ export class GenDataService {
                             if(elmSum in this.sumObj[regionPos]){
                               this.sumObj[regionPos][elmSum]["total"]++;
                             }else{
-                              console.log(elmSum,regionPos)
+                              // console.log(elmSum,regionPos)
                               this.addSumObj(elmSum,regionPos);
                             }
                             this.totalObj[regionPos]["total"]++;
@@ -305,12 +321,11 @@ export class GenDataService {
                   if (breakFor){
                     break loop2;
                   }
-
-                        
               }
-            }
+          }
 
-            console.log(this.secondObj)
+          this.showContent['show'] = '1';
+          console.log(this.secondObj)
       }
 
       initObj(lastvalue,regionPos){

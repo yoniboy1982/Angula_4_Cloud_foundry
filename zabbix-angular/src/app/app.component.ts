@@ -8,20 +8,15 @@ import { GenDataService } from './gen-data.service';
 })
 export class AppComponent{
 
-  dist = {};
+  showContent = <any>String;
+
   constructor(private service:GenDataService){
+
 
   }
 
   ngOnInit(){
-    this.service.observeMessage.subscribe(message => {
-      this.dist = message;
-    });
+    this.service.observeShowContent.subscribe(message => this.showContent = message);
   }
-  
-  isEmptyObject(obj) {
-    return (obj && (Object.keys(obj).length === 0));
-  }
-
 
 }
