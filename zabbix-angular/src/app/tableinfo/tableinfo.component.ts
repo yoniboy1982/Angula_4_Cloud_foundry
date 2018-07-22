@@ -1,3 +1,4 @@
+// import { HtmlChartComponent } from './../html-chart/html-chart.component';
 import { Component, OnInit } from '@angular/core';
 import { GenDataService } from '../gen-data.service';
 

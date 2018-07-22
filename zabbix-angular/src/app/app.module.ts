@@ -14,6 +14,7 @@ import { TableinfoComponent } from './tableinfo/tableinfo.component';
 import { ButtonComponent } from './button/button.component';
 import { ViewIsnewComponent } from './view-isnew/view-isnew.component';
 import { HtmlRegionComponent } from './html-region/html-region.component';
+import { HtmlChartComponent } from './html-chart/html-chart.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { HtmlRegionComponent } from './html-region/html-region.component';
     TableinfoComponent,
     ButtonComponent,
     ViewIsnewComponent,
-    HtmlRegionComponent
+    HtmlRegionComponent,
+    HtmlChartComponent
   ],
   imports: [
     BrowserModule,
@@ -35,6 +37,7 @@ import { HtmlRegionComponent } from './html-region/html-region.component';
       {path : 'ldt' , component : LdtComponent},
       {path : 'lapos' , component : LaposComponent},
       {path : 'isNew' , component : ViewIsnewComponent},
+      {path : 'charts' , component : HtmlChartComponent},
     ])
   ],
   providers: [GenDataService],
