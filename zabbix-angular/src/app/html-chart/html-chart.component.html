@@ -1,4 +1,6 @@
-<div >
-    <!-- <canvas  *ngFor="let item of charts; let i = index"  id="canvas{{i}}">{{charts}}</canvas> -->
-    <canvas id="canvas">{{chart}}</canvas>
+<div class="container">
+    <canvas  class="chart-container" *ngFor="let item of charts; let i = index" id="canvas{{i}}">{{item}}</canvas>
+
+    <!-- <canvas id="canvas">{{chart}}</canvas>
+    <canvas id="asd0">{{chart}}</canvas> -->
 </div>

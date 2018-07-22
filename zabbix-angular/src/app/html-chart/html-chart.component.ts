@@ -26,9 +26,11 @@ export class HtmlChartComponent implements OnInit {
   tableclass = "tableTagRed";
   year;
   collapse = false;
-  // chartsArr = [1,2,3,4,5,6];
-  // charts = [];
+  chartsArr = [1,2,3,4,5,6];
+  charts = [];
   chart = [];
+  chartData = {};
+  chartOptions = {};
 
   constructor(private service:GenDataService, private sorter:SorterService,private zFunctions:ZFunctionsService){
 
@@ -44,56 +46,62 @@ export class HtmlChartComponent implements OnInit {
           this.service.observeSelectedRigion.subscribe(selected => this.selectedRegion = selected);
 
           this.year = this.service.year;
-        var data = {
-          labels: this.weatherDates,
-          datasets: [
-            {
-              data: this.temp_max,
-              borderColor: '#3cba9f',
-              fill: false
-            },
-            {
-              data: this.temp_min,
-              borderColor: '#ffcc00',
-              fill: false
-            },
-          ]
-        };
+          this.chartData = {
+            labels: this.weatherDates,
+            datasets: [
+              {
+                data: this.temp_max,
+                borderColor: '#3cba9f',
+                fill: false
+              },
+              {
+                data: this.temp_min,
+                borderColor: '#ffcc00',
+                fill: false
+              },
+            ]
+          };
 
-        var options = {
-          legend: {
-            display: false
-          },
-          scales: {
-            xAxes: [{
-              display: true
-            }],
-            yAxes: [{
-              display: true
-            }]
-          }
-        };
+          this.chartOptions = {
+            legend: {
+              display: false
+            },
+            scales: {
+              xAxes: [{
+                display: true
+              }],
+              yAxes: [{
+                display: true
+              }]
+            }
+          };
 
         this.chart = new Chart('canvas', {
           type: 'line',
-          data: data,
-          options: options 
+          data: this.chartData,
+          options: this.chartOptions 
         })
+
+        for (let i = 0; i < this.chartsArr.length; i++) {
+          this.charts.push(i);
+        }
 
         }
 
   ngAfterViewInit() {
 
-  // for (let index = 0; index < this.chartsArr.length; index++) {
-  //   // const element = this.chartsArr[index];
+      for (let i = 0; i < this.chartsArr.length; i++) {
 
-
-    
-  //   // console.log('canvas-'+index);
-  //   // debugger;
-
-  //   // var inChart = new Chart('canvas'+index, {options: options,data: data});
-  //   // this.charts.push(inChart);
-  // }
+        var canvas = 'canvas' + i.toString();
+        // debugger;
+          var inChart = new Chart(canvas, {
+            type: 'line',
+            data: this.chartData,
+            options: this.chartOptions 
+          });
+          this.charts.push(inChart);
+        }
+        // console.log(this.chart)
+        // console.log(this.charts)
   }        
 }
