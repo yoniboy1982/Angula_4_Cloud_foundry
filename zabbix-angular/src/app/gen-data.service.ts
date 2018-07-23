@@ -116,7 +116,7 @@ export class GenDataService {
           "method": "item.get",
           "params": {
                 "output": "extend",
-                "hostids": [ "10132", "10134", "10126", "10138", "10140", "10182", "10144", "10166", "10148", "10150", "10192", "10154"],
+                // "hostids": [ "10132", "10134", "10126", "10138", "10140", "10182", "10144", "10166", "10148", "10150", "10192", "10154"],
                 "filter": {"name": arr} ,
               "sortfield": "name"
           },
@@ -154,7 +154,7 @@ export class GenDataService {
                 x++;
                 setTimeout(() => {
                   that.geturl(x);
-                }, 3000);
+                }, 1000);
             }
             });
       }
@@ -325,7 +325,8 @@ export class GenDataService {
           }
 
           this.showContent['show'] = '1';
-          console.log(this.secondObj)
+          console.log('secondObj',this.secondObj)
+          console.log('sumObj',this.sumObj)
       }
 
       initObj(lastvalue,regionPos){
