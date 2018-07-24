@@ -14,169 +14,185 @@ import { getLocaleMonthNames } from '../../../node_modules/@angular/common';
 export class HtmlChartComponent implements OnInit {
 
   
-  weatherDates = [];
-  temp_max = []
-  temp_min = []
+    weatherDates = [];
+    temp_max = []
+    temp_min = []
 
-  dist = <any>{};
-  total = <any>{};
-  sum = <any>{};
-  selectedRegion = <any>String;
+    dist = <any>{};
+    total = <any>{};
+    sum = <any>{};
+    selectedRegion = <any>String;
 
-  title= "Lapos - is Lapos/Non Lapos";
-  tableclass = "tableTagRed";
-  year;
-  collapse = false;
-  chartsArr = [30,90,180];
-  charts = [];
-  chart = [];
-  chartData = {};
-  chartOptions = {};
+    title= "Lapos - is Lapos/Non Lapos";
+    tableclass = "tableTagRed";
+    year;
+    collapse = false;
 
-  constructor(private service:GenDataService, private sorter:SorterService,private zFunctions:ZFunctionsService){
+    chartsArr = [0,0];
+    charts = [];
+    chart = [];
 
-  }
+    chartData = {};
+    chartOptions = {};
 
-  ngOnInit(){
+    ranges = [30,90,180];
+    selectedRange;
 
-        var that = this;
-        that.year = this.service.year;
+    arrLocal = {
+      "isLapos"  : {
+        "v"  : 0,
+        "p"  : 0 
+      },
+      "nonLapos"  : {
+        "v"  : 0,
+        "p"  : 0 
+      },
+    };
 
-        that.chartData = {
-          labels: [],
-          datasets: [
-            // {
-            //   data: this.temp_max,
-            //   borderColor: '#3cba9f',
-            //   fill: false
-            // },
-            // {
-            //   data: this.temp_min,
-            //   borderColor: '#ffcc00',
-            //   fill: false
-            // },
-          ]
-        };
+    constructor(private service:GenDataService, private sorter:SorterService,private zFunctions:ZFunctionsService){
 
+    }
 
-        this.service.observeMessage.subscribe(message => this.dist = message);
-        this.service.observeTotal.subscribe(message => this.total = message);
-        this.service.observeSelectedRigion.subscribe(selected => this.selectedRegion = selected);
+    ngOnInit(){
 
-        this.service.observeSum.subscribe(message => {
-
-          this.sum = getParams(message)
-
-          function getParams(message){
-            // debugger;
-            that.selectedRegion = (that.selectedRegion === '') ? 'AMER' : that.selectedRegion;
-            
-            var arrLocal = {
-              'isLaposp' : [],
-              'isLaposv' : [],
-              'nonLaposp' : [],
-              'nonLaposv' : [],
-            };
-            
-
-            for (let k of that.zFunctions.objectKeys(message[that.selectedRegion])) {
-           
-              that.chartData['labels'].push(k);
-
-              var laposObj = message[that.selectedRegion][k].Lapos;
-
-              arrLocal['isLaposp'].push(laposObj.isLapos.p);
-              arrLocal['isLaposv'].push(laposObj.isLapos.v);
-              arrLocal['nonLaposp'].push(laposObj.nonLapos.p);
-              arrLocal['nonLaposv'].push(laposObj.nonLapos.v);
-
+          var that = this;
+          this.year = this.service.year;
+          this.selectedRange = this.ranges[0];
+          
+          this.chartOptions = {
+            legend: {
+              display: false
+            },
+            scales: {
+              xAxes: [{
+                display: true
+              }],
+              yAxes: [{
+                display: true
+              }]
             }
+          };
 
-            var Lapos_p = {
-              label: "Lapos physical",
-              backgroundColor: 'rgba(99, 255, 132, 0.2)',
-              borderColor: 'rgba(99, 255, 132, 1)',
-              borderWidth: 1,
-              data: arrLocal['isLaposp'],
+          this.chartData = {
+            labels: [],
+            datasets: []
+          };
+
+          this.service.observeMessage.subscribe(message => this.dist = message);
+          this.service.observeTotal.subscribe(message => this.total = message);
+          this.service.observeSelectedRigion.subscribe(selected => this.selectedRegion = selected);
+
+          this.service.observeSum.subscribe(message => {
+              this.sum = getParams(message);
+              debugger;
+              this.initLaposObj();
+              function getParams(message){
+                
+                that.selectedRegion = (that.selectedRegion === '') ? 'AMER' : that.selectedRegion;
+              
+
+                for (let k of that.zFunctions.objectKeys(message[that.selectedRegion])) {
+              
+                    that.chartData['labels'].push(k);
+
+                    var laposObj = message[that.selectedRegion][k].Lapos.dates;
+
+                    for (var key in laposObj) {
+                      if (laposObj.hasOwnProperty(key)) {
+                          // console.log(key , laposObj[key]);
+                          var valid = that.validDate(key);
+
+                          if(valid){
+                            var currentobject = laposObj[key];
+
+                            for (var isKey in currentobject) {
+                              if (currentobject.hasOwnProperty(isKey)) {
+                                // console.log(isKey , currentobject[isKey]);
+                                var secondObj = currentobject[isKey];
+
+                                for (var vKey in secondObj) {
+                                  if (secondObj.hasOwnProperty(vKey)) {
+                                    // console.log(vKey , secondObj[vKey]);
+                                    that.arrLocal[isKey][vKey] += secondObj[vKey];
+                                  }
+                                }
+                              }
+                            }
+                          }
+                      }
+                    }
+
+                }
+
+                console.log(that.arrLocal);
+              }
+          });
+
+          for (let i = 0; i < this.chartsArr.length; i++) {
+            this.charts.push(i);
           }
-            var Lapos_v = {
-              label: "Lapos virtual",
-              backgroundColor: 'rgba(187,205,151,0.5)',
-              borderColor: 'rgba(99, 255, 132, 1)',
-              borderWidth: 1,
-              data: arrLocal['isLaposv'],
-          }
+    }
 
-            var non_Lapos_p = {
-              label: "Non Lapos physical",
-              backgroundColor: 'rgba(99, 255, 132, 0.2)',
-              borderColor: 'rgba(99, 255, 132, 1)',
-              borderWidth: 1,
-              data: arrLocal['nonLaposp'],
-          }
+    initLaposObj(){
 
-            var non_Lapos_v = {
-              label: "Non Lapos virtual",
-              backgroundColor: 'rgba(99, 255, 132, 0.2)',
-              borderColor: 'rgba(99, 255, 132, 1)',
-              borderWidth: 1,
-              data: arrLocal['nonLaposv'],
-          }
+      this.chartData['datasets'] = [];
 
-            that.chartData['datasets'].push(Lapos_p)
-            that.chartData['datasets'].push(Lapos_v)
-            that.chartData['datasets'].push(non_Lapos_p)
-            that.chartData['datasets'].push(non_Lapos_v)
+      var Lapos_p = {
+          label: "Lapos physical",
+          backgroundColor: 'rgba(255, 99, 132, 0.2)',
+          borderColor: 'rgba(255,99,132,1)',
+          borderWidth: 1,
+          data: this.arrLocal['isLapos']['p'],
+      }
+      var Lapos_v = {
+          label: "Lapos virtual",
+          backgroundColor: 'rgba(54, 162, 235, 0.2)',
+          borderColor:  'rgba(54, 162, 235, 1)',
+          borderWidth: 1,
+          data: this.arrLocal['isLapos']['v'],
+      }
 
-          }
+      var non_Lapos_p = {
+          label: "Non Lapos physical",
+          backgroundColor: 'rgba(255, 206, 86, 0.2)',
+          borderColor: 'rgba(255, 206, 86, 1)',
+          borderWidth: 1,
+          data: this.arrLocal['nonLapos']['p'],
+      }
 
-        });
+      var non_Lapos_v = {
+          label: "Non Lapos virtual",
+          backgroundColor: 'rgba(75, 192, 192, 0.2)',
+          borderColor:   'rgba(75, 192, 192, 1)',
+          borderWidth: 1,
+          data: this.arrLocal['nonLapos']['v'],
+      }
 
-
-        this.chartOptions = {
-          legend: {
-            display: false
-          },
-          scales: {
-            xAxes: [{
-              display: true
-            }],
-            yAxes: [{
-              display: true
-            }]
-          }
-        };
-
-        // this.chart = new Chart('canvas', {
-        //   type: 'line',
-        //   data: this.chartData,
-        //   options: this.chartOptions 
-        // })
-        
-        for (let i = 0; i < this.chartsArr.length; i++) {
-          this.charts.push(i);
-          // this.charts.push();
+      this.chartData['datasets'].push(Lapos_p,Lapos_v,non_Lapos_p,non_Lapos_v);
     
-        }
-  }
+    }
 
   ngAfterViewInit() {
-
-    
       for (let i = 0; i < this.chartsArr.length; i++) {
-        
-        var canvas = 'canvas' + i.toString();
-        
+          var canvas = 'canvas' + i.toString();
           var inChart = new Chart(canvas, {
             type: 'bar',
             data: this.chartData,
             options: this.chartOptions 
           });
-          
-          // debugger;
           this.charts.push(inChart);
-        }
-        // console.log(this.chart)
-        console.log(this.charts)
-  }        
+      }
+  }
+
+  validDate(myDate){
+
+      myDate=myDate.split("-");
+      var newDate=myDate[1]+"/"+myDate[2]+"/"+myDate[0];
+      var today = new Date().getTime();
+      var end = new Date(newDate).getTime();
+      var range = this.selectedRange * 24 * 60 * 60 * 1000; 
+      var valid = (today - end) < range;
+
+      return valid;
+  }
 }

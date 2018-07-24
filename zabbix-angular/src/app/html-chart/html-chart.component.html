@@ -10,32 +10,3 @@
       </div> -->
     <canvas class="chart-container" *ngFor="let item of charts; let i = index" id="canvas{{i}}">{{item}}</canvas>
 </div>
-
-
-<!-- <div>
-    <app-button [title]="title" [tableclass]="tableclass" (messageEvent)="reciveMessage($event)" [year]="year"></app-button>
-
-    <table  id="laposTable" class="table table-hover table-striped table-sm">
-      <thead>
-        <tr>
-          <th scope="col"><span>Distribution </span></th>
-          <th scope="col" >Physical</th>
-          <th scope="col" >Virtual</th>
-          <th scope="col" >Physical</th>
-          <th scope="col" >Virtual</th>
-        </tr>
-      <tr >
-          <th scope="col"></th>
-          <th scope="col" colspan="2" class="lapos font-weight-bold text-info" >isLAPOS</th>
-          <th scope="col" colspan="2" class="lapos font-weight-bold text-info">nonLAPOS</th>
-        </tr>
-      </thead>
-      <tbody *ngIf="!collapse">
-          <tr class="newLine" *ngFor="let k of zFunctions.objectKeys(sum[selectedRegion])">
-              <td scope="row">{{k}}</td>
-              <td>{{sum[selectedRegion][k].Lapos.isLapos.p}}</td>
-              <td>{{sum[selectedRegion][k].Lapos.isLapos.v}}</td>
-              <td>{{sum[selectedRegion][k].Lapos.nonLapos.p}}</td>
-              <td>{{sum[selectedRegion][k].Lapos.nonLapos.v}}</td>
-            </tr>
-      </tbody> -->

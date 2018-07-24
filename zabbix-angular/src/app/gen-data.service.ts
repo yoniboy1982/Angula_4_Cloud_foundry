@@ -154,7 +154,7 @@ export class GenDataService {
                 x++;
                 setTimeout(() => {
                   that.geturl(x);
-                }, 1000);
+                }, 3000);
             }
             });
       }
@@ -202,6 +202,8 @@ export class GenDataService {
           var isNewUI = arr[4];
           var region = arr[5];
 
+          var laposDateObj = {};
+
           for (var key in this.mainObj) {
 
               var elmContainer;
@@ -225,11 +227,13 @@ export class GenDataService {
               for (let i = 0; i < this.mainObj[key].length; i++) {
                   const elm = this.mainObj[key][i];
                   var clock = elm.lastclock + '000'; //adding 3 zero's because the date format is not valid
+                  
                   var notValidTime = this.calctimeByYear(clock);
 
                   if(notValidTime){//IF NOT IN TIME PERIOD SELECTED
                     break loop2;
                   }
+
 
                   switch(elm.name) {
                         case dist: //IF DISTREBUITION
@@ -281,6 +285,21 @@ export class GenDataService {
                                 checkIfLapos = "nonLapos";
                               }
 
+
+                              //###################################
+                              //#### Add Dates to SUM Lapos object ####
+                              //###################################
+
+                                var date = new Date(parseInt(clock)); //get timestamp of lapos
+                                var LaposDate = date.toISOString().split('T')[0];//change to readble date
+
+                                var dateObj = this.sumObj[regionPos][elmSum]["Lapos"]["dates"];
+                                dateObj[LaposDate] = dateObj[LaposDate] || {}; // create {} if not exist
+                                dateObj[LaposDate][checkIfLapos] = dateObj[LaposDate][checkIfLapos] || {}; // create {} if not exist
+                                dateObj[LaposDate][checkIfLapos][checkIfVirt] = dateObj[LaposDate][checkIfLapos][checkIfVirt] || 0; // create {} if not exist
+                                this.sumObj[regionPos][elmSum]["Lapos"]["dates"][LaposDate][checkIfLapos][checkIfVirt]++; // create {} if not exist
+                              //#####
+
                               this.secondObj[regionPos][elmContainer]["Lapos"][checkIfLapos][checkIfVirt]++;
                               this.sumObj[regionPos][elmSum]["Lapos"][checkIfLapos][checkIfVirt]++;
                               this.totalObj[regionPos]["Lapos"][checkIfLapos][checkIfVirt]++;
@@ -325,8 +344,7 @@ export class GenDataService {
           }
 
           this.showContent['show'] = '1';
-          console.log('secondObj',this.secondObj)
-          console.log('sumObj',this.sumObj)
+          console.log(this.sumObj)
       }
 
       initObj(lastvalue,regionPos){
@@ -343,6 +361,7 @@ export class GenDataService {
                 "v"  : 0,
                 "p"  : 0 
               },
+              "dates" : []
             },
             "isNew"  : {
               "isNew" : 0,
@@ -375,6 +394,7 @@ export class GenDataService {
                 "v"  : 0,
                 "p"  : 0 
               },
+              "dates" : []
             },
             "isNew"  : {
               "isNew" : 0,
