@@ -85,11 +85,7 @@ export class HtmlChartComponent implements OnInit {
                           for (var key in laposObj) {
                             if (laposObj.hasOwnProperty(key)) {
 
-                                var valid = that.validDateToday(key);
-                                var valid2 = that.validDateVs(key);
-
-                                if(valid){
-                                  var currentobject = laposObj[key];
+                                var currentobject = laposObj[key];
 
                                   for (var isKey in currentobject) {
                                     if (currentobject.hasOwnProperty(isKey)) {
@@ -97,26 +93,34 @@ export class HtmlChartComponent implements OnInit {
                                       var secondObj = currentobject[isKey];
 
                                       for (var vKey in secondObj) {
-                                        if (secondObj.hasOwnProperty(vKey)) {
-                                          // console.log(vKey , secondObj[vKey]);
+                                          if (secondObj.hasOwnProperty(vKey)) {
+                                            // console.log(vKey , secondObj[vKey]);
 
-                                          that.arrLocal[region] = that.arrLocal[region] || {};
-                                          that.arrLocal[region][k] = that.arrLocal[region][k] || that.addDatatoObject();
-                                          that.arrLocal[region][k][isKey][vKey] += secondObj[vKey];
+                                                //Check if object is in range
+                                                var validRange = that.validDateToday(key);
+                                                var validRangeVs = that.validDateVs(key);
+
+                                                if(validRange){
+                                                  that.arrLocal[region] = that.arrLocal[region] || {};
+                                                  that.arrLocal[region][k] = that.arrLocal[region][k] || that.addDatatoObject();
+                                                  that.arrLocal[region][k][isKey][vKey] += secondObj[vKey];
+
+                                                }else if(validRangeVs){
+                                                  that.arrCompare[region] = that.arrCompare[region] || {};
+                                                  that.arrCompare[region][k] = that.arrCompare[region][k] || that.addDatatoObject();
+                                                  that.arrCompare[region][k][isKey][vKey] += secondObj[vKey];
+                                                }
 
                                         }
                                       }
                                     }
                                   }
-                                }
-
-
                             }
                           }
                       }
                   }
-                  console.log(that.arrLocal);
-                  console.log(that.arrCompare);
+                  console.log("arrLocal" , that.arrLocal);
+                  console.log("arrCompare" , that.arrCompare);
                   that.updateCharts();
               }
           });
@@ -254,7 +258,6 @@ export class HtmlChartComponent implements OnInit {
 
     validDateToday(myDate){
 
-      debugger;
         myDate=myDate.split("-");
         var newDate=myDate[1]+"/"+myDate[2]+"/"+myDate[0];
         var today = new Date().getTime();
