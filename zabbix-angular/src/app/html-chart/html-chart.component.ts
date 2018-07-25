@@ -78,9 +78,11 @@ export class HtmlChartComponent implements OnInit {
 
                   for (let index = 0; index < regions.length; index++) { //collect data for  on allregions
                         const region = regions[index];
+                        
 
                         for (let k of that.zFunctions.objectKeys(message[region])) {
                           var laposObj = message[region][k].Lapos.dates;
+
 
                           for (var key in laposObj) {
                             if (laposObj.hasOwnProperty(key)) {
@@ -127,20 +129,38 @@ export class HtmlChartComponent implements OnInit {
 
     }
 
+    addLabel(label) {
+      
+      // if (label.indexOf("bash:") !=-1) {
+      //   return;
+      // }
+      
+      if(this.labels.indexOf(label) < 0){
+        this.labels.push(label);
+      };
+    }
 
-    updateCharts(){
+    getParamsData(object,checkUpdateLabel){
 
-        var chartsData = this.arrLocal[this.selectedRegion];
+      if(checkUpdateLabel){
+          this.labels = [];
+      }
+   
+        var obj = object;
+        var chartsData = obj[this.selectedRegion];
 
         var isP = [];
         var isV = [];
         var nonP = [];
         var nonV = [];
-        this.labels = [];
 
         for (var key in chartsData) {
           if (chartsData.hasOwnProperty(key)) {
-              this.labels.push(key); // add labels
+
+            if(checkUpdateLabel){
+              this.addLabel(key);
+            }
+
               var is = chartsData[key]['isLapos'];
               var non = chartsData[key]['nonLapos'];
               isP.push(is.p);
@@ -150,8 +170,39 @@ export class HtmlChartComponent implements OnInit {
           }
         }
 
-        this.dataset1 = this.initLaposObj(isP,isV);
-        this.dataset2 = this.initLaposObj(nonP,nonV);
+        return [isP,isV,nonP,nonV]
+
+    }
+
+    updateCharts(){
+
+        var local = this.getParamsData(this.arrLocal,true);
+        var compare = this.getParamsData(this.arrCompare,false);
+
+        this.dataset1 = this.initLaposObj(local[0],local[1],compare[0],compare[1]);
+        this.dataset2 = this.initLaposObj(local[2],local[3],compare[2],compare[3]);
+    }
+
+    updateChartData(){
+      this.chartLapos.data.datasets = this.dataset1;
+      this.chartLapos.data.labels = this.labels;
+      this.chartLapos.update();
+      this.chartNonLapos.data.datasets = this.dataset2;
+      this.chartNonLapos.data.labels = this.labels;
+      this.chartNonLapos.update();
+    }
+
+
+    ngAfterViewInit() {
+      var laposData = this.createChart('Lapos');
+      var laposNonData = this.createChart('Non Lapos');
+
+      this.chartLapos = new Chart('canvas_isLapos', laposData);
+      this.chartNonLapos = new Chart('canvas_nonLapos', laposNonData);
+
+      console.log(this.labels)
+      this.updateChartData();
+
     }
 
     addDatatoObject(){
@@ -167,7 +218,13 @@ export class HtmlChartComponent implements OnInit {
         }
     }
 
-    shuffle(array) {
+    shuffle() {
+
+      var array = [];
+      for (let index = 0; index < 4; index++) {
+        array.push(this.random());
+      }
+
       var currentIndex = array.length, temporaryValue, randomIndex;
     
       // While there remain elements to shuffle...
@@ -227,35 +284,26 @@ export class HtmlChartComponent implements OnInit {
         options: chartOptions 
       }
     }
-    
-    updateChartData(){
-      this.chartLapos.data.datasets = this.dataset1;
-      this.chartLapos.update();
-      this.chartNonLapos.data.datasets = this.dataset2;
-      this.chartNonLapos.update();
-    }
 
+    random(){
+      return Math.floor(Math.random() * 100);
+    }
+    
     genarateRandom(){
 
-      var arr = [2, 11, 37, 42];
-      this.dataset1[0].data = this.shuffle(arr);
-      this.dataset1[1].data = this.shuffle(arr);
-      this.dataset2[0].data = this.shuffle(arr);
-      this.dataset2[1].data = this.shuffle(arr);
+      this.dataset1[0].data = this.shuffle();
+      this.dataset1[1].data = this.shuffle();
+      this.dataset1[2].data = this.shuffle();
+      this.dataset1[3].data = this.shuffle();
+
+      this.dataset2[0].data = this.shuffle();
+      this.dataset2[1].data = this.shuffle();
+      this.dataset2[2].data = this.shuffle();
+      this.dataset2[3].data = this.shuffle();
       this.updateChartData();
     }
 
-    ngAfterViewInit() {
-      var laposData = this.createChart('Lapos');
-      var laposNonData = this.createChart('Non Lapos');
-
-      this.chartLapos = new Chart('canvas_isLapos', laposData);
-      this.chartNonLapos = new Chart('canvas_nonLapos', laposNonData);
-
-      this.updateChartData();
-
-    }
-
+    
     validDateToday(myDate){
 
         myDate=myDate.split("-");
@@ -292,15 +340,15 @@ export class HtmlChartComponent implements OnInit {
     }
 
 
-    initLaposObj(Physical,virtual){
+    initLaposObj(physical,virtual,VSphysical,VSvirtual){
 
       return [
           {
-            label: "Physical",
+            label: "Lapos physical",
             backgroundColor: 'rgba(255, 99, 132, 0.2)',
             borderColor: 'rgba(255,99,132,1)',
             borderWidth: 1,
-            data: Physical
+            data: physical
         }
         ,{
           label: "Lapos virtual",
@@ -308,26 +356,22 @@ export class HtmlChartComponent implements OnInit {
           borderColor:  'rgba(54, 162, 235, 1)',
           borderWidth: 1,
           data: virtual,
+        },
+          {
+            label: "VS physical",
+            backgroundColor: 'rgba(255, 206, 86, 0.2)',
+            borderColor: 'rgba(255, 206, 86, 1)',
+            borderWidth: 1,
+            data: VSphysical
+        }
+        ,{
+          label: "Vs virtual",
+          backgroundColor: 'rgba(75, 192, 192, 0.2)',
+          borderColor:  'rgba(75, 192, 192, 1)',
+          borderWidth: 1,
+          data: VSvirtual,
         }
       ];
-
-    // var non_Lapos_p = {
-    //     label: "Non Lapos physical",
-    //     backgroundColor: 'rgba(255, 206, 86, 0.2)',
-    //     borderColor: 'rgba(255, 206, 86, 1)',
-    //     borderWidth: 1,
-    //     data: [this.arrLocal['nonLapos']['p']],
-    // }
-
-    // var non_Lapos_v = {
-    //     label: "Non Lapos virtual",
-    //     backgroundColor: 'rgba(75, 192, 192, 0.2)',
-    //     borderColor:   'rgba(75, 192, 192, 1)',
-    //     borderWidth: 1,
-    //     data: [this.arrLocal['nonLapos']['v']],
-    // }
-
-    // this.chartData['datasets'].push(Lapos_p,Lapos_v,non_Lapos_p,non_Lapos_v);
   
   }
 
