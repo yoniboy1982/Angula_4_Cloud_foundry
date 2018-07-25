@@ -47,6 +47,7 @@ export class HtmlChartComponent implements OnInit {
     selectedRange;
 
     arrLocal = {};
+    arrCompare = {};
 
     constructor(private service:GenDataService, private sorter:SorterService,private zFunctions:ZFunctionsService){
         this.selectedRegion = this.service.regionArr[0];
@@ -58,17 +59,14 @@ export class HtmlChartComponent implements OnInit {
           this.year = this.service.year;
           this.selectedRange = this.ranges[0];
 
-
-
           this.service.observeMessage.subscribe(message => this.dist = message);
           this.service.observeTotal.subscribe(message => this.total = message);
           this.service.observeSelectedRigion.subscribe(selected => {
-            if (that.selectedRegion !== selected) {
-              that.selectedRegion = selected;
-              that.updateCharts();
-              that.updateChartData();
-            }
-
+              if (that.selectedRegion !== selected) { // only if not eqal
+                that.selectedRegion = selected;
+                that.updateCharts();
+                that.updateChartData();
+              }
           });
 
           this.service.observeSum.subscribe(message => {
@@ -76,23 +74,19 @@ export class HtmlChartComponent implements OnInit {
 
               function getParams(message){
                 
-                
                   var regions = that.service.regionArr;
 
                   for (let index = 0; index < regions.length; index++) { //collect data for  on allregions
-
                         const region = regions[index];
 
                         for (let k of that.zFunctions.objectKeys(message[region])) {
-                    
-                          // that.chartData['labels'].push(k);
-
                           var laposObj = message[region][k].Lapos.dates;
 
                           for (var key in laposObj) {
                             if (laposObj.hasOwnProperty(key)) {
-                                // console.log(key , laposObj[key]);
-                                var valid = that.validDate(key);
+
+                                var valid = that.validDateToday(key);
+                                var valid2 = that.validDateVs(key);
 
                                 if(valid){
                                   var currentobject = laposObj[key];
@@ -115,11 +109,14 @@ export class HtmlChartComponent implements OnInit {
                                     }
                                   }
                                 }
+
+
                             }
                           }
                       }
                   }
                   console.log(that.arrLocal);
+                  console.log(that.arrCompare);
                   that.updateCharts();
               }
           });
@@ -128,7 +125,9 @@ export class HtmlChartComponent implements OnInit {
 
 
     updateCharts(){
+
         var chartsData = this.arrLocal[this.selectedRegion];
+
         var isP = [];
         var isV = [];
         var nonP = [];
@@ -253,14 +252,38 @@ export class HtmlChartComponent implements OnInit {
 
     }
 
-    validDate(myDate){
+    validDateToday(myDate){
 
+      debugger;
         myDate=myDate.split("-");
         var newDate=myDate[1]+"/"+myDate[2]+"/"+myDate[0];
         var today = new Date().getTime();
         var end = new Date(newDate).getTime();
         var range = this.selectedRange * 24 * 60 * 60 * 1000; 
         var valid = (today - end) < range;
+
+        return valid;
+    }
+
+    validDateVs(myDate){
+
+       //myDate
+        myDate=myDate.split("-");
+        var newDate=myDate[1]+"/"+myDate[2]+"/"+myDate[0];
+        var myData = new Date(newDate).getTime();
+
+        //from
+        var dateFrom = new Date();
+        dateFrom.setDate(dateFrom.getDate() - (this.selectedRange * 2));// today - 60 days (range 30 *2)
+
+        //to
+        var dateTo = new Date();
+        dateTo.setDate(dateTo.getDate() - this.selectedRange);// today - 30 days
+        // var dateString = dateTo.toISOString().split('T')[0];// today - 30 days
+        
+        //compare
+        var valid = (myData > dateFrom.getTime() && myData < dateTo.getTime()); //large than 60 days && small from 30 days
+        // debugger;
 
         return valid;
     }
