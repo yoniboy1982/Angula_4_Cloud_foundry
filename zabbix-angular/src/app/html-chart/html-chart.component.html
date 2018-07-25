@@ -1,12 +1,9 @@
 <div class="container">
-    <!-- <div class="row">
-        <div class="col">
-            <canvas class="chart-container" id="canvas_is_30">{{item}}</canvas>
-
-        </div>
-        <div class="col">
-          2 of 2
-        </div>
-      </div> -->
-    <canvas class="chart-container" *ngFor="let item of charts; let i = index" id="canvas{{i}}">{{item}}</canvas>
+    <div class="chart-container">
+          <canvas class="chart-container col"  id="canvas_isLapos">{{chartLapos}}</canvas>
+    </div>
+     <div class="chart-container">
+          <canvas class="chart-container col"  id="canvas_nonLapos">{{chartNonLapos}}</canvas>
+    </div>
+    
 </div>
