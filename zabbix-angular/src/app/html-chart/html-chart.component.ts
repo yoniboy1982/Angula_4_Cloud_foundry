@@ -62,7 +62,14 @@ export class HtmlChartComponent implements OnInit {
 
           this.service.observeMessage.subscribe(message => this.dist = message);
           this.service.observeTotal.subscribe(message => this.total = message);
-          this.service.observeSelectedRigion.subscribe(selected => this.selectedRegion = selected);
+          this.service.observeSelectedRigion.subscribe(selected => {
+            if (that.selectedRegion !== selected) {
+              that.selectedRegion = selected;
+              that.updateCharts();
+              that.updateChartData();
+            }
+
+          });
 
           this.service.observeSum.subscribe(message => {
               this.sum = getParams(message);
@@ -126,10 +133,11 @@ export class HtmlChartComponent implements OnInit {
         var isV = [];
         var nonP = [];
         var nonV = [];
-        
+        this.labels = [];
+
         for (var key in chartsData) {
           if (chartsData.hasOwnProperty(key)) {
-              this.labels.push(key);// add labels
+              this.labels.push(key); // add labels
               var is = chartsData[key]['isLapos'];
               var non = chartsData[key]['nonLapos'];
               isP.push(is.p);
