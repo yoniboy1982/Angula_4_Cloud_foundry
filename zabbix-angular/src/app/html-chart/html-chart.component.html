@@ -1,4 +1,5 @@
 <div>compering last {{selectedRange}}</div>
+
 <div class="container">
     
     <div class="chart-container">
@@ -8,6 +9,13 @@
           <canvas class="chart-container col"  id="canvas_nonLapos">{{chartNonLapos}}</canvas>
     </div>
     
+</div>
+
+<div class="region">
+    <div><span class="badge">Select Range</span></div>
+    <select (change)="updateRange($event.target.value)" class="col-3 font-weight-bold list-group-item-info" style="text-align-last:center;font-size: 22px;">
+      <option *ngFor="let item of ranges" [value]="item">{{item}}</option>
+    </select>
 </div>
 
 <button class="btn btn-link" (click)="genarateRandom()">Genarate random data (for testing)</button>
