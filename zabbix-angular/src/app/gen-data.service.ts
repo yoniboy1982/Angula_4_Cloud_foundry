@@ -101,7 +101,7 @@ export class GenDataService {
           "LDT Security Flag",
           "isVirt",
           "Lapos Git Status",
-          "isNewUI",
+          // "isNewUI",
           "System Region"
       ];
       }
