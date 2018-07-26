@@ -114,16 +114,23 @@ export class HtmlChartComponent implements OnInit {
                                     var validRangeVs = that.validDateVs(key);
 
                                     if(validRange){
+
                                       that.arrLocal[region] = that.arrLocal[region] || {};
                                       that.arrLocal[region][k] = that.arrLocal[region][k] || that.addDatatoObject();
+
+                                      that.arrCompare[region] = that.arrCompare[region] || {};
+                                      that.arrCompare[region][k] = that.arrCompare[region][k] || that.addDatatoObject();
+
                                       that.arrLocal[region][k][isKey][vKey] += secondObj[vKey];
 
                                     }else if(validRangeVs){
                                       that.arrCompare[region] = that.arrCompare[region] || {};
                                       that.arrCompare[region][k] = that.arrCompare[region][k] || that.addDatatoObject();
+
+                                      that.arrLocal[region] = that.arrLocal[region] || {};
+                                      that.arrLocal[region][k] = that.arrLocal[region][k] || that.addDatatoObject();
                                       that.arrCompare[region][k][isKey][vKey] += secondObj[vKey];
                                     }
-
                             }
                           }
                         }
@@ -347,7 +354,7 @@ export class HtmlChartComponent implements OnInit {
     }
 
     initLaposObj(physical,virtual,VSphysical,VSvirtual){
-
+        console.log(physical,virtual,VSphysical,VSvirtual)
       return [
           {
             label: "Physical",

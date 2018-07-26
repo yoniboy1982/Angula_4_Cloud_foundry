@@ -117,6 +117,7 @@ export class GenDataService {
           "params": {
                 "output": "extend",
                 // "hostids": [ "10132", "10134", "10126", "10138", "10140", "10182", "10144", "10166", "10148", "10150", "10192", "10154"],
+                // "hostids": [ "10138"],
                 "filter": {"name": arr} ,
               "sortfield": "name"
           },
@@ -154,7 +155,7 @@ export class GenDataService {
                 x++;
                 setTimeout(() => {
                   that.geturl(x);
-                }, 3000);
+                }, 100);
             }
             });
       }
@@ -230,17 +231,17 @@ export class GenDataService {
                   
                   var notValidTime = this.calctimeByYear(clock);
 
-                  if(notValidTime){//IF NOT IN TIME PERIOD SELECTED
-                    break loop2;
-                  }
-
-
                   switch(elm.name) {
                         case dist: //IF DISTREBUITION
                             
                             if(elm.lastvalue === "0" || elm.lastvalue === "" || elm.lastvalue.indexOf("bash:") > -1){
                               breakFor = true;
                               break;
+                            }
+
+                            if(notValidTime){//IF NOT IN TIME PERIOD SELECTED
+                              console.log(clock)
+                              break loop2;
                             }
                             // console.log(elm.lastvalue);
                             elmContainer = elm.lastvalue;//GET THE Name OF ELEMENT
@@ -249,6 +250,7 @@ export class GenDataService {
                             if(this.secondObj[regionPos] === undefined){
                               debugger;
                             }
+                            // this.secondObj[regionPos] = this.secondObj[regionPos] || {};
                             if(elmContainer in this.secondObj[regionPos]){
                               this.secondObj[regionPos][elmContainer]["total"]++;
                             }else{
@@ -267,6 +269,9 @@ export class GenDataService {
 
                         case isVirt: //IF isVirt
 
+                              var str = elm.lastvalue;
+
+                              console.log(str)
                               if(elm.lastvalue !== "0"){
                                 checkIfVirt = "v";
                                 this.secondObj[regionPos][elmContainer]["isVirt"]++;
@@ -293,7 +298,9 @@ export class GenDataService {
 
                                 var date = new Date(parseInt(clock)); //get timestamp of lapos
                                 var LaposDate = date.toISOString().split('T')[0];//change to readble date
+                                // LaposDate = "2018-06-20"
 
+                                
                                 var dateObj = this.sumObj[regionPos][elmSum]["Lapos"]["dates"];
                                 dateObj[LaposDate] = dateObj[LaposDate] || {}; // create {} if not exist
                                 dateObj[LaposDate][checkIfLapos] = dateObj[LaposDate][checkIfLapos] || {}; // create {} if not exist
