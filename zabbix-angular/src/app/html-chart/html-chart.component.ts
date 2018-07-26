@@ -46,12 +46,12 @@ export class HtmlChartComponent implements OnInit {
     ranges = [30,90,180];
     selectedRange;
 
-    arrLocal = {};
-    arrCompare = {};
+    arrLocal;
+    arrCompare;
     viewLoaded = false;
 
     constructor(private service:GenDataService, private sorter:SorterService,private zFunctions:ZFunctionsService){
-        // this.selectedRegion = this.service.regionArr[0];
+       
     }
 
     ngOnInit(){
@@ -70,75 +70,74 @@ export class HtmlChartComponent implements OnInit {
                   that.updateCharts();
                   that.updateChartData();
                 }
-
               }
           });
 
           this.service.observeSum.subscribe(message => {
-              this.sum = getParams(message);
-
-              function getParams(message){
-                
-                  var regions = that.service.regionArr;
-
-                  for (let index = 0; index < regions.length; index++) { //collect data for  on allregions
-                        const region = regions[index];
-                        
-
-                        for (let k of that.zFunctions.objectKeys(message[region])) {
-                          var laposObj = message[region][k].Lapos.dates;
-
-
-                          for (var key in laposObj) {
-                            if (laposObj.hasOwnProperty(key)) {
-
-                                var currentobject = laposObj[key];
-
-                                  for (var isKey in currentobject) {
-                                    if (currentobject.hasOwnProperty(isKey)) {
-                                      // console.log(isKey , currentobject[isKey]);
-                                      var secondObj = currentobject[isKey];
-
-                                      for (var vKey in secondObj) {
-                                          if (secondObj.hasOwnProperty(vKey)) {
-                                            // console.log(vKey , secondObj[vKey]);
-
-                                                //Check if object is in range
-                                                var validRange = that.validDateToday(key);
-                                                var validRangeVs = that.validDateVs(key);
-
-                                                if(validRange){
-                                                  that.arrLocal[region] = that.arrLocal[region] || {};
-                                                  that.arrLocal[region][k] = that.arrLocal[region][k] || that.addDatatoObject();
-                                                  that.arrLocal[region][k][isKey][vKey] += secondObj[vKey];
-
-                                                }else if(validRangeVs){
-                                                  that.arrCompare[region] = that.arrCompare[region] || {};
-                                                  that.arrCompare[region][k] = that.arrCompare[region][k] || that.addDatatoObject();
-                                                  that.arrCompare[region][k][isKey][vKey] += secondObj[vKey];
-                                                }
-
-                                        }
-                                      }
-                                    }
-                                  }
-                            }
-                          }
-                      }
-                  }
-                  // console.log("arrLocal" , that.arrLocal);
-                  // console.log("arrCompare" , that.arrCompare);
-                  that.updateCharts();
-              }
+              this.sum = message;
+              this.updateMainObject(message)
           });
 
     }
 
+    updateMainObject(message){
+      var that = this;
+      that.arrLocal = {};
+      that.arrCompare = {};
+
+      var regions = that.service.regionArr;
+
+      for (let index = 0; index < regions.length; index++) { //collect data for  on allregions
+            const region = regions[index];
+            
+
+            for (let k of that.zFunctions.objectKeys(message[region])) {
+              var laposObj = message[region][k].Lapos.dates;
+
+
+              for (var key in laposObj) {
+                if (laposObj.hasOwnProperty(key)) {
+
+                    var currentobject = laposObj[key];
+
+                      for (var isKey in currentobject) {
+                        if (currentobject.hasOwnProperty(isKey)) {
+                          // console.log(isKey , currentobject[isKey]);
+                          var secondObj = currentobject[isKey];
+
+                          for (var vKey in secondObj) {
+                              if (secondObj.hasOwnProperty(vKey)) {
+                                // console.log(vKey , secondObj[vKey]);
+
+                                    //Check if object is in range
+                                    var validRange = that.validDateToday(key);
+                                    var validRangeVs = that.validDateVs(key);
+
+                                    if(validRange){
+                                      that.arrLocal[region] = that.arrLocal[region] || {};
+                                      that.arrLocal[region][k] = that.arrLocal[region][k] || that.addDatatoObject();
+                                      that.arrLocal[region][k][isKey][vKey] += secondObj[vKey];
+
+                                    }else if(validRangeVs){
+                                      that.arrCompare[region] = that.arrCompare[region] || {};
+                                      that.arrCompare[region][k] = that.arrCompare[region][k] || that.addDatatoObject();
+                                      that.arrCompare[region][k][isKey][vKey] += secondObj[vKey];
+                                    }
+
+                            }
+                          }
+                        }
+                      }
+                }
+              }
+          }
+      }
+      console.log("arrLocal" , that.arrLocal);
+      console.log("arrCompare" , that.arrCompare);
+      that.updateCharts();
+    }
+
     addLabel(label) {
-      
-      // if (label.indexOf("bash:") !=-1) {
-      //   return;
-      // }
       
       if(this.labels.indexOf(label) < 0){
         this.labels.push(label);
@@ -358,7 +357,7 @@ export class HtmlChartComponent implements OnInit {
             data: physical
         },
         {
-          label:  "-" + this.selectedRange + " physical",
+          label:  "-vs physical",
           backgroundColor: 'rgba(255, 99, 132, 0.1)',
           borderColor: 'rgba(255,99,132,0.3)',
           borderWidth: 1,
@@ -373,7 +372,7 @@ export class HtmlChartComponent implements OnInit {
         },
 
         {
-          label: "-" + this.selectedRange + " virtual",
+          label: "-vs virtual",
           backgroundColor: 'rgba(54, 162, 235, 0.1)',
           borderColor:  'rgba(54, 162, 235, 0.3)',
           borderWidth: 1,
@@ -381,6 +380,12 @@ export class HtmlChartComponent implements OnInit {
         }
       ];
   
-  }
+    }
+
+    updateRange(deviceValue) {
+      this.selectedRange = deviceValue;
+      this.updateMainObject(this.sum);
+
+    }
 
 }
