@@ -200,8 +200,8 @@ export class GenDataService {
           var LDT = arr[1];
           var isVirt = arr[2];
           var Lapos = arr[3];
-          var isNewUI = arr[4];
-          var region = arr[5];
+          var region = arr[4];
+          var isNewUI = arr[5];
 
           var laposDateObj = {};
 
@@ -216,8 +216,8 @@ export class GenDataService {
               var checkIfLDT;
               var regionElm = this.mainObj[key][0];
               var regionPos = regionElm.lastvalue;
-
-                var a = this.regionArr.indexOf(regionPos);
+              
+              var a = this.regionArr.indexOf(regionPos);
 
               if (a < 0) {
                   // console.log(a,regionPos)
@@ -240,7 +240,7 @@ export class GenDataService {
                             }
 
                             if(notValidTime){//IF NOT IN TIME PERIOD SELECTED
-                              console.log(clock)
+                              // console.log(clock)
                               break loop2;
                             }
                             // console.log(elm.lastvalue);
@@ -269,9 +269,6 @@ export class GenDataService {
 
                         case isVirt: //IF isVirt
 
-                              var str = elm.lastvalue;
-
-                              console.log(str)
                               if(elm.lastvalue !== "0"){
                                 checkIfVirt = "v";
                                 this.secondObj[regionPos][elmContainer]["isVirt"]++;
