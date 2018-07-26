@@ -369,7 +369,7 @@ export class HtmlChartComponent implements OnInit {
           borderColor: 'rgba(255,99,132,0.3)',
           borderWidth: 1,
           data: VSphysical
-      }
+        }
         ,{
           label: "Virtual",
           backgroundColor: 'rgba(54, 162, 235, 0.5)',
@@ -386,13 +386,12 @@ export class HtmlChartComponent implements OnInit {
           data: VSvirtual,
         }
       ];
-  
     }
 
     updateRange(deviceValue) {
       this.selectedRange = deviceValue;
       this.updateMainObject(this.sum);
-
     }
-
 }
+
+//from this next sunday i'm assigned to A NEW PROJECT FULL TIME

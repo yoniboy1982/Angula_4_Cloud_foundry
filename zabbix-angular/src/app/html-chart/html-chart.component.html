@@ -1,6 +1,8 @@
 
+<div class="container">
+  <h1 style="margin: 20px 0;">Active managed clients</h1>
+</div>
 <div class="container" style="display: block;text-align: left;">
-    <!-- <div><span class="badge">Compare</span></div> -->
     <select (change)="updateRange($event.target.value)"  style="text-align-last:center;font-size: 22px;">
       <option *ngFor="let item of ranges" [value]="item">{{item}}</option>
     </select>

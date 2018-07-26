@@ -43,6 +43,11 @@
               <td class="total">{{total[selectedRegion].LDT.nonLDT.p}}</td>
               <td class="total">{{total[selectedRegion].LDT.nonLDT.v}}</td>
           </tr>
+          <tr class="alert-info">
+              <th scope="row">Combained</th>
+              <td colspan="2" class="total">{{total[selectedRegion].LDT.isLDT.p + total[selectedRegion].LDT.isLDT.v}}</td>
+              <td colspan="2" class="total">{{total[selectedRegion].LDT.nonLDT.p + total[selectedRegion].LDT.nonLDT.v}}</td>
+          </tr>            
       </tfoot>
     </table>
   </div>
