@@ -237,11 +237,12 @@ export class GenDataService {
 
                   switch(elm.name) {
                         case dist: //IF DISTREBUITION
-
-                            if(elm.lastvalue === "0" || elm.lastvalue === ""){
+                            
+                            if(elm.lastvalue === "0" || elm.lastvalue === "" || elm.lastvalue.indexOf("bash:") > -1){
                               breakFor = true;
                               break;
                             }
+                            // console.log(elm.lastvalue);
                             elmContainer = elm.lastvalue;//GET THE Name OF ELEMENT
 
                             elmSum = elmContainer.split("-")[0];

@@ -48,9 +48,10 @@ export class HtmlChartComponent implements OnInit {
 
     arrLocal = {};
     arrCompare = {};
+    viewLoaded = false;
 
     constructor(private service:GenDataService, private sorter:SorterService,private zFunctions:ZFunctionsService){
-        this.selectedRegion = this.service.regionArr[0];
+        // this.selectedRegion = this.service.regionArr[0];
     }
 
     ngOnInit(){
@@ -64,8 +65,12 @@ export class HtmlChartComponent implements OnInit {
           this.service.observeSelectedRigion.subscribe(selected => {
               if (that.selectedRegion !== selected) { // only if not eqal
                 that.selectedRegion = selected;
-                that.updateCharts();
-                that.updateChartData();
+                if(this.viewLoaded){
+                  console.log('changed');
+                  that.updateCharts();
+                  that.updateChartData();
+                }
+
               }
           });
 
@@ -121,8 +126,8 @@ export class HtmlChartComponent implements OnInit {
                           }
                       }
                   }
-                  console.log("arrLocal" , that.arrLocal);
-                  console.log("arrCompare" , that.arrCompare);
+                  // console.log("arrLocal" , that.arrLocal);
+                  // console.log("arrCompare" , that.arrCompare);
                   that.updateCharts();
               }
           });
@@ -184,6 +189,7 @@ export class HtmlChartComponent implements OnInit {
     }
 
     updateChartData(){
+
       this.chartLapos.data.datasets = this.dataset1;
       this.chartLapos.data.labels = this.labels;
       this.chartLapos.update();
@@ -200,8 +206,10 @@ export class HtmlChartComponent implements OnInit {
       this.chartLapos = new Chart('canvas_isLapos', laposData);
       this.chartNonLapos = new Chart('canvas_nonLapos', laposNonData);
 
-      console.log(this.labels)
+      // console.log(this.labels)
+      console.log('loaded');
       this.updateChartData();
+      this.viewLoaded = true;
 
     }
 
@@ -254,9 +262,9 @@ export class HtmlChartComponent implements OnInit {
 
       var that  = this;
       var chartOptions = {
-        legend: {
-          display: false
-        },
+        // legend: {
+        //   display: false
+        // },
         scales: {
           xAxes: [{
             display: true
@@ -339,35 +347,35 @@ export class HtmlChartComponent implements OnInit {
         return valid;
     }
 
-
     initLaposObj(physical,virtual,VSphysical,VSvirtual){
 
       return [
           {
-            label: "Lapos physical",
-            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+            label: "Physical",
+            backgroundColor: 'rgba(255, 99, 132, 0.5)',
             borderColor: 'rgba(255,99,132,1)',
             borderWidth: 1,
             data: physical
-        }
+        },
+        {
+          label:  "-" + this.selectedRange + " physical",
+          backgroundColor: 'rgba(255, 99, 132, 0.1)',
+          borderColor: 'rgba(255,99,132,0.3)',
+          borderWidth: 1,
+          data: VSphysical
+      }
         ,{
-          label: "Lapos virtual",
-          backgroundColor: 'rgba(54, 162, 235, 0.2)',
+          label: "Virtual",
+          backgroundColor: 'rgba(54, 162, 235, 0.5)',
           borderColor:  'rgba(54, 162, 235, 1)',
           borderWidth: 1,
           data: virtual,
         },
-          {
-            label: "VS physical",
-            backgroundColor: 'rgba(255, 206, 86, 0.2)',
-            borderColor: 'rgba(255, 206, 86, 1)',
-            borderWidth: 1,
-            data: VSphysical
-        }
-        ,{
-          label: "Vs virtual",
-          backgroundColor: 'rgba(75, 192, 192, 0.2)',
-          borderColor:  'rgba(75, 192, 192, 1)',
+
+        {
+          label: "-" + this.selectedRange + " virtual",
+          backgroundColor: 'rgba(54, 162, 235, 0.1)',
+          borderColor:  'rgba(54, 162, 235, 0.3)',
           borderWidth: 1,
           data: VSvirtual,
         }
