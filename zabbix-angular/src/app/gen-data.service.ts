@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import * as $ from 'jquery';
 import * as Rx from "rxjs";
+import { stringify } from '../../node_modules/@angular/compiler/src/util';
 
 
 @Injectable({
@@ -47,9 +48,7 @@ export class GenDataService {
       }
     
       initVars(year = 0){
-        this.regionArr = ["AMER","APJ","EMEA"];
-
-
+        this.regionArr = ["AMER","APJ","EMEA","TOTAL"];
 
         this.initAllObjectsj();
 
@@ -141,7 +140,7 @@ export class GenDataService {
 
                 that.addTomainObj(data);
 
-                console.log(jsonData.params.filter.name);
+                // console.log(jsonData.params.filter.name);
                 var name = jsonData.params.filter.name;
                 $('.'+name[0].replace(/ /g,'') + ' .xBadge')
                 .addClass('tableTagBlue')
@@ -195,6 +194,7 @@ export class GenDataService {
       addTo2Object(){
 
           var arr = this.returnArr();
+          var total= [];
 
           var dist = arr[0];
           var LDT = arr[1];
@@ -202,12 +202,14 @@ export class GenDataService {
           var Lapos = arr[3];
           var region = arr[4];
           var isNewUI = arr[5];
+          var TOTAL = 'TOTAL';
 
           var laposDateObj = {};
 
           for (var key in this.mainObj) {
 
               var elmContainer;
+              
               var elmSum;
               var breakFor = false;
               var checkIfVirt = "p";
@@ -230,11 +232,18 @@ export class GenDataService {
                   var clock = elm.lastclock + '000'; //adding 3 zero's because the date format is not valid
                   
                   var notValidTime = this.calctimeByYear(clock);
-
+                  
+                  if(elm.lastclock === '0'){
+                    continue;
+                  }
+                  // console.log(elm.lastclock)
                   switch(elm.name) {
                         case dist: //IF DISTREBUITION
                             
-                            if(elm.lastvalue === "0" || elm.lastvalue === "" || elm.lastvalue.indexOf("bash:") > -1){
+                            if(
+                              elm.lastvalue === "0" || elm.lastvalue === "" ||
+                              elm.lastvalue.indexOf("bash:") > -1){
+                                console.log('error', elm)
                               breakFor = true;
                               break;
                             }
@@ -251,19 +260,35 @@ export class GenDataService {
                               debugger;
                             }
                             // this.secondObj[regionPos] = this.secondObj[regionPos] || {};
+
                             if(elmContainer in this.secondObj[regionPos]){
                               this.secondObj[regionPos][elmContainer]["total"]++;
                             }else{
                               this.initObj(elmContainer,regionPos);
                             }
 
+                            if(elmContainer in this.secondObj[TOTAL]){
+                              this.secondObj[TOTAL][elmContainer]["total"]++;
+                            }else{
+                              this.initObj(elmContainer,TOTAL);
+                            }
+
+                            //### ADD SUM TO TOTAL
                             if(elmSum in this.sumObj[regionPos]){
                               this.sumObj[regionPos][elmSum]["total"]++;
                             }else{
-                              // console.log(elmSum,regionPos)
                               this.addSumObj(elmSum,regionPos);
                             }
+
+                            if(elmSum in this.sumObj[TOTAL]){
+                              this.sumObj[TOTAL][elmSum]["total"]++;
+                            }else{
+                              this.addSumObj(elmSum,TOTAL);
+                            }
+                            //#######
+
                             this.totalObj[regionPos]["total"]++;
+                            this.totalObj[TOTAL]["total"]++;
 
                             break;
 
@@ -272,22 +297,36 @@ export class GenDataService {
                               if(elm.lastvalue !== "0"){
                                 checkIfVirt = "v";
                                 this.secondObj[regionPos][elmContainer]["isVirt"]++;
+                                this.secondObj[TOTAL][elmContainer]["isVirt"]++;
+
                                 this.sumObj[regionPos][elmSum]["isVirt"]++;
+                                this.sumObj[TOTAL][elmSum]["isVirt"]++;
+
                                 this.totalObj[regionPos]["isVirt"]++;
+                                this.totalObj[TOTAL]["isVirt"]++;
+
                               }else{
                                 this.secondObj[regionPos][elmContainer]["physical"]++;
+                                this.secondObj['TOTAL'][elmContainer]["physical"]++;
+
                                 this.sumObj[regionPos][elmSum]["physical"]++;
+                                this.sumObj[TOTAL][elmSum]["physical"]++;
+
                                 this.totalObj[regionPos]["physical"]++;
+                                this.totalObj[TOTAL]["physical"]++;
                               }
+
                               break;
 
                         case Lapos: //IF Lapos
+
                               if(elm.lastvalue === "0"){
                                 checkIfLapos = "isLapos";
+                                // console.log(elm.hostid,total,elm);        
+                                total.push(elm.hostid);                       
                               }else{
                                 checkIfLapos = "nonLapos";
                               }
-
 
                               //###################################
                               //#### Add Dates to SUM Lapos object ####
@@ -295,9 +334,10 @@ export class GenDataService {
 
                                 var date = new Date(parseInt(clock)); //get timestamp of lapos
                                 var LaposDate = date.toISOString().split('T')[0];//change to readble date
-                                // LaposDate = "2018-06-20"
 
+                                // LaposDate = "2018-06-20"
                                 
+                                // debugger;
                                 var dateObj = this.sumObj[regionPos][elmSum]["Lapos"]["dates"];
                                 dateObj[LaposDate] = dateObj[LaposDate] || {}; // create {} if not exist
                                 dateObj[LaposDate][checkIfLapos] = dateObj[LaposDate][checkIfLapos] || {}; // create {} if not exist
@@ -306,8 +346,13 @@ export class GenDataService {
                               //#####
 
                               this.secondObj[regionPos][elmContainer]["Lapos"][checkIfLapos][checkIfVirt]++;
+                              this.secondObj['TOTAL'][elmContainer]["Lapos"][checkIfLapos][checkIfVirt]++;
+
                               this.sumObj[regionPos][elmSum]["Lapos"][checkIfLapos][checkIfVirt]++;
+                              this.sumObj[TOTAL][elmSum]["Lapos"][checkIfLapos][checkIfVirt]++;
+
                               this.totalObj[regionPos]["Lapos"][checkIfLapos][checkIfVirt]++;
+                              this.totalObj[TOTAL]["Lapos"][checkIfLapos][checkIfVirt]++;
                               break;
 
                         case isNewUI: //IF isNew
@@ -318,29 +363,39 @@ export class GenDataService {
                               }
 
                               this.secondObj[regionPos][elmContainer]["isNew"][checkIfisNew]++;
+                              this.secondObj['TOTAL'][elmContainer]["isNew"][checkIfisNew]++;
+
                               this.sumObj[regionPos][elmSum]["isNew"][checkIfisNew]++;
+                              this.sumObj[TOTAL][elmSum]["isNew"][checkIfisNew]++;
+
                               this.totalObj[regionPos]["isNew"][checkIfisNew]++;
+                              this.totalObj[TOTAL]["isNew"][checkIfisNew]++;
                               break;                              
                       }
 
-                      switch(elm.name) {
-                          case LDT: //IF LDT
-                          var notValidTime = this.calctimeByDays(clock,30);
-                          if(notValidTime){
-                            // console.log('xxx',elm)
-                            break;
-                          }
-                          if(elm.lastvalue === "0"){
-                            checkIfLDT = "isLDT";
-                          }else{
-                            checkIfLDT = "nonLDT";
-                          }
-                          this.secondObj[regionPos][elmContainer]["LDT"][checkIfLDT][checkIfVirt]++;
-                          this.sumObj[regionPos][elmSum]["LDT"][checkIfLDT][checkIfVirt]++;
-                          this.totalObj[regionPos]["LDT"][checkIfLDT][checkIfVirt]++;
+                  switch(elm.name) {
+                      case LDT: //IF LDT
+                      var notValidTime = this.calctimeByDays(clock,30);
+                      if(notValidTime){
+                        // console.log('xxx',elm)
+                        break;
+                      }
+                      if(elm.lastvalue === "0"){
+                        checkIfLDT = "isLDT";
+                      }else{
+                        checkIfLDT = "nonLDT";
+                      }
+                      this.secondObj[regionPos][elmContainer]["LDT"][checkIfLDT][checkIfVirt]++;
+                      this.secondObj['TOTAL'][elmContainer]["LDT"][checkIfLDT][checkIfVirt]++;
 
-                          break;
-                        }
+                      this.sumObj[regionPos][elmSum]["LDT"][checkIfLDT][checkIfVirt]++;
+                      this.sumObj[TOTAL][elmSum]["LDT"][checkIfLDT][checkIfVirt]++;
+
+                      this.totalObj[regionPos]["LDT"][checkIfLDT][checkIfVirt]++;
+                      this.totalObj[TOTAL]["LDT"][checkIfLDT][checkIfVirt]++;
+
+                      break;
+                    }
 
                   if (breakFor){
                     break loop2;
@@ -349,7 +404,8 @@ export class GenDataService {
           }
 
           this.showContent['show'] = '1';
-          console.log(this.sumObj)
+          // console.log(this.sumObj)
+          // console.log('total',this.totalObj)
       }
 
       initObj(lastvalue,regionPos){

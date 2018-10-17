@@ -13,7 +13,6 @@ import { getLocaleMonthNames } from '../../../node_modules/@angular/common';
 })
 export class HtmlChartComponent implements OnInit {
 
-  
     weatherDates = [];
     temp_max = []
     temp_min = []
@@ -310,7 +309,7 @@ export class HtmlChartComponent implements OnInit {
       this.dataset1[2].data = this.shuffle();
       this.dataset1[3].data = this.shuffle();
 
-      this.dataset2[0].data = this.shuffle();
+      this.dataset2[0].data = this.shuffle(); 
       this.dataset2[1].data = this.shuffle();
       this.dataset2[2].data = this.shuffle();
       this.dataset2[3].data = this.shuffle();

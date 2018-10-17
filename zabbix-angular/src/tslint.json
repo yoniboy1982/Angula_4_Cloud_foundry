@@ -7,11 +7,11 @@
             "app",
             "camelCase"
         ],
-        "component-selector": [
-            true,
-            "element",
-            "app",
-            "kebab-case"
-        ]
+        // "component-selector": [
+        //     true,
+        //     "element",
+        //     "app",
+        //     "kebab-case"
+        // ]
     }
 }
