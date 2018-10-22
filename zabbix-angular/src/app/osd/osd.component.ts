@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { GenDataService } from '../gen-data.service';
 
 @Component({
   selector: 'app-osd',
@@ -11,20 +12,26 @@ export class OsdComponent implements OnInit {
   records:any;
   profiles = [];
   profile:String;
+  selectedRegion = <any>String;
 
-  constructor(private Http:HttpClient) { 
+  constructor(private Http:HttpClient,private service:GenDataService,) { 
     this.records = []
   }
 
   ngOnInit() {
+    this.service.observeSelectedRigion.subscribe(selected => 
+      {
+        console.log(selected)
+        this.selectedRegion = selected});
+
     this.getData();
   }
-
 
   getData(){
     return this.Http.get('https://linuxinfra.wdf.sap.corp/ldt/reports/osd.php?query=1&time=180')
     .subscribe(data=>{
       this.records = data;
+      console.log(this.records)
 
       for (let index = 0; index < this.records.length; index++) {
         const element = this.records[index];
@@ -32,6 +39,8 @@ export class OsdComponent implements OnInit {
           this.profiles.push(element.name);
         }
       }
+
+      this.profiles.unshift('All') 
       this.profile = this.profiles[0];
 
     })

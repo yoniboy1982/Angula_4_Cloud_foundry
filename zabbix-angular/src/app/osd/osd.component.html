@@ -6,7 +6,7 @@
 </div>
 
 <div>
-    <app-button [title]="title" [tableclass]="tableclass" (messageEvent)="reciveMessage($event)" [year]="year"></app-button>
+    <!-- <app-button [title]="title" [tableclass]="tableclass" (messageEvent)="reciveMessage($event)" [year]="year"></app-button> -->
 
     <table  id="laposTable" class="table table-hover table-striped table-sm">
       <thead>
@@ -15,11 +15,13 @@
           <th scope="col" >Total</th>
           <th scope="col" >Physical</th>
           <th scope="col" >Virtual</th>
+          <th scope="col" >Region</th>
+          <th scope="col" >Profile</th>
         </tr>
       </thead>
       
       <tbody *ngIf="!collapse">
-          <tr class="newLine" *ngFor="let item of records | filter:profile ">
+          <tr class="newLine" *ngFor="let item of records | filter:profile | location:selectedRegion ">
             <td scope="row">{{item.dist}} {{item.version}}</td>
             <td scope="row">{{item.total}}</td>
             <td scope="row">{{item.virtual}}</td>

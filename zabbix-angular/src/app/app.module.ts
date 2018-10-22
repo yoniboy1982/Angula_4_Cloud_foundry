@@ -19,6 +19,7 @@ import { HtmlChartComponent } from './html-chart/html-chart.component';
 import { OsdComponent } from './osd/osd.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FilterPipe } from './filter.pipe';
+import { LocationPipe } from './location.pipe';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { FilterPipe } from './filter.pipe';
     HtmlRegionComponent,
     HtmlChartComponent,
     OsdComponent,
-    FilterPipe
+    FilterPipe,
+    LocationPipe
   ],
   imports: [
     HttpClientModule,
