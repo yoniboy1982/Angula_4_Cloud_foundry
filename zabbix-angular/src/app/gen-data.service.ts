@@ -97,11 +97,11 @@ export class GenDataService {
       returnArr(){
         return [
           "Distribution",
-          // "LDT Security Flag",
-          // "isVirt",
-          // "Lapos Git Status",
-          // // "isNewUI",
-          // "System Region"
+          "LDT Security Flag",
+          "isVirt",
+          "Lapos Git Status",
+          // "isNewUI",
+          "System Region"
       ];
       }
 
@@ -114,9 +114,9 @@ export class GenDataService {
           "jsonrpc": "2.0",
           "method": "item.get",
           "params": {
-                "output": "extend",
+                "output":  ["name","lastvalue","lastclock","hostid","itemid"],
                 // "hostids": [ "10132", "10134", "10126", "10138", "10140", "10182", "10144", "10166", "10148", "10150", "10192", "10154"],
-                "hostids": [ "10138"],
+                // "hostids": [ "10138"],
                 "filter": {"name": arr} ,
               "sortfield": "name"
           },
@@ -153,6 +153,7 @@ export class GenDataService {
                 
                 x++;
                 setTimeout(() => {
+                 
                   that.geturl(x);
                 }, 100);
             }

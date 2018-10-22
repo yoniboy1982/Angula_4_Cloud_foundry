@@ -32,8 +32,8 @@ export class OsdComponent implements OnInit {
     return this.Http.get('https://linuxinfra.wdf.sap.corp/ldt/reports/osd.php?query=1&time=180')
     .subscribe(data=>{
       this.records = data;
-      console.log(this.records)
 
+      // get profiles
       for (let index = 0; index < this.records.length; index++) {
         const element = this.records[index];
         if(this.profiles.indexOf(element.name) === -1) {
@@ -49,18 +49,6 @@ export class OsdComponent implements OnInit {
 
   updateProfile(profile){
     this.profile = profile;
-    console.log(this.profile)
   }
-
-  yourMethod(item){
-    debugger;
-  }
-
-  ngAfterContentChecked()  {
-    this.total = this.records.reduce((accuulator,currentValue)=> {
-        return accuulator + parseInt(currentValue.total);
-    }, 0);
-  }
-  
 
 }
