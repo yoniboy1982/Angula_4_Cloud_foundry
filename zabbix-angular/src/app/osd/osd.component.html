@@ -19,7 +19,7 @@
       </thead>
       
       <tbody *ngIf="!collapse">
-          <tr class="newLine" *ngFor="let item of records">
+          <tr class="newLine" *ngFor="let item of records | filter:profile ">
             <td scope="row">{{item.dist}} {{item.version}}</td>
             <td scope="row">{{item.total}}</td>
             <td scope="row">{{item.virtual}}</td>

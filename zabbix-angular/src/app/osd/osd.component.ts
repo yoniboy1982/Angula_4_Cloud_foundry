@@ -10,14 +10,14 @@ export class OsdComponent implements OnInit {
 
   records:any;
   profiles = [];
+  profile:String;
+
   constructor(private Http:HttpClient) { 
-    
+    this.records = []
   }
 
   ngOnInit() {
     this.getData();
-    // this.records = this.osd.osdata;
-    // debugger;
   }
 
 
@@ -30,12 +30,16 @@ export class OsdComponent implements OnInit {
         const element = this.records[index];
         if(this.profiles.indexOf(element.name) === -1) {
           this.profiles.push(element.name);
-          console.log(element.name);
         }
       }
-
+      this.profile = this.profiles[0];
 
     })
+  }
+
+  updateProfile(profile){
+    this.profile = profile;
+    console.log(this.profile)
   }
 
   
