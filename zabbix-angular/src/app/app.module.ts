@@ -1,3 +1,4 @@
+import { OsdDataService } from './osd-data.service';
 import { GenDataService } from './gen-data.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -16,6 +17,7 @@ import { ViewIsnewComponent } from './view-isnew/view-isnew.component';
 import { HtmlRegionComponent } from './html-region/html-region.component';
 import { HtmlChartComponent } from './html-chart/html-chart.component';
 import { OsdComponent } from './osd/osd.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -33,6 +35,7 @@ import { OsdComponent } from './osd/osd.component';
     OsdComponent
   ],
   imports: [
+    HttpClientModule,
     BrowserModule,
     RouterModule.forRoot([
       {path : '' , component : BodyComponent},
@@ -40,10 +43,10 @@ import { OsdComponent } from './osd/osd.component';
       {path : 'lapos' , component : LaposComponent},
       {path : 'isNew' , component : ViewIsnewComponent},
       {path : 'charts' , component : HtmlChartComponent},
-      {path : 'osd' , component : OsdComponent},
+      {path : 'osd' , component : OsdComponent}
     ])
   ],
-  providers: [GenDataService],
+  providers: [GenDataService,OsdDataService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

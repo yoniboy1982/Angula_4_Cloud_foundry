@@ -1,3 +1,48 @@
-<p>
-  osd works!
-</p>
+<div class="region">
+    <div><span class="badge">Select Profile</span></div>
+    <select (change)="updateProfile($event.target.value)" class="col-3 font-weight-bold list-group-item-success" style="text-align-last:center;font-size: 22px;">
+      <option *ngFor="let item of profiles" [value]="item">{{item}}</option>
+    </select>
+</div>
+
+<div>
+    <app-button [title]="title" [tableclass]="tableclass" (messageEvent)="reciveMessage($event)" [year]="year"></app-button>
+
+    <table  id="laposTable" class="table table-hover table-striped table-sm">
+      <thead>
+        <tr>
+          <th scope="col"><span>Distribution </span></th>
+          <th scope="col" >Total</th>
+          <th scope="col" >Physical</th>
+          <th scope="col" >Virtual</th>
+        </tr>
+      </thead>
+      
+      <tbody *ngIf="!collapse">
+          <tr class="newLine" *ngFor="let item of records">
+            <td scope="row">{{item.dist}} {{item.version}}</td>
+            <td scope="row">{{item.total}}</td>
+            <td scope="row">{{item.virtual}}</td>
+            <td scope="row">{{item.physical}}</td>
+            <td scope="row">{{item.region}}</td>
+            <td scope="row">{{item.name}}</td>
+          </tr>
+      </tbody>
+
+      
+      <tfoot>
+          <!-- <tr>
+              <th scope="row">Total</th>
+              <td class="total">{{total[selectedRegion].Lapos.isLapos.p}}</td>
+              <td class="total">{{total[selectedRegion].Lapos.isLapos.v}}</td>
+              <td class="total">{{total[selectedRegion].Lapos.nonLapos.p}}</td>
+              <td class="total">{{total[selectedRegion].Lapos.nonLapos.v}}</td>
+          </tr>   
+          <tr class="alert-info">
+              <th scope="row">Combained</th>
+              <td colspan="2" class="total">{{total[selectedRegion].Lapos.isLapos.p + total[selectedRegion].Lapos.isLapos.v}}</td>
+              <td colspan="2" class="total">{{total[selectedRegion].Lapos.nonLapos.p + total[selectedRegion].Lapos.nonLapos.v}}</td>
+          </tr>    -->
+      </tfoot>
+    </table>
+  </div>

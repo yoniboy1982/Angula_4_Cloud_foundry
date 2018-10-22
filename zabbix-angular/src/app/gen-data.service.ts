@@ -97,11 +97,11 @@ export class GenDataService {
       returnArr(){
         return [
           "Distribution",
-          "LDT Security Flag",
-          "isVirt",
-          "Lapos Git Status",
-          // "isNewUI",
-          "System Region"
+          // "LDT Security Flag",
+          // "isVirt",
+          // "Lapos Git Status",
+          // // "isNewUI",
+          // "System Region"
       ];
       }
 
@@ -116,7 +116,7 @@ export class GenDataService {
           "params": {
                 "output": "extend",
                 // "hostids": [ "10132", "10134", "10126", "10138", "10140", "10182", "10144", "10166", "10148", "10150", "10192", "10154"],
-                // "hostids": [ "10138"],
+                "hostids": [ "10138"],
                 "filter": {"name": arr} ,
               "sortfield": "name"
           },
