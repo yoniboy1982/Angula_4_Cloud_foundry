@@ -20,6 +20,9 @@ import { OsdComponent } from './osd/osd.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FilterPipe } from './filter.pipe';
 import { LocationPipe } from './location.pipe';
+import { SumPipe } from './sum.pipe';
+import { SumVirtPipe } from './sum-virt.pipe';
+import { SumPhysicalPipe } from './sum-physical.pipe';
 
 @NgModule({
   declarations: [
@@ -36,7 +39,10 @@ import { LocationPipe } from './location.pipe';
     HtmlChartComponent,
     OsdComponent,
     FilterPipe,
-    LocationPipe
+    LocationPipe,
+    SumPipe,
+    SumVirtPipe,
+    SumPhysicalPipe,
   ],
   imports: [
     HttpClientModule,

@@ -13,6 +13,7 @@ export class OsdComponent implements OnInit {
   profiles = [];
   profile:String;
   selectedRegion = <any>String;
+  total = 0;
 
   constructor(private Http:HttpClient,private service:GenDataService,) { 
     this.records = []
@@ -51,6 +52,15 @@ export class OsdComponent implements OnInit {
     console.log(this.profile)
   }
 
+  yourMethod(item){
+    debugger;
+  }
+
+  ngAfterContentChecked()  {
+    this.total = this.records.reduce((accuulator,currentValue)=> {
+        return accuulator + parseInt(currentValue.total);
+    }, 0);
+  }
   
 
 }

@@ -33,14 +33,16 @@
 
       
       <tfoot>
-          <!-- <tr>
+          <tr>
               <th scope="row">Total</th>
-              <td class="total">{{total[selectedRegion].Lapos.isLapos.p}}</td>
-              <td class="total">{{total[selectedRegion].Lapos.isLapos.v}}</td>
+              <td class="total">{{records | filter:profile | location:selectedRegion | sum}}</td>
+              <td class="total">{{records | filter:profile | location:selectedRegion | sumVirt}}</td>
+              <td class="total">{{records | filter:profile | location:selectedRegion | sumPhysical}}</td>
+              <!-- <td class="total">{{total[selectedRegion].Lapos.isLapos.v}}</td>
               <td class="total">{{total[selectedRegion].Lapos.nonLapos.p}}</td>
-              <td class="total">{{total[selectedRegion].Lapos.nonLapos.v}}</td>
+              <td class="total">{{total[selectedRegion].Lapos.nonLapos.v}}</td> -->
           </tr>   
-          <tr class="alert-info">
+          <!-- <tr class="alert-info">
               <th scope="row">Combained</th>
               <td colspan="2" class="total">{{total[selectedRegion].Lapos.isLapos.p + total[selectedRegion].Lapos.isLapos.v}}</td>
               <td colspan="2" class="total">{{total[selectedRegion].Lapos.nonLapos.p + total[selectedRegion].Lapos.nonLapos.v}}</td>
