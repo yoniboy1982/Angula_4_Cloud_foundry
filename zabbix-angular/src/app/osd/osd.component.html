@@ -23,7 +23,7 @@
         </tr>
       </thead>
       
-      <tbody *ngIf="!collapse">
+      <tbody >
           <tr class="newLine" *ngFor="let item of records | filter:profile | location:selectedRegion ">
             <td scope="row">{{item.dist}} {{item.version}}</td>
             <td scope="row">{{item.total}}</td>
@@ -33,7 +33,6 @@
             <td scope="row">{{item.name}}</td>
           </tr>
       </tbody>
-      
       <tfoot>
           <tr>
               <th scope="row">Total</th>

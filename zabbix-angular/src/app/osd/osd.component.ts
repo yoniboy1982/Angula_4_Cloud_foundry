@@ -20,11 +20,7 @@ export class OsdComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.service.observeSelectedRigion.subscribe(selected => 
-      {
-        console.log(selected)
-        this.selectedRegion = selected});
-
+    this.service.observeSelectedRigion.subscribe(selected => this.selectedRegion = selected);
     this.getData();
   }
 
