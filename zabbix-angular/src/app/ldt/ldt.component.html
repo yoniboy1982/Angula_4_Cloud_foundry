@@ -26,7 +26,7 @@
             </tr>
       </tbody>
       <tbody *ngIf="collapse">
-          <tr class="newLine" *ngFor="let k of zFunctions.objectKeys(sum[selectedRegion][selectedRegion])">
+          <tr class="newLine" *ngFor="let k of zFunctions.objectKeys(sum[selectedRegion])">
               <td scope="row">{{k}}</td>
               <td>{{sum[selectedRegion][k].LDT.isLDT.p}}</td>
               <td>{{sum[selectedRegion][k].LDT.isLDT.v}}</td>
