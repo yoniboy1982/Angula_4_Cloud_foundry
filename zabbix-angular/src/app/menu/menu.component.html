@@ -6,13 +6,13 @@
     <span class="navbar-toggler-icon"></span>
   </button>
 
-  <div class="row col-12">
+  <div class="row col-12" >
       <div class="col">
           <div class="dropdown">
               <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   LDT Clients
               </button>
-              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <div class="dropdown-menu" data-title="LDT Clients" aria-labelledby="dropdownMenuButton">
                 <a class="dropdown-item" routerLink="/">General</a>
                 <a class="dropdown-item" routerLink="/lapos">Lapos</a>
                 <a class="dropdown-item" routerLink="/ldt">Security updates</a>
@@ -21,14 +21,14 @@
             </div>
       </div>
       <div class="col-8">
-       
+         <h1>{{title}}</h1>
       </div>
       <div class="col">
           <div class="dropdown">
               <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   LDT Deployments
               </button>
-              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <div class="dropdown-menu" data-title="LDT Deployments" aria-labelledby="dropdownMenuButton">
                 <a class="dropdown-item" routerLink="/osd">General</a>
               </div>
             </div>

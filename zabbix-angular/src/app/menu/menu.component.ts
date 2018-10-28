@@ -10,12 +10,19 @@ declare var $: any;
 export class MenuComponent implements OnInit {
 
   arr:Array<String>;
-
+  title:String;
   constructor() {
-    this.arr = []
+    this.arr = [];
+    this.title = 'LDT Clients - General';
    }
 
   ngOnInit() {
+var that = this;
+    $(".dropdown div a").click( function() {
+      var title = $(this).text();
+      var pretitle = $(this).parent().attr('data-title');
+      that.title = pretitle + ' - ' +title;
+  });
   }
 
 }
