@@ -16,24 +16,6 @@ export class MenuComponent implements OnInit {
    }
 
   ngOnInit() {
-    // $('.menuWrap ul').attr('visibility','hidden');
-
-    $('.menuWrap1').click(function(){
-      if ( $('.menuWrap1 ul').css('visibility') == 'hidden' ){
-        $('.menuWrap1 ul').css('visibility','visible');
-        $('.menuWrap2 ul').css('visibility','hidden');
-      }else{
-        $('.menuWrap1 ul').css('visibility','hidden');
-      }
-    });
-
-    $('.menuWrap2').click(function(){
-      if ( $('.menuWrap2 ul').css('visibility') == 'hidden' ){
-        $('.menuWrap2 ul').css('visibility','visible');
-        $('.menuWrap1 ul').css('visibility','hidden');
-      }else
-        $('.menuWrap2 ul').css('visibility','hidden');
-    });
   }
 
 }

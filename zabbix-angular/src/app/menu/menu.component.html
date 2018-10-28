@@ -6,34 +6,32 @@
     <span class="navbar-toggler-icon"></span>
   </button>
 
-  <div class="collapse navbar-collapse" id="navbarNav">
-   <div class="menuWrap1">
-      <div class="navbar-brand" href="#">LDT Clients</div>
-      <ul class="navbar-nav">
-        <li class="nav-item font-weight-bold">
-          <a class="nav-link" routerLink="/">General</a>
-        </li>
-        <li class="nav-item font-weight-bold">
-          <a class="nav-link" routerLinkActive="active" routerLink="/lapos">Lapos</a>
-        </li>
-        <!-- <li class="nav-item font-weight-bold">
-            <a class="nav-link" routerLinkActive="active" routerLink="/isNew">NewUI</a>
-        </li>       -->
-        <li class="nav-item font-weight-bold">
-          <a class="nav-link" routerLinkActive="active" routerLink="/ldt">Security updates</a>
-        </li>
-        <li class="nav-item font-weight-bold">
-          <a class="nav-link" routerLinkActive="active" routerLink="/charts">Charts</a>
-        </li>
-      </ul>
-  </div>
-  </div>
-  <div class="menuWrap2">
-      <div class="navbar-brand" style="color: #63b275;">LDT Deployments</div>
-      <ul class="navbar-nav" style="display: inline;visibility: hidden;">
-        <li class="nav-item font-weight-bold">
-          <a class="nav-link" routerLink="/osd">General</a>
-        </li>
-    </ul>
-  </div>
+  <div class="row col-12">
+      <div class="col">
+          <div class="dropdown">
+              <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  LDT Clients
+              </button>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" routerLink="/">General</a>
+                <a class="dropdown-item" routerLink="/lapos">Lapos</a>
+                <a class="dropdown-item" routerLink="/ldt">Security updates</a>
+                <a class="dropdown-item" routerLink="/charts">Charts</a>
+              </div>
+            </div>
+      </div>
+      <div class="col-8">
+       
+      </div>
+      <div class="col">
+          <div class="dropdown">
+              <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  LDT Deployments
+              </button>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" routerLink="/osd">General</a>
+              </div>
+            </div>
+      </div>
+    </div>
 </nav>
