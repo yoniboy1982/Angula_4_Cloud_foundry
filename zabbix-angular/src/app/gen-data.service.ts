@@ -40,6 +40,7 @@ export class GenDataService {
       showContent:Object;
       currentYear = (new Date()).getFullYear();
       yearsArr = [];
+      regionArrValidation = [];
 
       constructor() { 
 
@@ -100,7 +101,6 @@ export class GenDataService {
           "LDT Security Flag",
           "isVirt",
           "Lapos Git Status",
-          // "isNewUI",
           "System Region"
       ];
       }
@@ -114,7 +114,8 @@ export class GenDataService {
           "jsonrpc": "2.0",
           "method": "item.get",
           "params": {
-                "output":  ["name","lastvalue","lastclock","hostid","itemid"],
+              //  "output":  "extend",
+                "output": ["name","lastvalue","lastclock","hostid","itemid"],
                 // "hostids": [ "10132", "10134", "10126", "10138", "10140", "10182", "10144", "10166", "10148", "10150", "10192", "10154"],
                 // "hostids": [ "10138"],
                 "filter": {"name": arr} ,
@@ -140,7 +141,6 @@ export class GenDataService {
 
                 that.addTomainObj(data);
 
-                // console.log(jsonData.params.filter.name);
                 var name = jsonData.params.filter.name;
                 $('.'+name[0].replace(/ /g,'') + ' .xBadge')
                 .addClass('tableTagBlue')
@@ -163,12 +163,21 @@ export class GenDataService {
       addTomainObj(data){
           for (let x = 0; x < data.result.length; x++) {
               const elm = data.result[x];
+
                 if(!this.mainObj[elm.hostid]){
                   this.mainObj[elm.hostid] = [];
                 }
                 
                 //Make region to be 1st element in host array
                 if (elm.name === "System Region") {
+
+                  //## store all hostid that ddestnt match regions allowd
+                  var isInHost = this.regionArr.indexOf(elm.lastvalue); 
+                  if (isInHost < 0) {
+                    this.regionArrValidation.push(elm.hostid);
+                  }
+                  //##
+
                   this.mainObj[elm.hostid].unshift(elm);
                 }else{
                   this.mainObj[elm.hostid].push(elm);
@@ -192,8 +201,16 @@ export class GenDataService {
         return year !==  this.year;
       }
 
+      filterHostsWithoutRegion(){
+        for (let index = 0; index < this.regionArrValidation.length; index++) {
+          const hostId = this.regionArrValidation[index];
+          delete this.mainObj[hostId]; 
+        }
+      }
+
       addTo2Object(){
 
+          this.filterHostsWithoutRegion();
           var arr = this.returnArr();
           var total= [];
 
@@ -210,7 +227,6 @@ export class GenDataService {
           for (var key in this.mainObj) {
 
               var elmContainer;
-              
               var elmSum;
               var breakFor = false;
               var checkIfVirt = "p";
@@ -220,110 +236,88 @@ export class GenDataService {
               var regionElm = this.mainObj[key][0];
               var regionPos = regionElm.lastvalue;
               
-              var a = this.regionArr.indexOf(regionPos);
-
-              if (a < 0) {
-                  // console.log(a,regionPos)
-                  continue;
-              }
 
               loop2:
               for (let i = 0; i < this.mainObj[key].length; i++) {
                   const elm = this.mainObj[key][i];
                   var clock = elm.lastclock + '000'; //adding 3 zero's because the date format is not valid
-                  
                   var notValidTime = this.calctimeByYear(clock);
                   
                   if(elm.lastclock === '0'){
                     continue;
                   }
-                  // console.log(elm.lastclock)
+
                   switch(elm.name) {
                         case dist: //IF DISTREBUITION
                             
                             if(
                               elm.lastvalue === "0" || elm.lastvalue === "" ||
                               elm.lastvalue.indexOf("bash:") > -1){
-                                console.log('error', elm)
-                              breakFor = true;
-                              break;
-                            }
+                                breakFor = true;
+                                break;
+                              }
 
                             if(notValidTime){//IF NOT IN TIME PERIOD SELECTED
-                              // console.log(clock)
                               break loop2;
                             }
-                            // console.log(elm.lastvalue);
-                            elmContainer = elm.lastvalue;//GET THE Name OF ELEMENT
-
+                            
+                            elmContainer = elm.lastvalue; //GET THE Name OF ELEMENT
                             elmSum = elmContainer.split("-")[0];
-                            if(this.secondObj[regionPos] === undefined){
-                              debugger;
-                            }
-                            // this.secondObj[regionPos] = this.secondObj[regionPos] || {};
 
-                            if(elmContainer in this.secondObj[regionPos]){
-                              this.secondObj[regionPos][elmContainer]["total"]++;
-                            }else{
+                            if(!(elmContainer in this.secondObj[regionPos])){
                               this.initObj(elmContainer,regionPos);
                             }
-
-                            if(elmContainer in this.secondObj[TOTAL]){
-                              this.secondObj[TOTAL][elmContainer]["total"]++;
-                            }else{
+                            if(!(elmContainer in this.secondObj[TOTAL])){
                               this.initObj(elmContainer,TOTAL);
                             }
 
                             //### ADD SUM TO TOTAL
-                            if(elmSum in this.sumObj[regionPos]){
-                              this.sumObj[regionPos][elmSum]["total"]++;
-                            }else{
+                            if(!(elmSum in this.sumObj[regionPos])){
                               this.addSumObj(elmSum,regionPos);
                             }
-
-                            if(elmSum in this.sumObj[TOTAL]){
-                              this.sumObj[TOTAL][elmSum]["total"]++;
-                            }else{
+                            if(!(elmSum in this.sumObj[TOTAL])){
                               this.addSumObj(elmSum,TOTAL);
                             }
                             //#######
-
-                            this.totalObj[regionPos]["total"]++;
-                            this.totalObj[TOTAL]["total"]++;
 
                             break;
 
                         case isVirt: //IF isVirt
 
-                              if(elm.lastvalue !== "0"){
+                              var checkIsVirt = "physical";
+                              
+                              if (
+                                elm.lastvalue.toLowerCase() === 'vmware' ||
+                                elm.lastvalue.toLowerCase() === 'virtualbox' ||
+                                elm.lastvalue.toLowerCase() === 'xenserv' 
+                              ) {
+                                
                                 checkIfVirt = "v";
-                                this.secondObj[regionPos][elmContainer]["isVirt"]++;
-                                this.secondObj[TOTAL][elmContainer]["isVirt"]++;
-
-                                this.sumObj[regionPos][elmSum]["isVirt"]++;
-                                this.sumObj[TOTAL][elmSum]["isVirt"]++;
-
-                                this.totalObj[regionPos]["isVirt"]++;
-                                this.totalObj[TOTAL]["isVirt"]++;
-
-                              }else{
-                                this.secondObj[regionPos][elmContainer]["physical"]++;
-                                this.secondObj['TOTAL'][elmContainer]["physical"]++;
-
-                                this.sumObj[regionPos][elmSum]["physical"]++;
-                                this.sumObj[TOTAL][elmSum]["physical"]++;
-
-                                this.totalObj[regionPos]["physical"]++;
-                                this.totalObj[TOTAL]["physical"]++;
+                                checkIsVirt = "isVirt"; 
                               }
+
+                              this.secondObj[regionPos][elmContainer][checkIsVirt]++;
+                              this.secondObj[TOTAL][elmContainer][checkIsVirt]++;
+                              this.secondObj[regionPos][elmContainer]["total"]++;
+                              this.secondObj[TOTAL][elmContainer]["total"]++;
+
+                              this.sumObj[regionPos][elmSum][checkIsVirt]++;
+                              this.sumObj[TOTAL][elmSum][checkIsVirt]++;
+                              this.sumObj[TOTAL][elmSum]["total"]++;
+                              this.sumObj[regionPos][elmSum]["total"]++;
+
+                              this.totalObj[regionPos][checkIsVirt]++;
+                              this.totalObj[TOTAL][checkIsVirt]++;
+                              this.totalObj[regionPos]["total"]++;
+                              this.totalObj[TOTAL]["total"]++; 
 
                               break;
 
                         case Lapos: //IF Lapos
-
-                              if(elm.lastvalue === "0"){
+                              var fatal = elm.lastvalue.includes("fatal:");
+                              
+                              if(!fatal){
                                 checkIfLapos = "isLapos";
-                                // console.log(elm.hostid,total,elm);        
                                 total.push(elm.hostid);                       
                               }else{
                                 checkIfLapos = "nonLapos";
@@ -335,16 +329,28 @@ export class GenDataService {
 
                                 var date = new Date(parseInt(clock)); //get timestamp of lapos
                                 var LaposDate = date.toISOString().split('T')[0];//change to readble date
-
-                                // LaposDate = "2018-06-20"
                                 
-                                // debugger;
                                 var dateObj = this.sumObj[regionPos][elmSum]["Lapos"]["dates"];
                                 dateObj[LaposDate] = dateObj[LaposDate] || {}; // create {} if not exist
                                 dateObj[LaposDate][checkIfLapos] = dateObj[LaposDate][checkIfLapos] || {}; // create {} if not exist
                                 dateObj[LaposDate][checkIfLapos][checkIfVirt] = dateObj[LaposDate][checkIfLapos][checkIfVirt] || 0; // create {} if not exist
                                 this.sumObj[regionPos][elmSum]["Lapos"]["dates"][LaposDate][checkIfLapos][checkIfVirt]++; // create {} if not exist
+
+                                var dateObj = this.sumObj[TOTAL][elmSum]["Lapos"]["dates"];
+                                dateObj[LaposDate] = dateObj[LaposDate] || {}; // create {} if not exist
+                                dateObj[LaposDate][checkIfLapos] = dateObj[LaposDate][checkIfLapos] || {}; // create {} if not exist
+                                dateObj[LaposDate][checkIfLapos][checkIfVirt] = dateObj[LaposDate][checkIfLapos][checkIfVirt] || 0; // create {} if not exist
+                                this.sumObj[TOTAL][elmSum]["Lapos"]["dates"][LaposDate][checkIfLapos][checkIfVirt]++; // create {} if not exist
+
+
                               //#####
+
+                              this.secondObj[regionPos][elmContainer] =  this.secondObj[regionPos][elmContainer]|| {}; 
+                              this.secondObj[regionPos][elmContainer]["Lapos"] =  this.secondObj[regionPos][elmContainer]["Lapos"]|| {}; 
+                              this.secondObj[regionPos][elmContainer]["Lapos"][checkIfLapos] =  this.secondObj[regionPos][elmContainer]["Lapos"][checkIfLapos]|| {}; 
+                              this.secondObj[regionPos][elmContainer]["Lapos"][checkIfLapos][checkIfVirt] =  this.secondObj[regionPos][elmContainer]["Lapos"][checkIfLapos][checkIfVirt]|| 0; 
+                      
+                              
 
                               this.secondObj[regionPos][elmContainer]["Lapos"][checkIfLapos][checkIfVirt]++;
                               this.secondObj['TOTAL'][elmContainer]["Lapos"][checkIfLapos][checkIfVirt]++;
@@ -378,7 +384,6 @@ export class GenDataService {
                       case LDT: //IF LDT
                       var notValidTime = this.calctimeByDays(clock,30);
                       if(notValidTime){
-                        // console.log('xxx',elm)
                         break;
                       }
                       if(elm.lastvalue === "0"){
@@ -386,6 +391,15 @@ export class GenDataService {
                       }else{
                         checkIfLDT = "nonLDT";
                       }
+
+                      // console.log(elm,regionPos,elmContainer,checkIfLDT,checkIfVirt)
+                      // console.log(this.secondObj)
+
+                      this.secondObj[regionPos][elmContainer] =  this.secondObj[regionPos][elmContainer]|| {}; 
+                      this.secondObj[regionPos][elmContainer]["LDT"] =  this.secondObj[regionPos][elmContainer]["LDT"]|| {}; 
+                      this.secondObj[regionPos][elmContainer]["LDT"][checkIfLDT] =  this.secondObj[regionPos][elmContainer]["LDT"][checkIfLDT]|| {}; 
+                      this.secondObj[regionPos][elmContainer]["LDT"][checkIfLDT][checkIfVirt] =  this.secondObj[regionPos][elmContainer]["LDT"][checkIfLDT][checkIfVirt]|| 0; 
+                      
                       this.secondObj[regionPos][elmContainer]["LDT"][checkIfLDT][checkIfVirt]++;
                       this.secondObj['TOTAL'][elmContainer]["LDT"][checkIfLDT][checkIfVirt]++;
 
@@ -405,13 +419,13 @@ export class GenDataService {
           }
 
           this.showContent['show'] = '1';
-          // console.log(this.sumObj)
+          // console.log(this.secondObj)
           // console.log('total',this.totalObj)
       }
 
       initObj(lastvalue,regionPos){
         this.secondObj[regionPos][lastvalue] = {
-            "total"  : 1,
+            "total"  : 0,
             "isVirt"  : 0,
             "physical"  : 0,
             "Lapos"  : {
@@ -444,7 +458,7 @@ export class GenDataService {
 
       addSumObj(lastvalue,regionPos){
         this.sumObj[regionPos][lastvalue] = {
-            "total"  : 1,
+            "total"  : 0,
             "isVirt"  : 0,
             "physical"  : 0,
             "Lapos"  : {

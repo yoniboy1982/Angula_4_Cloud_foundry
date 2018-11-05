@@ -93,7 +93,6 @@ export class HtmlChartComponent implements OnInit {
             for (let k of that.zFunctions.objectKeys(message[region])) {
               var laposObj = message[region][k].Lapos.dates;
 
-
               for (var key in laposObj) {
                 if (laposObj.hasOwnProperty(key)) {
 
@@ -113,7 +112,6 @@ export class HtmlChartComponent implements OnInit {
                                     var validRangeVs = that.validDateVs(key);
 
                                     if(validRange){
-
                                       that.arrLocal[region] = that.arrLocal[region] || {};
                                       that.arrLocal[region][k] = that.arrLocal[region][k] || that.addDatatoObject();
 

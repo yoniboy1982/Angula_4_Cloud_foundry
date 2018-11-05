@@ -13,9 +13,9 @@
     </tr>
   </thead>
   <tbody *ngIf="!collapse">
-      <tr  *ngFor="let k of zFunctions.objectKeys(dist[selectedRegion])"   class="newLine">
+      <tr  *ngFor="let k of zFunctions.objectKeys(dist[selectedRegion])" class="newLine">
           <td scope="row">{{k}}</td>
-          <td ngModel >{{dist[selectedRegion][k].total}}</td>
+          <td >{{dist[selectedRegion][k].total}}</td>
           <td>{{dist[selectedRegion][k].physical}}</td>
           <td>{{dist[selectedRegion][k].isVirt}}</td>
         </tr>
