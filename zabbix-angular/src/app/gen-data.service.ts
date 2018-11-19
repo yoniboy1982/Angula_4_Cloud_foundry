@@ -314,9 +314,10 @@ export class GenDataService {
                               break;
 
                         case Lapos: //IF Lapos
+                              // console.log()
                               var fatal = elm.lastvalue.includes("fatal:");
-                              
-                              if(!fatal){
+                              var laps = elm.lastvalue.toLowerCase();
+                              if(laps === 'lapos'){
                                 checkIfLapos = "isLapos";
                                 total.push(elm.hostid);                       
                               }else{
@@ -330,6 +331,9 @@ export class GenDataService {
                                 var date = new Date(parseInt(clock)); //get timestamp of lapos
                                 var LaposDate = date.toISOString().split('T')[0];//change to readble date
                                 
+                                // console.log(this.sumObj,regionPos,elmSum)
+                                this.sumObj[regionPos][elmSum]["Lapos"] = this.sumObj[regionPos][elmSum]["Lapos"] || {};
+                                this.sumObj[regionPos][elmSum]["Lapos"]["dates"] = this.sumObj[regionPos][elmSum]["Lapos"]["dates"] || {};
                                 var dateObj = this.sumObj[regionPos][elmSum]["Lapos"]["dates"];
                                 dateObj[LaposDate] = dateObj[LaposDate] || {}; // create {} if not exist
                                 dateObj[LaposDate][checkIfLapos] = dateObj[LaposDate][checkIfLapos] || {}; // create {} if not exist
@@ -400,9 +404,14 @@ export class GenDataService {
                       this.secondObj[regionPos][elmContainer]["LDT"][checkIfLDT] =  this.secondObj[regionPos][elmContainer]["LDT"][checkIfLDT]|| {}; 
                       this.secondObj[regionPos][elmContainer]["LDT"][checkIfLDT][checkIfVirt] =  this.secondObj[regionPos][elmContainer]["LDT"][checkIfLDT][checkIfVirt]|| 0; 
                       
+                      this.sumObj[regionPos][elmSum] =  this.secondObj[regionPos][elmContainer]|| {}; 
+                      this.sumObj[regionPos][elmSum]["LDT"] =  this.secondObj[regionPos][elmContainer]["LDT"]|| {}; 
+                      this.sumObj[regionPos][elmSum]["LDT"][checkIfLDT] =  this.secondObj[regionPos][elmContainer]["LDT"][checkIfLDT]|| {}; 
+                      this.sumObj[regionPos][elmSum]["LDT"][checkIfLDT][checkIfVirt] =  this.secondObj[regionPos][elmContainer]["LDT"][checkIfLDT][checkIfVirt]|| 0; 
+                      
                       this.secondObj[regionPos][elmContainer]["LDT"][checkIfLDT][checkIfVirt]++;
                       this.secondObj['TOTAL'][elmContainer]["LDT"][checkIfLDT][checkIfVirt]++;
-
+                      
                       this.sumObj[regionPos][elmSum]["LDT"][checkIfLDT][checkIfVirt]++;
                       this.sumObj[TOTAL][elmSum]["LDT"][checkIfLDT][checkIfVirt]++;
 
