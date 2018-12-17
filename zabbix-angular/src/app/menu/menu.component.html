@@ -8,7 +8,7 @@
 
   <div class="row col-12" >
       <div class="col">
-          <div class="dropdown">
+          <!-- <div class="dropdown">
               <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Active LDT clients
               </button>
@@ -18,12 +18,35 @@
                 <a class="dropdown-item" routerLink="/ldt">Security updates</a>
                 <a class="dropdown-item" routerLink="/charts">Charts</a>
               </div>
-            </div>
+            </div> -->
+
+        <div class="dropdown show">
+          <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            LDT clients</a>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+            <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle" href="#">LDT Active client</a>
+              <ul class="dropdown-menu">
+                <a class="dropdown-item" routerLink="/">General</a>
+                <a class="dropdown-item" routerLink="/lapos">Lapos profile</a>
+                <a class="dropdown-item" routerLink="/ldt">Security updates</a>
+                <a class="dropdown-item" routerLink="/charts">Charts</a>
+      
+              </ul>
+            </li>
+            <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle" href="#">LDT deployment tasks</a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" routerLink="/osd">General</a></li>
+                <li><a class="dropdown-item" routerLink="/charts">Charts</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+
       </div>
       <div class="col-8">
          <h1>{{title}}</h1>
       </div>
-      <div class="col">
+      <!-- <div class="col">
           <div class="dropdown">
               <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   LDT Deployments
@@ -32,6 +55,6 @@
                 <a class="dropdown-item" routerLink="/osd">General</a>
               </div>
             </div>
-      </div>
+      </div> -->
     </div>
 </nav>

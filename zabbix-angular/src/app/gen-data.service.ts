@@ -124,6 +124,7 @@ export class GenDataService {
           "auth": "3e82b6804f8f61967fea9462631a5946",
           "id": 1
         };
+        
       
         var name = arr[x].toString();
         jsonData.params.filter.name =  [name];
