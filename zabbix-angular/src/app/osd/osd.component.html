@@ -15,22 +15,23 @@
       <thead>
         <tr>
           <th scope="col"><span>Distribution </span></th>
-          <th scope="col" >Total</th>
           <th scope="col" >Physical</th>
           <th scope="col" >Virtual</th>
           <th scope="col" >Region</th>
           <th scope="col" >Profile</th>
+          <th scope="col" >Total</th>
         </tr>
       </thead>
       
       <tbody >
           <tr class="newLine" *ngFor="let item of records | filter:profile | location:selectedRegion ">
             <td scope="row">{{item.dist}} {{item.version}}</td>
-            <td scope="row">{{item.total}}</td>
             <td scope="row">{{item.virtual}}</td>
             <td scope="row">{{item.physical}}</td>
             <td scope="row">{{item.region}}</td>
             <td scope="row">{{item.name}}</td>
+            <td scope="row">{{item.total}}</td>
+
           </tr>
       </tbody>
       <tfoot>

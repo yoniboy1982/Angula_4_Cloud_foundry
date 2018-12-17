@@ -7,33 +7,34 @@
       <th>
         <span>Distribution </span>
       </th>
-      <th >Total</th>
       <th scope="col">Physical</th>
       <th scope="col">Virtual</th>
+      <th >Total</th>
+
     </tr>
   </thead>
   <tbody *ngIf="!collapse">
       <tr  *ngFor="let k of zFunctions.objectKeys(dist[selectedRegion])" class="newLine">
           <td scope="row">{{k}}</td>
-          <td >{{dist[selectedRegion][k].total}}</td>
           <td>{{dist[selectedRegion][k].physical}}</td>
           <td>{{dist[selectedRegion][k].isVirt}}</td>
+          <td >{{dist[selectedRegion][k].total}}</td>
         </tr>
   </tbody>
   <tbody *ngIf="collapse">
         <tr  *ngFor="let k of zFunctions.objectKeys(sum[selectedRegion])">
             <td >{{k}}</td>
-            <td>{{sum[selectedRegion][k].total}}</td>
             <td>{{sum[selectedRegion][k].physical}}</td>
             <td>{{sum[selectedRegion][k].isVirt}}</td>
+            <td>{{sum[selectedRegion][k].total}}</td>
           </tr>
   </tbody>
   <tfoot>
       <tr>
           <th scope="row">Total</th>
-          <td class="total">{{total[selectedRegion].total}}</td>
           <td class="total">{{total[selectedRegion].physical}}</td>
           <td class="total">{{total[selectedRegion].isVirt}}</td>
+          <td class="total">{{total[selectedRegion].total}}</td>
       </tr>
 
   </tfoot>
