@@ -1,0 +1,12 @@
+.GroupH5{
+    position: absolute;
+    top: -44px;
+    left: 120px;
+}
+
+.G5Wrap{
+    position: relative;
+    width: 50%;
+    float: right;
+    height: 40px;
+}
