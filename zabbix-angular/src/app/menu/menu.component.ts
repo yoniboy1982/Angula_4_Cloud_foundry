@@ -11,10 +11,13 @@ export class MenuComponent implements OnInit {
 
   arr:Array<String>;
   title:String;
-  constructor() {
-    this.arr = [];
-    this.title = 'LDT Clients - General';
-   }
+  year:Number;
+
+    constructor() {
+      this.arr = [];
+      this.title = 'LDT Clients - General';
+      this.year = (new Date()).getFullYear()
+    }
 
   ngOnInit() {
 

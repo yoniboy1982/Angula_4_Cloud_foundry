@@ -35,3 +35,9 @@
     margin-left: .1rem;
     margin-right: .1rem;
   }
+
+  .year{
+    margin-left: 10px;
+    font-size: 20px;
+    color: #8d8d8d;
+}

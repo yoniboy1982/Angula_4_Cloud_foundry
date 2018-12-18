@@ -23,7 +23,7 @@
         </tr>
       </thead>
       
-      <tbody >
+      <tbody>
           <tr class="newLine" *ngFor="let item of records | filter:profile | location:selectedRegion ">
             <td scope="row">{{item.dist}} {{item.version}}</td>
             <td scope="row">{{item.virtual}}</td>
@@ -31,7 +31,6 @@
             <td scope="row">{{item.region}}</td>
             <td scope="row">{{item.name}}</td>
             <td scope="row">{{item.total}}</td>
-
           </tr>
       </tbody>
       <tfoot>
@@ -40,7 +39,7 @@
               <td class="total">{{records | filter:profile | location:selectedRegion | sum}}</td>
               <td class="total">{{records | filter:profile | location:selectedRegion | sumVirt}}</td>
               <td class="total">{{records | filter:profile | location:selectedRegion | sumPhysical}}</td>
-          </tr>   
+          </tr>
       </tfoot>
     </table>
   </div>
