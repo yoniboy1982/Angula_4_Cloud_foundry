@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input,OnChanges, SimpleChanges, } from '@angular/core';
 import { Chart } from 'chart.js';
 import { Options } from 'selenium-webdriver/edge';
 
@@ -13,6 +13,7 @@ export class HtmlChartsPieComponent implements OnInit {
   chartDist = <any>{};
   chartType = <any>{};
   chart;
+  @Input() total: String;
 
   constructor() { }
 
@@ -34,6 +35,15 @@ export class HtmlChartsPieComponent implements OnInit {
     this.updateChartData();
 
   }
+
+  ngOnChanges(changes: SimpleChanges) {
+    // alert('change')
+    console.log(changes)
+    // this.doSomething(changes.categoryId.currentValue);
+    // You can also use categoryId.previousValue and 
+    // categoryId.firstChange for comparing old and new values
+
+}
   createChart(title){
 
     var that  = this;
@@ -46,7 +56,7 @@ export class HtmlChartsPieComponent implements OnInit {
       ],
         yAxes: [{
           ticks: {
-            min: 10,
+            // min: 10,
           },
           display: true
         }]
