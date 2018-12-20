@@ -22,7 +22,8 @@ export class MenuComponent implements OnInit {
   ngOnInit() {
 
     var that = this;
-    $(".dropdown div a").click( function() {
+    $(".drop-last").click( function() {
+
       var title = $(this).text();
       var pretitle = $(this).parent().attr('data-title');
       that.title = pretitle + ' - ' +title;

@@ -9,22 +9,24 @@
   <div class="row col-12" >
       <div class="col-2">
         <div class="dropdown show">
-          <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" 
+          data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             LDT clients</a>
           <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-            <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle" href="#">LDT Active client</a>
-              <ul class="dropdown-menu">
-                <a class="dropdown-item" routerLink="/">General</a>
-                <a class="dropdown-item" routerLink="/lapos">Lapos profile</a>
-                <a class="dropdown-item" routerLink="/ldt">Security updates</a>
-                <a class="dropdown-item" routerLink="/charts">Charts</a>
+            <li class="dropdown-submenu">
+              <a class="dropdown-item dropdown-toggle"  href="#">LDT Active client</a>
+              <ul class="dropdown-menu" data-title="LDT Active client">
+                <a class="dropdown-item drop-last" routerLink="/">General</a>
+                <a class="dropdown-item drop-last" routerLink="/lapos">Lapos profile</a>
+                <a class="dropdown-item drop-last" routerLink="/ldt">Security updates</a>
+                <a class="dropdown-item drop-last" routerLink="/charts">Charts</a>
       
               </ul>
             </li>
             <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle" href="#">LDT deployment tasks</a>
-              <ul class="dropdown-menu">
-                <li><a class="dropdown-item" routerLink="/osd">General</a></li>
-                <li><a class="dropdown-item" routerLink="/charts">Charts</a></li>
+              <ul class="dropdown-menu" data-title="LDT deployment tasks">
+                <a class="dropdown-item drop-last" routerLink="/osd">General</a>
+                <a class="dropdown-item drop-last" routerLink="/charts">Charts</a>
               </ul>
             </li>
           </ul>
