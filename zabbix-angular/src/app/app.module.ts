@@ -23,6 +23,7 @@ import { LocationPipe } from './location.pipe';
 import { SumPipe } from './sum.pipe';
 import { SumVirtPipe } from './sum-virt.pipe';
 import { SumPhysicalPipe } from './sum-physical.pipe';
+import { HtmlChartsPieComponent } from './html-charts-pie/html-charts-pie.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { SumPhysicalPipe } from './sum-physical.pipe';
     SumPipe,
     SumVirtPipe,
     SumPhysicalPipe,
+    HtmlChartsPieComponent,
   ],
   imports: [
     HttpClientModule,

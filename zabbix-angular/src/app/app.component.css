@@ -6,9 +6,12 @@ h1{
     color: #80c2cd;
 }
 
-
 .main{
     width:90%;
     margin: 0 auto;
     padding: 20px;
+}
+
+:host ::ng-deep .table{
+    width:50%;
 }

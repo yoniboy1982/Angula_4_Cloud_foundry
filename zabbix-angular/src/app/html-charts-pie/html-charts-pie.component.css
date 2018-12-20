@@ -1,0 +1,14 @@
+.chart-container {
+    width: 37%;
+    margin: 10px 0;
+    height: 250px
+}
+.charts-wrapper {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    float: right;
+    width: 50%;
+}
+
