@@ -31,7 +31,7 @@ export class BodyComponent implements OnInit {
       this.service.observeMessage.subscribe(message => this.dist = message);
       this.service.observeTotal.subscribe(message => {
         this.total = message
-        console.log(message)
+        // console.log(message)
       });
       this.service.observeSum.subscribe(message => this.sum = message);
 

@@ -1,6 +1,10 @@
+import { element } from 'protractor';
 import { Component, OnInit, Input,OnChanges, SimpleChanges, } from '@angular/core';
 import { Chart } from 'chart.js';
 import { Options } from 'selenium-webdriver/edge';
+import { ChartModule } from 'angular2-chartjs';
+import 'chartjs-plugin-labels';
+
 
 @Component({
   selector: 'app-html-charts-pie',
@@ -14,53 +18,34 @@ export class HtmlChartsPieComponent implements OnInit {
   chartType = <any>{};
   chart;
   @Input() total: String;
+  @Input() sum: String;
 
   constructor() { }
 
-  ngOnInit(){
+  ngOnInit(){}
 
-  }
-
-  ngAfterViewInit() {
-    var regionData = this.createChart('By Region');
-    var distData = this.createChart('By Distribution');
-    var typeData = this.createChart('By Type');
-
-    this.chartRegion = new Chart('canvas_region', regionData);
-    this.chartDist = new Chart('canvas_dist', distData);
-    this.chartType = new Chart('canvas_type', typeData);
-    
-
-    console.log('loaded');
-    this.updateChartData();
-
-  }
+  ngAfterViewInit() {}
 
   ngOnChanges(changes: SimpleChanges) {
-    // alert('change')
     console.log(changes)
-    // this.doSomething(changes.categoryId.currentValue);
-    // You can also use categoryId.previousValue and 
-    // categoryId.firstChange for comparing old and new values
+    var chartData = this.exctractChartDataTotal(changes);
 
+    var regionData = this.createChart('Total By Region',chartData);
+    // var distData = this.createChart('By Distribution');
+    // var typeData = this.createChart('By Type');
+
+    this.chartRegion = new Chart('canvas_region', regionData);
+    // this.chartDist = new Chart('canvas_dist', distData);
+    // this.chartType = new Chart('canvas_type', typeData);
+    
+    console.log('loaded');
 }
-  createChart(title){
+
+  createChart(title,chartData){
 
     var that  = this;
     var chartOptions = {
       maintainAspectRatio: false,
-      scales: {
-        xAxes: [{
-          display: true
-        },
-      ],
-        yAxes: [{
-          ticks: {
-            // min: 10,
-          },
-          display: true
-        }]
-      },
       title: {
           display: true,
           text: title,
@@ -68,39 +53,46 @@ export class HtmlChartsPieComponent implements OnInit {
           fontColor : '#0c5460',
           fontStyle : 'bold'
       }
+      ,plugins: {
+          labels: {
+            // render 'label', 'value', 'percentage', 'image' or custom function, default is 'percentage'
+            render: 'value',
+            // precision for percentage, default is 0
+            precision: 0,
+            showZero: false,
+            fontSize: 12,
+            fontColor: '#000',
+            fontStyle: 'normal',
+          }
+      }
     };
 
     return {
       type: 'pie',
-      data: {
-            labels: [
-              'Red',
-              'Yellow',
-              'Blue'
-            ],
-            datasets: [
-              {data: [10, 20, 30]}
-            ]
-          },
+      data: chartData,
       options:  chartOptions
     }
   }
 
+  exctractChartDataTotal(changes){
+    let total = changes["total"]["currentValue"]
+
+    //TOTAL LABELS
+    let totalArr = []
+    var regionsLabels = Object.keys(total).filter(value => value !== "TOTAL");
+    regionsLabels.forEach(element => {
+        totalArr.push(total[element].total)
+    });
+    return {
+      labels: regionsLabels,
+      datasets: [{ 
+          data: totalArr,
+          backgroundColor: ["#80c2cd","#cd80c8","#80cd9e","#cd8080"]
+        }
+      ]
+    }
+  }
 
 
-
-  updateChartData(){
-
-    // var labels  = ["match1", "match2", "match3", "match4", "match5"];
-		// var datasets = [
-		// 	{
-		// 		label : "TeamB score",
-    //     data : [20, 35, 40, 60, 50]
-    //   }]
-
-    // this.chartLapos.data.datasets = datasets;
-    // this.chartLapos.data.labels = labels;
-    // this.chartLapos.update();
-  } 
 
 }
