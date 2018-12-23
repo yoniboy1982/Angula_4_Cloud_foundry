@@ -1,6 +1,6 @@
 <div>
 <app-button [title]="title" [tableclass]="tableclass" (messageEvent)="reciveMessage($event)" [year]="year"></app-button>
-<app-html-charts-pie [total]="total" [sum]="sum" ></app-html-charts-pie>
+<app-html-charts-pie [total]="total" [sum]="sum" parentName="general"></app-html-charts-pie>
 <table  id="zabbixTable" class="table table-hover table-striped table-sm">
   <thead>
     <tr>
