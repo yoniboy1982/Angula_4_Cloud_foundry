@@ -27,7 +27,7 @@ export class HtmlChartsPieComponent implements OnInit {
 
   ngOnChanges(changes: SimpleChanges) {
     console.log(changes);
-    // debugger;
+    // debugger; 
 
     this.parentName = changes["parentName"]["currentValue"];
 
@@ -82,7 +82,7 @@ export class HtmlChartsPieComponent implements OnInit {
   exctractChartDataTotal(changes){
     let total = changes["total"]["currentValue"]
     //TOTAL LABELS
-    
+    debugger;
     let totalArr = []
     var regionsLabels = Object.keys(total).filter(value => value !== "TOTAL");
     regionsLabels.forEach(element => {
@@ -105,7 +105,7 @@ export class HtmlChartsPieComponent implements OnInit {
 
     let total = changes["total"]["currentValue"];
     var typeArr;
-
+      debugger;
     if(this.parentName === "lapos"){
       // If parent component is called lapos then genarate lapos data
       var elm = total["TOTAL"]["Lapos"];
@@ -128,6 +128,7 @@ export class HtmlChartsPieComponent implements OnInit {
 
   exctractChartDataSum(changes){
     let sum = changes["sum"]["currentValue"]["TOTAL"];
+    debugger;
     //TOTAL LABELS
     let distArr = []
     var distLabels = Object.keys(sum);
