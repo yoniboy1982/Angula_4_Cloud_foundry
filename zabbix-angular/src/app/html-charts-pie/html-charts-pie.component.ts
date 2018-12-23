@@ -24,10 +24,8 @@ export class HtmlChartsPieComponent implements OnInit {
 
   ngOnInit(){}
 
-  ngAfterViewInit() {}
-
   ngOnChanges(changes: SimpleChanges) {
-    console.log(changes)
+    // console.log(changes);
     var totalData = this.exctractChartDataTotal(changes);
     var sumData = this.exctractChartDataSum(changes);
     var tyData = this.exctractChartDataType(changes);
@@ -39,13 +37,10 @@ export class HtmlChartsPieComponent implements OnInit {
     this.chartRegion = new Chart('canvas_region', regionData);
     this.chartDist = new Chart('canvas_dist', distData);
     this.chartType = new Chart('canvas_type', typeData);
-    
-    console.log('loaded');
-}
+  }
 
   createChart(title,chartData){
 
-    var that  = this;
     var chartOptions = {
       maintainAspectRatio: false,
       title: {
@@ -109,11 +104,10 @@ export class HtmlChartsPieComponent implements OnInit {
       labels: regionsLabels,
       datasets: [{ 
           data: totalArr,
-          backgroundColor: ["#80c2cd","#cd80c8","#80cd9e","#cd8080"]
+          backgroundColor: ["#b95dc5","#5dc564","#5ba2ef","#c55d5d"]
         }
       ]
     }
   }
-
 
 }
