@@ -27,7 +27,6 @@ export class HtmlChartsPieComponent implements OnInit {
 
   ngOnChanges(changes: SimpleChanges) {
     console.log(changes);
-    // debugger; 
 
     this.parentName = changes["parentName"]["currentValue"];
 
@@ -66,6 +65,9 @@ export class HtmlChartsPieComponent implements OnInit {
             fontColor: '#000',
             fontStyle: 'normal',
           }
+      },
+      legend: {
+        position: 'right'
       }
     };
 
@@ -82,7 +84,6 @@ export class HtmlChartsPieComponent implements OnInit {
   exctractChartDataTotal(changes){
     let total = changes["total"]["currentValue"]
     //TOTAL LABELS
-    debugger;
     let totalArr = []
     var regionsLabels = Object.keys(total).filter(value => value !== "TOTAL");
     regionsLabels.forEach(element => {
@@ -98,14 +99,13 @@ export class HtmlChartsPieComponent implements OnInit {
         }
         
     });
-    return this.returnDataObg(regionsLabels,totalArr)
+    return this.returnDataObg(regionsLabels,totalArr,["#b95dc5","#5dc564","#5ba2ef","#c55d5d"])
   }
 
   exctractChartDataType(changes){
 
     let total = changes["total"]["currentValue"];
     var typeArr;
-      debugger;
     if(this.parentName === "lapos"){
       // If parent component is called lapos then genarate lapos data
       var elm = total["TOTAL"]["Lapos"];
@@ -123,12 +123,11 @@ export class HtmlChartsPieComponent implements OnInit {
     }
 
      
-    return  this.returnDataObg(['Virtual',"Physical"],typeArr) 
+    return  this.returnDataObg(['Virtual',"Physical"],typeArr,["#82beff","#fff882"]) 
   }
 
   exctractChartDataSum(changes){
     let sum = changes["sum"]["currentValue"]["TOTAL"];
-    debugger;
     //TOTAL LABELS
     let distArr = []
     var distLabels = Object.keys(sum);
@@ -143,7 +142,7 @@ export class HtmlChartsPieComponent implements OnInit {
         distArr.push(sum[element].total)
       }
     });
-    return this.returnDataObg(distLabels,distArr)
+    return this.returnDataObg(distLabels,distArr,["#dc3545","#ffc107","#20c997","#c55d5d"])
   }
 
 
@@ -151,12 +150,12 @@ export class HtmlChartsPieComponent implements OnInit {
 
 
 
-  returnDataObg(regionsLabels,totalArr){
+  returnDataObg(regionsLabels,totalArr,color){
     return {
       labels: regionsLabels,
       datasets: [{ 
           data: totalArr,
-          backgroundColor: ["#b95dc5","#5dc564","#5ba2ef","#c55d5d"]
+          backgroundColor: color
         }
       ]
     }

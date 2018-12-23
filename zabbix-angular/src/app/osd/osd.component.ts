@@ -35,7 +35,6 @@ export class OsdComponent implements OnInit {
     .subscribe(data=>{
       this.records = data;
     
-      var osdObj = {}
       // get profiles
       for (let index = 0; index < this.records.length; index++) {
         const element = this.records[index];

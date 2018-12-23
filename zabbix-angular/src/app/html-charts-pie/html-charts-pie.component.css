@@ -11,4 +11,11 @@
     float: right;
     width: 50%;
 }
-
+.parentname{
+    width: 50%;
+    position: relative;
+    left: 50%;
+    color: #95bfcc;
+    font-size: 29px;
+    text-transform: capitalize;
+}
