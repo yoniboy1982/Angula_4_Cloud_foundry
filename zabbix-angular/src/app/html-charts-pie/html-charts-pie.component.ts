@@ -28,15 +28,17 @@ export class HtmlChartsPieComponent implements OnInit {
 
   ngOnChanges(changes: SimpleChanges) {
     console.log(changes)
-    var chartData = this.exctractChartDataTotal(changes);
+    var totalData = this.exctractChartDataTotal(changes);
+    var sumData = this.exctractChartDataSum(changes);
+    var tyData = this.exctractChartDataType(changes);
 
-    var regionData = this.createChart('Total By Region',chartData);
-    // var distData = this.createChart('By Distribution');
-    // var typeData = this.createChart('By Type');
+    var regionData = this.createChart('Total By Region',totalData);
+    var distData = this.createChart('Total By Distribution',sumData);
+    var typeData = this.createChart('Total By Type',tyData);
 
     this.chartRegion = new Chart('canvas_region', regionData);
-    // this.chartDist = new Chart('canvas_dist', distData);
-    // this.chartType = new Chart('canvas_type', typeData);
+    this.chartDist = new Chart('canvas_dist', distData);
+    this.chartType = new Chart('canvas_type', typeData);
     
     console.log('loaded');
 }
@@ -76,13 +78,33 @@ export class HtmlChartsPieComponent implements OnInit {
 
   exctractChartDataTotal(changes){
     let total = changes["total"]["currentValue"]
-
     //TOTAL LABELS
     let totalArr = []
     var regionsLabels = Object.keys(total).filter(value => value !== "TOTAL");
     regionsLabels.forEach(element => {
         totalArr.push(total[element].total)
     });
+    return this.returnDataObg(regionsLabels,totalArr)
+  }
+
+  exctractChartDataType(changes){
+    let total = changes["total"]["currentValue"]
+    var typeArr = [total["TOTAL"]["isVirt"],total["TOTAL"]["physical"]];
+    return  this.returnDataObg(['Virtual',"Physical"],typeArr) 
+  }
+
+  exctractChartDataSum(changes){
+    let sum = changes["sum"]["currentValue"]["TOTAL"];
+    //TOTAL LABELS
+    let distArr = []
+    var distLabels = Object.keys(sum);
+    distLabels.forEach(element => {
+      distArr.push(sum[element].total)
+    });
+    return this.returnDataObg(distLabels,distArr)
+  }
+
+  returnDataObg(regionsLabels,totalArr){
     return {
       labels: regionsLabels,
       datasets: [{ 
@@ -92,7 +114,6 @@ export class HtmlChartsPieComponent implements OnInit {
       ]
     }
   }
-
 
 
 }
