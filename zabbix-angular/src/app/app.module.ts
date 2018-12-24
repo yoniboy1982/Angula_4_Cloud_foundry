@@ -24,6 +24,7 @@ import { SumPipe } from './sum.pipe';
 import { SumVirtPipe } from './sum-virt.pipe';
 import { SumPhysicalPipe } from './sum-physical.pipe';
 import { HtmlChartsPieComponent } from './html-charts-pie/html-charts-pie.component';
+import { OsdChartsComponent } from './osd-charts/osd-charts.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import { HtmlChartsPieComponent } from './html-charts-pie/html-charts-pie.compon
     SumVirtPipe,
     SumPhysicalPipe,
     HtmlChartsPieComponent,
+    OsdChartsComponent,
   ],
   imports: [
     HttpClientModule,
