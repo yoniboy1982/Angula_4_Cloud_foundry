@@ -1,18 +1,8 @@
-/* .chart-container {
-    width: 50%;
-    margin: 10px 0;
-} */
-.container {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-}
-
 .chart-container {
-    width: 100%;
+    width: 49%;
     margin: 10px 0;
-    height: 250px
+    height: 250px;
+    display:inline-block;
 }
 .charts-wrapper {
     display: flex;
@@ -20,8 +10,5 @@
     flex-wrap: wrap;
     justify-content: center;
     float: right;
-    /* width: 50%; */
-}
-.chartjs-render-monitor{
-    height: 300px;
+    width: 100%;
 }

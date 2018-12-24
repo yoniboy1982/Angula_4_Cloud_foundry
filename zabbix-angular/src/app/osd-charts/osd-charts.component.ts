@@ -27,7 +27,7 @@ export class OsdChartsComponent implements OnInit {
   chartArr = [];
   htmlToAdd;
 
-  @ViewChild('myname') input; 
+  @ViewChild('charts') input; 
 
   constructor(private Http:HttpClient,private service:GenDataService,) { 
     this.records = []
@@ -56,7 +56,7 @@ export class OsdChartsComponent implements OnInit {
       }
       this.genCharts();
       this.renderCharts()
-      // console.log(that.chartObject,this.profiles)
+      console.log(that.chartObject,this.profiles)
       // this.isLoaded = true;//now load all the charts
 
     })
@@ -129,6 +129,19 @@ export class OsdChartsComponent implements OnInit {
   createChart(title,chartData){
 
     var chartOptions = {
+      scales: {
+        xAxes: [{
+          display: true
+        },
+      ],
+        yAxes: [{
+          ticks: {
+            min: 0,
+            max:8
+          },
+          display: true
+        }]
+      },
       maintainAspectRatio: false,
       title: {
           display: true,
@@ -162,13 +175,13 @@ export class OsdChartsComponent implements OnInit {
   }
   
   createCharts(data,title){
-    // debugger;
+    
     var mycanvas = document.createElement("canvas");
     mycanvas.id = title;
-    mycanvas.height = 30;
     this.input.nativeElement.appendChild(mycanvas);
     var canvas = <HTMLCanvasElement> document.getElementById(title);
     var ctx = canvas.getContext("2d");
+
     var newC = this.createChart(title , data)
     this.chartLapos = new Chart(ctx, newC);
     this.isLoaded = true;
