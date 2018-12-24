@@ -3,4 +3,6 @@
 
 .G5Wrap{
     width: 50%;
+    position: relative;
+    top: -44px;
 }

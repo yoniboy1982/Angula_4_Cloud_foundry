@@ -26,7 +26,7 @@ export class HtmlChartsPieComponent implements OnInit {
   ngOnInit(){}
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log(changes);
+    // console.log(changes);
 
     this.parentName = changes["parentName"]["currentValue"];
 
@@ -77,8 +77,6 @@ export class HtmlChartsPieComponent implements OnInit {
       options:  chartOptions
     }
   }
-
-
 
 
   exctractChartDataTotal(changes){
@@ -144,10 +142,6 @@ export class HtmlChartsPieComponent implements OnInit {
     });
     return this.returnDataObg(distLabels,distArr,["#dc3545","#ffc107","#20c997","#c55d5d"])
   }
-
-
-
-
 
 
   returnDataObg(regionsLabels,totalArr,color){
