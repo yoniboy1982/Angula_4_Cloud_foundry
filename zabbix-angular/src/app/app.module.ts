@@ -56,7 +56,7 @@ import { OsdChartsComponent } from './osd-charts/osd-charts.component';
       {path : 'ldt' , component : LdtComponent},
       {path : 'lapos' , component : LaposComponent},
       {path : 'isNew' , component : ViewIsnewComponent},
-      {path : 'charts' , component : HtmlChartComponent},
+      {path : 'charts' , component : OsdChartsComponent},
       {path : 'osd' , component : OsdComponent}
     ])
   ],
