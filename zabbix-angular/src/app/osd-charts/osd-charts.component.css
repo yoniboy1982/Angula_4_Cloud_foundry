@@ -1,10 +1,27 @@
-.chart-container {
+/* .chart-container {
     width: 50%;
     margin: 10px 0;
-}
+} */
 .container {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
+}
+
+.chart-container {
+    width: 100%;
+    margin: 10px 0;
+    height: 250px
+}
+.charts-wrapper {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    float: right;
+    /* width: 50%; */
+}
+.chartjs-render-monitor{
+    height: 300px;
 }

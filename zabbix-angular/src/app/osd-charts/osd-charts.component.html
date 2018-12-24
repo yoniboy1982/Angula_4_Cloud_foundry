@@ -1,19 +1,8 @@
-
-<div class="container">
-    <h1 style="margin: 20px 0;">Active managed clients</h1>
-  </div>
-  <div class="container" style="display: block;text-align: left;">
-      <select (change)="updateRange($event.target.value)"  style="text-align-last:center;font-size: 22px;">
-        <option *ngFor="let item of ranges" [value]="item">{{item}}</option>
-      </select>
-      <div>Selected range: {{selectedRange}} days</div>
-  </div>
-  
-  <div class="container">
+  <div class="container" >
       <div class="chart-container">
-            <canvas class="chart-container col"  id="canvas_isLapos">{{chartLapos}}</canvas>
-      </div>
-       <div class="chart-container">
-            <canvas class="chart-container col"  id="canvas_nonLapos">{{chartNonLapos}}</canvas>
+            <!-- <canvas class="chart-container col"  id="canvas_isLapos">{{chartLapos}}</canvas> -->
+            <div class="one" #myname ></div>
       </div>
   </div>
+
+  

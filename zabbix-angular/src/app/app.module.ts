@@ -52,7 +52,7 @@ import { OsdChartsComponent } from './osd-charts/osd-charts.component';
     HttpClientModule,
     BrowserModule,
     RouterModule.forRoot([
-      {path : '' , component : BodyComponent},
+      {path : '' , component : OsdChartsComponent},
       {path : 'ldt' , component : LdtComponent},
       {path : 'lapos' , component : LaposComponent},
       {path : 'isNew' , component : ViewIsnewComponent},
