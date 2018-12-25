@@ -140,14 +140,11 @@ export class OsdChartsComponent implements OnInit {
     for (var key in this.chartObject) {
 
       if (this.chartObject.hasOwnProperty(key)) {
-          // console.log(this.chartObject[key])
           var data = {
-            labels: [1,2,3,4,5,6,7,8,9,10,11,12],
+            labels: ["Jun","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],
             datasets: this.chartObject[key]
           };
           this.createCharts(data,key);
-          // break;
-         
       }
     }     
     
@@ -156,6 +153,8 @@ export class OsdChartsComponent implements OnInit {
   createChart(title,chartData){
 
     var chartOptions = {
+      responsive: true,
+      maintainAspectRatio: true,
       scales: {
         xAxes: [{
           display: true
@@ -164,12 +163,12 @@ export class OsdChartsComponent implements OnInit {
         yAxes: [{
           ticks: {
             min: 0,
-            max:8
+            // max:8,
+            suggestedMax: 7,
           },
           display: true
         }]
       },
-      maintainAspectRatio: false,
       title: {
           display: true,
           text: title,
