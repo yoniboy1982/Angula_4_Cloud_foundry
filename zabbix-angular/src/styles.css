@@ -3,15 +3,6 @@
 .trNum{
     display:none;
   }
-  .GroupH5{
-    float: right;
-    margin-top: 10px;
-    background: #f3f2f2;
-  }
-
-  .GroupH5:hover {
-    color:green
-}
 
 th.LDT, th.lapos{
     /* color: #000; */
