@@ -206,6 +206,7 @@ export class OsdChartsComponent implements OnInit {
     var container = this.container.nativeElement;
   
     var can = <HTMLCanvasElement> canvas.cloneNode(true);
+    can.className = "chart-container"
     container.appendChild(can);
 
     var ctx = can.getContext("2d");

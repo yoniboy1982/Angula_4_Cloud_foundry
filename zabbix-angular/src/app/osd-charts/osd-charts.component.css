@@ -1,9 +1,7 @@
-canvas {
+.chart-container {
     margin: 10px 5px;
     max-width: 48%;
-    /* background: #f6f6f6; */
     box-shadow: 0px 0px 1px #c9c9c9
-    /* border: solid 1px #e1e1e1 */
 
 }
 .charts {
@@ -11,6 +9,5 @@ canvas {
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
-    /* float: right; */
     width: 100%;
 }
