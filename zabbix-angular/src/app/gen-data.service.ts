@@ -116,7 +116,7 @@ export class GenDataService {
               //  "output":  "extend",
                 "output": ["name","lastvalue","lastclock","hostid","itemid"],
                 // "hostids": [ "10132", "10134", "10126", "10138", "10140", "10182", "10144", "10166", "10148", "10150", "10192", "10154"],
-                "hostids": [ "13674"],
+                // "hostids": [ "13674"],
                 "filter": {"name": arr} ,
               "sortfield": "name"
           },

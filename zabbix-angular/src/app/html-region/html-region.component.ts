@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { GenDataService } from '../gen-data.service';
+import {Router} from '@angular/router'
 
 
 
@@ -12,8 +13,18 @@ export class HtmlRegionComponent implements OnInit {
 
   regions;
   selectedRegion;
+  showRegion = 'showRegion';
 
-  constructor(private service:GenDataService){
+  constructor(private service:GenDataService,private router:Router){
+    var that = this;
+    router.events.subscribe((val) => {
+
+      if(val["url"] === '/charts'){
+        that.showRegion = 'hideRegion';
+      }else{
+        that.showRegion = 'showRegion';
+      }
+  });
   }
 
   ngOnInit() {

@@ -3,3 +3,11 @@
     font-size: 22px;
     width: 180px;
 }
+
+.hideRegion{
+    opacity:0;
+}
+
+.showRegion{
+    opacity:1;
+}
