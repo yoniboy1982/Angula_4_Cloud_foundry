@@ -1,6 +1,6 @@
     <div class="region">
       <div><span class="badge">Select Profile</span></div>
-      <select (change)="updateProfile($event.target.value)" class="col-3 font-weight-bold list-group-item-success" style="text-align-last:center;font-size: 22px;">
+      <select (change)="updateProfile($event.target.value)" class="col-5 font-weight-bold list-group-item-success" style="text-align-last:center;font-size: 22px;">
         <option *ngFor="let item of profiles" [value]="item">{{item}}</option>
       </select>
       <br/>
