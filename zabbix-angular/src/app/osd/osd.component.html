@@ -1,15 +1,14 @@
+<div class="charts-position">
     <div class="region">
-      <div><span class="badge">Select Profile</span></div>
-      <select (change)="updateProfile($event.target.value)" class="col-5 font-weight-bold list-group-item-success" style="text-align-last:center;font-size: 22px;">
-        <option *ngFor="let item of profiles" [value]="item">{{item}}</option>
-      </select>
-      <br/>
-      <span class="badge badge-pill badge-secondary">Data For Last 30 Days</span>
-      <br/>
-      <br/>      
+        <div><span class="badge">Select Profile</span></div>
+        <select (change)="updateProfile($event.target.value)" class="col-3 font-weight-bold list-group-item-success" style="text-align-last:center;font-size: 22px;">
+          <option *ngFor="let item of profiles" [value]="item">{{item}}</option>
+        </select>
+        <br/>
+        <span class="badge badge-pill badge-secondary">Data For Last 30 Days</span>
+        <br/>
+        <br/>      
     </div>
-
-<div>
     <!-- <app-button [title]="title" [tableclass]="tableclass" (messageEvent)="reciveMessage($event)" [year]="year"></app-button> -->
     <app-html-charts-pie *ngIf="isLoaded" [total]="total" [sum]="sum" parentName="osd"></app-html-charts-pie>
     <table  id="laposTable" class="table table-hover table-striped table-sm">

@@ -12,6 +12,6 @@ h1{
     padding: 20px;
 }
 
-:host ::ng-deep .table{
+/* :host ::ng-deep .table{
     width:50%;
-}
+} */

@@ -1,15 +1,16 @@
 .chart-container {
-    width: 37%;
-    margin: 10px 0;
-    height: 250px
+    min-height: 240px;
+    width: 33%;
 }
 .charts-wrapper {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
-    float: right;
-    width: 50%;
+    width: 100%;
+    position: absolute;
+    left: 0;
+    top: -310px;
 }
 .parentname{
     width: 50%;

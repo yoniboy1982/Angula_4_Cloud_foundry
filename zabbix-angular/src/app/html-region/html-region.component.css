@@ -5,9 +5,10 @@
 }
 
 .hideRegion{
-    opacity:0;
+    display: none;
 }
 
 .showRegion{
-    opacity:1;
+    display: block;
+    margin-top: 250px;
 }

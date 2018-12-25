@@ -66,9 +66,9 @@ export class HtmlChartsPieComponent implements OnInit {
             fontStyle: 'normal',
           }
       },
-      legend: {
-        position: 'right'
-      }
+      // legend: {
+      //   position: 'right'
+      // }
     };
 
     return {

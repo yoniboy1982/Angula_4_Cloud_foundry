@@ -1,3 +1,7 @@
 .space{
-    border-right: 12px solid #fff;
+    border-right: 30px solid #fff;
+}
+
+.charts-position{
+    position: relative;
 }
