@@ -75,16 +75,16 @@ export class OsdChartsComponent implements OnInit {
     var color = ["red","green","blue"];
     var style = [
       {
-        backgroundColor: 'rgba(255, 99, 132, 0.5)',
-        borderColor: 'rgba(255,99,132,1)',
+        backgroundColor: '#e83e8c',
+        // borderColor: 'rgba(255,99,132,1)',
     },
     {
-      backgroundColor: 'rgba(54, 162, 235, 0.5)',
-      borderColor:  'rgba(54, 162, 235, 1)',
+      backgroundColor: '#ffc107',
+      // borderColor:  'rgba(54, 162, 235, 1)',
     },
       {
-        backgroundColor: 'rgba(146, 255 ,99, 0.5)',
-        borderColor: 'rgba(146,255,99,1)',
+        backgroundColor: '#17a2b8',
+        // borderColor: 'rgba(146,255,99,1)',
     },
     {
       backgroundColor: 'rgba(255, 193, 7, 0.5)',

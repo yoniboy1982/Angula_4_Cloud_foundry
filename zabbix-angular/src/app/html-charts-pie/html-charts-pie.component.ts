@@ -140,7 +140,7 @@ export class HtmlChartsPieComponent implements OnInit {
         distArr.push(sum[element].total)
       }
     });
-    return this.returnDataObg(distLabels,distArr,["#dc3545","#ffc107","#20c997","#c55d5d"])
+    return this.returnDataObg(distLabels,distArr,["#dc3545","#ffc107","#20c997","#17a2b8"])
   }
 
 
