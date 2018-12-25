@@ -1,5 +1,5 @@
 import { element } from 'protractor';
-import { Component, OnInit,ViewChild } from '@angular/core';
+import { Component, OnInit,ViewChild,ElementRef } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { GenDataService } from '../gen-data.service';
 import { Chart } from 'chart.js';
@@ -28,8 +28,9 @@ export class OsdChartsComponent implements OnInit {
   htmlToAdd;
 
   @ViewChild('charts') input; 
-
-  constructor(private Http:HttpClient,private service:GenDataService,) { 
+  @ViewChild('container') container; 
+  node: string;
+  constructor(private Http:HttpClient,private service:GenDataService,private elementRef: ElementRef) { 
     this.records = []
     this.isLoaded = false;
     this.bigObject = {};
@@ -72,6 +73,31 @@ export class OsdChartsComponent implements OnInit {
   loopProfiles(dist,ind){
    
     var color = ["red","green","blue"];
+    var style = [
+      {
+        backgroundColor: 'rgba(255, 99, 132, 0.5)',
+        borderColor: 'rgba(255,99,132,1)',
+    },
+    {
+      backgroundColor: 'rgba(54, 162, 235, 0.5)',
+      borderColor:  'rgba(54, 162, 235, 1)',
+    },
+      {
+        backgroundColor: 'rgba(146, 255 ,99, 0.5)',
+        borderColor: 'rgba(146,255,99,1)',
+    },
+    {
+      backgroundColor: 'rgba(255, 193, 7, 0.5)',
+      borderColor: 'rgba(255, 193, 7, 1)',
+    },
+
+
+    {
+      backgroundColor: 'rgba(54, 162, 235, 0.1)',
+      borderColor:  'rgba(54, 162, 235, 0.3)',
+    }
+  ]
+
     this.chartObject[ind] = []
     for (let index = 0; index < this.profiles.length; index++) {
         const element = this.profiles[index];
@@ -83,7 +109,8 @@ export class OsdChartsComponent implements OnInit {
         } 
 
         var obj = { label: element,
-                    backgroundColor: color[index],
+                    backgroundColor: style[index]["backgroundColor"],
+                    borderColor: style[index]["borderColor"],
                     data: arr}
         this.chartObject[ind].push(obj)        
         
@@ -175,17 +202,20 @@ export class OsdChartsComponent implements OnInit {
   }
   
   createCharts(data,title){
-    
-    var mycanvas = document.createElement("canvas");
-    mycanvas.id = title;
-    this.input.nativeElement.appendChild(mycanvas);
-    var canvas = <HTMLCanvasElement> document.getElementById(title);
-    var ctx = canvas.getContext("2d");
+
+    var canvas = this.input.nativeElement;
+    var container = this.container.nativeElement;
+  
+    var can = <HTMLCanvasElement> canvas.cloneNode(true);
+    container.appendChild(can);
+
+    var ctx = can.getContext("2d");
 
     var newC = this.createChart(title , data)
     this.chartLapos = new Chart(ctx, newC);
     this.isLoaded = true;
   }
+
 
   chartsData(title){
 

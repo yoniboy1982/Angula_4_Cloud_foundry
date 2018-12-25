@@ -1,14 +1,15 @@
 .chart-container {
-    width: 49%;
-    margin: 10px 0;
-    height: 250px;
-    display:inline-block;
+    /* width: 50% !important;
+    margin: 10px 0; */
+    /* max-width: 50%; */
+    max-height: 400px;
+    display: inline-block !important;
 }
-.charts-wrapper {
+.container {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
-    float: right;
+    /* float: right; */
     width: 100%;
 }
