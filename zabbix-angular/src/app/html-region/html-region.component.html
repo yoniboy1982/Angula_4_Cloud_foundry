@@ -1,6 +1,7 @@
 <div [ngClass]="showRegion" class="region">
     <div><span class="badge">Select Region</span></div>
     <select (change)="updateRegion($event.target.value)" class="col-3 font-weight-bold list-group-item-info dropStyle" >
-      <option *ngFor="let item of regions" [value]="item">{{item}}</option>
+      <option *ngFor="let item of regions; let i = index" [value]="item" [selected]="i == 3">{{item}}</option>
+      <!-- <option *ngFor="let item of regions" [value]="item">{{item}}</option> -->
     </select>
 </div>

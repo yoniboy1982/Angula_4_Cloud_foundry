@@ -19,6 +19,7 @@ import { HtmlChartComponent } from './html-chart/html-chart.component';
 import { OsdComponent } from './osd/osd.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FilterPipe } from './filter.pipe';
+import { DatePipe } from './date.pipe';
 import { LocationPipe } from './location.pipe';
 import { SumPipe } from './sum.pipe';
 import { SumVirtPipe } from './sum-virt.pipe';
@@ -41,6 +42,7 @@ import { OsdChartsComponent } from './osd-charts/osd-charts.component';
     HtmlChartComponent,
     OsdComponent,
     FilterPipe,
+    DatePipe,
     LocationPipe,
     SumPipe,
     SumVirtPipe,
