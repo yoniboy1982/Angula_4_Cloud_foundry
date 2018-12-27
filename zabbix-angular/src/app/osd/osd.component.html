@@ -24,7 +24,7 @@
       </thead>
       
       <tbody>
-          <tr class="newLine" *ngFor="let item of records | filter:profile | date:30 | location:selectedRegion ">
+          <tr class="newLine" *ngFor="let item of records | filter:profile | location:selectedRegion ">
             <td scope="row">{{item.dist}} {{item.version}}</td>
             <td scope="row">{{item.virtual}}</td>
             <td scope="row">{{item.physical}}</td>
