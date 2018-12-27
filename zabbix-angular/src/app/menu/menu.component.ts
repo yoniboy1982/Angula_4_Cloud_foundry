@@ -15,7 +15,7 @@ export class MenuComponent implements OnInit {
 
     constructor() {
       this.arr = [];
-      this.title = 'LDT Clients - General';
+      this.title = 'LDT Active client - General';
       this.year = (new Date()).getFullYear()
     }
 
