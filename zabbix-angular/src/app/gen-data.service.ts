@@ -243,16 +243,20 @@ export class GenDataService {
                   var clock = elm.lastclock + '000'; //adding 3 zero's because the date format is not valid
                   var notValidTime = this.calctimeByYear(clock);
                   
-                  if(elm.lastclock === '0'){
-                    continue;
-                  }
+                  // if(elm.lastclock === '0'){
+                  //   debugger;
+                  //   continue;
+                  // }
 
                   switch(elm.name) {
                         case dist: //IF DISTREBUITION
                             
                             if(
-                              elm.lastvalue === "0" || elm.lastvalue === "" ||
+                              elm.lastvalue === "0" || 
+                              elm.lastvalue === "" ||
+                              elm.lastclock === "0" ||
                               elm.lastvalue.indexOf("bash:") > -1){
+                                console.log("unknown", elm);
                                 breakFor = true;
                                 break;
                               }

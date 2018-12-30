@@ -31,7 +31,7 @@ export class OsdComponent implements OnInit {
   }
 
   getData(){
-    return this.Http.get('https://linuxinfra.wdf.sap.corp/ldt/reports/osd.php?query=1&time=30')
+    return this.Http.get('https://linuxinfra.wdf.sap.corp/ldt/reports/osd.php?query=2&time=30')
     .subscribe(data=>{
       this.records = data;
     
