@@ -223,6 +223,7 @@ export class GenDataService {
           var TOTAL = 'TOTAL';
 
           var laposDateObj = {};
+          var unknown_hosts = [];
 
           for (var key in this.mainObj) {
 
@@ -235,6 +236,7 @@ export class GenDataService {
               var checkIfLDT;
               var regionElm = this.mainObj[key][0];
               var regionPos = regionElm.lastvalue;
+              
               
 
               loop2:
@@ -252,11 +254,30 @@ export class GenDataService {
                         case dist: //IF DISTREBUITION
                             
                             if(
-                              elm.lastvalue === "0" || 
+                              elm.lastvalue === "0" ||
                               elm.lastvalue === "" ||
                               elm.lastclock === "0" ||
                               elm.lastvalue.indexOf("bash:") > -1){
-                                console.log("unknown", elm);
+
+                                //###ADD TO UNKNOWN
+                                  // console.log("unknown", elm);
+                                  // debugger;
+                                  unknown_hosts.push(elm);
+
+                                  var area = this.mainObj[key][0]["lastvalue"];
+                                  
+                                  this.secondObj[area]["Unknown"] = this.secondObj[area]["Unknown"] || {};
+                                  this.secondObj[area]["Unknown"]["total"] = this.secondObj[area]["Unknown"]["total"] || 0;
+                                  this.secondObj[area]["Unknown"]["total"]++;
+
+                                  this.secondObj["TOTAL"]["Unknown"] = this.secondObj["TOTAL"]["Unknown"] || {};
+                                  this.secondObj["TOTAL"]["Unknown"]["total"] = this.secondObj["TOTAL"]["Unknown"]["total"] || 0;
+                                  this.secondObj["TOTAL"]["Unknown"]["total"]++;
+
+                                  this.totalObj[area]["total"]++; 
+                                  this.totalObj["TOTAL"]["total"]++; 
+                                //#######
+
                                 breakFor = true;
                                 break;
                               }
@@ -305,10 +326,10 @@ export class GenDataService {
                               this.secondObj[regionPos][elmContainer]["total"]++;
                               this.secondObj[TOTAL][elmContainer]["total"]++;
 
-                              this.sumObj[regionPos][elmSum][checkIsVirt]++;
-                              this.sumObj[TOTAL][elmSum][checkIsVirt]++;
-                              this.sumObj[TOTAL][elmSum]["total"]++;
-                              this.sumObj[regionPos][elmSum]["total"]++;
+                              // this.sumObj[regionPos][elmSum][checkIsVirt]++;
+                              // this.sumObj[TOTAL][elmSum][checkIsVirt]++;
+                              // this.sumObj[TOTAL][elmSum]["total"]++;
+                              // this.sumObj[regionPos][elmSum]["total"]++;
 
                               this.totalObj[regionPos][checkIsVirt]++;
                               this.totalObj[TOTAL][checkIsVirt]++;
@@ -432,7 +453,8 @@ export class GenDataService {
           }
 
           this.showContent['show'] = '1';
-          // console.log(this.secondObj)
+          console.log("unknown_hosts",unknown_hosts)
+          console.log(this.secondObj)
           // console.log('total',this.totalObj)
       }
 
