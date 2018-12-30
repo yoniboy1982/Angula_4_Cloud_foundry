@@ -17,7 +17,7 @@
         </tr>          
       </thead>
       <tbody *ngIf="!collapse">
-          <tr class="newLine" *ngFor="let k of zFunctions.objectKeys(dist[selectedRegion])">
+          <tr class="newLine {{k}}" *ngFor="let k of zFunctions.objectKeys(dist[selectedRegion])">
               <td class="space" scope="row">{{k}}</td>
               <td>{{dist[selectedRegion][k].LDT.isLDT.p}}</td>
               <td class="space">{{dist[selectedRegion][k].LDT.isLDT.v}}</td>

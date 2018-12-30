@@ -266,6 +266,13 @@ export class GenDataService {
 
                                   var area = this.mainObj[key][0]["lastvalue"];
                                   
+                                  if(!("Unknown" in this.secondObj[area])){
+                                    this.initObj("Unknown",area);
+                                  }
+                                  if(!("Unknown" in this.secondObj["TOTAL"])){
+                                    this.initObj("Unknown","TOTAL");
+                                  }
+
                                   this.secondObj[area]["Unknown"] = this.secondObj[area]["Unknown"] || {};
                                   this.secondObj[area]["Unknown"]["total"] = this.secondObj[area]["Unknown"]["total"] || 0;
                                   this.secondObj[area]["Unknown"]["total"]++;

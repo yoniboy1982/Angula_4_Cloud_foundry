@@ -17,7 +17,7 @@
             </tr>
           </thead>
           <tbody *ngIf="!collapse">
-              <tr class="newLine" *ngFor="let k of zFunctions.objectKeys(dist[selectedRegion])">
+              <tr class="newLine {{k}}" *ngFor="let k of zFunctions.objectKeys(dist[selectedRegion])">
                 <td class="space" scope="row">{{k}}</td>
                 <td>{{dist[selectedRegion][k].Lapos.isLapos.p}}</td>
                 <td class="space" >{{dist[selectedRegion][k].Lapos.isLapos.v}}</td>
@@ -25,7 +25,7 @@
                 <td>{{dist[selectedRegion][k].Lapos.nonLapos.v}}</td>
               </tr>
           </tbody>
-          <tbody *ngIf="collapse">
+          <!-- <tbody *ngIf="collapse">
               <tr class="newLine" *ngFor="let k of zFunctions.objectKeys(sum[selectedRegion])">
                 <td class="space"  scope="row">{{k}}</td>
                 <td>{{sum[selectedRegion][k].Lapos.isLapos.p}}</td>
@@ -34,7 +34,7 @@
                 <td>{{sum[selectedRegion][k].Lapos.nonLapos.v}}</td>
               </tr>
                       
-          </tbody>
+          </tbody> -->
           <tfoot>
               <tr>
                   <th scope="row">Total</th>
