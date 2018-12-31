@@ -43,8 +43,6 @@ export class GenDataService {
       regionArrValidation = [];
 
       constructor() { 
-
-
         this.initVars();
       }
     
@@ -56,8 +54,6 @@ export class GenDataService {
         this.arr = this.returnArr();
         this.timestamp30DaysBack = 0;// = new Date().getTime() - (30 * 24 * 60 * 60 * 1000);
         this.year = (year === 0) ? this.currentYear : year;
-
-
 
         //Subscribe to 
         this.messageSource.next(this.secondObj);
@@ -75,16 +71,16 @@ export class GenDataService {
           this.mainObj = {};
           this.showContent = {};
 
-          this.secondObj = {};
-          this.sumObj = {};
-          this.totalObj = {};
+          this.secondObj = new Object();
+          this.sumObj = new Object();
+          this.totalObj = new Object();
           
           this.changeSelected(this.regionArr[0]);
 
           for (let index = 0; index < this.regionArr.length; index++) {
               const element = this.regionArr[index];
-              this.secondObj[element] = {};
-              this.sumObj[element] = {};
+              this.secondObj[element] = new Object();
+              this.sumObj[element] = new Object();
               this.totalObj[element] = this.initTotalObj(); // total object will hold all total data and will be genarated with second object (line after)
           }
       }
@@ -236,6 +232,7 @@ export class GenDataService {
               var checkIfLDT;
               var regionElm = this.mainObj[key][0];
               var regionPos = regionElm.lastvalue;
+              var that = this;
               
               
 
@@ -332,11 +329,12 @@ export class GenDataService {
                               this.secondObj[TOTAL][elmContainer][checkIsVirt]++;
                               this.secondObj[regionPos][elmContainer]["total"]++;
                               this.secondObj[TOTAL][elmContainer]["total"]++;
+                              
 
-                              // this.sumObj[regionPos][elmSum][checkIsVirt]++;
-                              // this.sumObj[TOTAL][elmSum][checkIsVirt]++;
-                              // this.sumObj[TOTAL][elmSum]["total"]++;
-                              // this.sumObj[regionPos][elmSum]["total"]++;
+                              this.sumObj[regionPos][elmSum][checkIsVirt]++;
+                              this.sumObj[TOTAL][elmSum][checkIsVirt]++;
+                              this.sumObj[TOTAL][elmSum]["total"]++;
+                              this.sumObj[regionPos][elmSum]["total"]++;
 
                               this.totalObj[regionPos][checkIsVirt]++;
                               this.totalObj[TOTAL][checkIsVirt]++;
@@ -386,8 +384,6 @@ export class GenDataService {
                               this.secondObj[regionPos][elmContainer]["Lapos"][checkIfLapos] =  this.secondObj[regionPos][elmContainer]["Lapos"][checkIfLapos]|| {}; 
                               this.secondObj[regionPos][elmContainer]["Lapos"][checkIfLapos][checkIfVirt] =  this.secondObj[regionPos][elmContainer]["Lapos"][checkIfLapos][checkIfVirt]|| 0; 
                       
-                              
-
                               this.secondObj[regionPos][elmContainer]["Lapos"][checkIfLapos][checkIfVirt]++;
                               this.secondObj['TOTAL'][elmContainer]["Lapos"][checkIfLapos][checkIfVirt]++;
 
@@ -428,18 +424,15 @@ export class GenDataService {
                         checkIfLDT = "nonLDT";
                       }
 
-                      // console.log(elm,regionPos,elmContainer,checkIfLDT,checkIfVirt)
-                      // console.log(this.secondObj)
-
                       this.secondObj[regionPos][elmContainer] =  this.secondObj[regionPos][elmContainer]|| {}; 
                       this.secondObj[regionPos][elmContainer]["LDT"] =  this.secondObj[regionPos][elmContainer]["LDT"]|| {}; 
                       this.secondObj[regionPos][elmContainer]["LDT"][checkIfLDT] =  this.secondObj[regionPos][elmContainer]["LDT"][checkIfLDT]|| {}; 
                       this.secondObj[regionPos][elmContainer]["LDT"][checkIfLDT][checkIfVirt] =  this.secondObj[regionPos][elmContainer]["LDT"][checkIfLDT][checkIfVirt]|| 0; 
                       
-                      this.sumObj[regionPos][elmSum] =  this.secondObj[regionPos][elmContainer]|| {}; 
-                      this.sumObj[regionPos][elmSum]["LDT"] =  this.secondObj[regionPos][elmContainer]["LDT"]|| {}; 
-                      this.sumObj[regionPos][elmSum]["LDT"][checkIfLDT] =  this.secondObj[regionPos][elmContainer]["LDT"][checkIfLDT]|| {}; 
-                      this.sumObj[regionPos][elmSum]["LDT"][checkIfLDT][checkIfVirt] =  this.secondObj[regionPos][elmContainer]["LDT"][checkIfLDT][checkIfVirt]|| 0; 
+                      this.sumObj[regionPos][elmSum] =  this.sumObj[regionPos][elmSum]|| {}; 
+                      this.sumObj[regionPos][elmSum]["LDT"] =  this.sumObj[regionPos][elmSum]["LDT"]|| {}; 
+                      this.sumObj[regionPos][elmSum]["LDT"][checkIfLDT] =  this.sumObj[regionPos][elmSum]["LDT"][checkIfLDT]|| {}; 
+                      this.sumObj[regionPos][elmSum]["LDT"][checkIfLDT][checkIfVirt] =  this.sumObj[regionPos][elmSum]["LDT"][checkIfLDT][checkIfVirt]|| 0; 
                       
                       this.secondObj[regionPos][elmContainer]["LDT"][checkIfLDT][checkIfVirt]++;
                       this.secondObj['TOTAL'][elmContainer]["LDT"][checkIfLDT][checkIfVirt]++;
@@ -461,11 +454,12 @@ export class GenDataService {
 
           this.showContent['show'] = '1';
           console.log("unknown_hosts",unknown_hosts)
-          console.log(this.secondObj)
+          // console.log(this.secondObj)
           // console.log('total',this.totalObj)
       }
 
       initObj(lastvalue,regionPos){
+        
         this.secondObj[regionPos][lastvalue] = {
             "total"  : 0,
             "isVirt"  : 0,
@@ -499,6 +493,7 @@ export class GenDataService {
       }
 
       addSumObj(lastvalue,regionPos){
+
         this.sumObj[regionPos][lastvalue] = {
             "total"  : 0,
             "isVirt"  : 0,
