@@ -278,6 +278,14 @@ export class GenDataService {
                                   this.secondObj["TOTAL"]["Unknown"]["total"] = this.secondObj["TOTAL"]["Unknown"]["total"] || 0;
                                   this.secondObj["TOTAL"]["Unknown"]["total"]++;
 
+                                  this.sumObj[area]["Unknown"] = this.sumObj[area]["Unknown"] || {};
+                                  this.sumObj[area]["Unknown"]["total"] = this.sumObj[area]["Unknown"]["total"] || 0;
+                                  this.sumObj[area]["Unknown"]["total"]++;    
+
+                                  this.sumObj["TOTAL"]["Unknown"] = this.sumObj["TOTAL"]["Unknown"] || {};
+                                  this.sumObj["TOTAL"]["Unknown"]["total"] = this.sumObj["TOTAL"]["Unknown"]["total"] || 0;
+                                  this.sumObj["TOTAL"]["Unknown"]["total"]++;                                    
+
                                   this.totalObj[area]["total"]++; 
                                   this.totalObj["TOTAL"]["total"]++; 
                                 //#######
