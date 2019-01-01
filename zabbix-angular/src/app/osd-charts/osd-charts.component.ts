@@ -42,7 +42,7 @@ export class OsdChartsComponent implements OnInit {
 
   getData(){
     var that = this;
-    return this.Http.get('http://dewdfldp01.wdf.global.corp.sap:1080/ldt/reports/osd.php?query=1&time=365')
+    return this.Http.get('https://linuxinfra.wdf.sap.corp/ldt/reports/osd.php?query=1&time=365')
     .subscribe(data=>{
       this.records = data;
       // get profiles

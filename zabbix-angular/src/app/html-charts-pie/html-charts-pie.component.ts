@@ -88,7 +88,6 @@ export class HtmlChartsPieComponent implements OnInit {
         if(this.parentName === "lapos"){// If parent component is called lapos then genarate lapos data
           var elm = total[element]["Lapos"];
           totalArr.push( elm["isLapos"]["p"] + elm["nonLapos"]["p"] +elm["isLapos"]["v"] +elm["nonLapos"]["v"])
-
         }else if(this.parentName === "ldt"){// If parent component is called LDT then genarate lapos data
           var elm = total[element]["LDT"];
           totalArr.push( elm["isLDT"]["p"] + elm["nonLDT"]["p"] + elm["isLDT"]["v"] +elm["nonLDT"]["v"])
@@ -131,11 +130,18 @@ export class HtmlChartsPieComponent implements OnInit {
     var distLabels = Object.keys(sum);
     distLabels.forEach(element => {
       if(this.parentName === "lapos"){// If parent component is called lapos then genarate lapos data
-          var elm = sum[element]["Lapos"];
-          distArr.push( elm["isLapos"]["p"] + elm["nonLapos"]["p"] +elm["isLapos"]["v"] +elm["nonLapos"]["v"])
+          // debugger;
+          if ('Lapos' in sum[element]){
+            var elm = sum[element]["Lapos"];
+            distArr.push( elm["isLapos"]["p"] + elm["nonLapos"]["p"] +elm["isLapos"]["v"] +elm["nonLapos"]["v"])
+          }
+
+
       }else if(this.parentName === "ldt"){// If parent component is called lapos then genarate lapos data
-        var elm = sum[element]["LDT"];
-        distArr.push( elm["isLDT"]["p"] + elm["nonLDT"]["p"] +elm["isLDT"]["v"] +elm["nonLDT"]["v"])
+        if ('LDT' in sum[element]){
+          var elm = sum[element]["LDT"];
+          distArr.push( elm["isLDT"]["p"] + elm["nonLDT"]["p"] +elm["isLDT"]["v"] +elm["nonLDT"]["v"])
+        }
       }else{
         distArr.push(sum[element].total)
       }
