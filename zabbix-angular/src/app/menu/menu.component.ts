@@ -13,11 +13,13 @@ export class MenuComponent implements OnInit {
   arr:Array<String>;
   title:String;
   year:Number;
+  rrouter:any;
 
     constructor(private router: Router) {
       this.arr = [];
       this.title = 'LDT Active client - General';
       this.year = (new Date()).getFullYear()
+      this.rrouter = router;
     }
 
   ngOnInit() {
