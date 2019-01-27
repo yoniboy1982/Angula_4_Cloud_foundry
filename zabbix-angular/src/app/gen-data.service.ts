@@ -255,7 +255,7 @@ export class GenDataService {
                               elm.lastvalue === "" ||
                               elm.lastclock === "0" ||
                               elm.lastvalue.indexOf("bash:") > -1){
-
+                                // console.log(elm.hostid,elm)
                                 //###ADD TO UNKNOWN
                                   // console.log("unknown", elm);
                                   // debugger;
@@ -294,9 +294,9 @@ export class GenDataService {
                                 break;
                               }
 
-                            if(notValidTime){//IF NOT IN TIME PERIOD SELECTED
-                              break loop2;
-                            }
+                            // if(notValidTime){//IF NOT IN TIME PERIOD SELECTED
+                            //   break loop2;
+                            // }
                             
                             elmContainer = elm.lastvalue; //GET THE Name OF ELEMENT
                             elmSum = elmContainer.split("-")[0];

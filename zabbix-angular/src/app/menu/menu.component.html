@@ -6,7 +6,7 @@
         <div class="dropdown show">
           <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" 
           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            LDT Active client</a>
+            Main Menu</a>
           <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
             <li class="dropdown-submenu">
               <a class="dropdown-item dropdown-toggle"  href="#">LDT Active client</a>
@@ -26,8 +26,7 @@
         </div>
       </div>
       <div class="col-8">
-         <h1>{{title}} <span class="year">{{year}}</span></h1>
-         
+         <h1>{{title}} <span *ngIf="router.url !== '/osd' && router.url !== '/charts'" class="year">{{year}}</span></h1>
         </div>
       <div class="col-2">
       </div>

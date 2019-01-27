@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 declare var $: any;
 
@@ -13,7 +14,7 @@ export class MenuComponent implements OnInit {
   title:String;
   year:Number;
 
-    constructor() {
+    constructor(private router: Router) {
       this.arr = [];
       this.title = 'LDT Active client - General';
       this.year = (new Date()).getFullYear()
