@@ -2,6 +2,8 @@ import { element } from 'protractor';
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { GenDataService } from '../gen-data.service';
+import { SorterService } from './../sorter.service';
+
 
 @Component({
   selector: 'app-osd',
@@ -20,7 +22,7 @@ export class OsdComponent implements OnInit {
   isLoaded:Boolean;
   
 
-  constructor(private Http:HttpClient,private service:GenDataService,) { 
+  constructor(private Http:HttpClient,private service:GenDataService,private sorter:SorterService,) { 
     this.records = []
     this.isLoaded = false;
   }
@@ -29,6 +31,10 @@ export class OsdComponent implements OnInit {
     this.service.observeSelectedRigion.subscribe(selected => this.selectedRegion = selected);
     this.getData();
   }
+
+  ngAfterContentInit(){
+    this.sorter.makeAllSortable(document.body);
+  }  
 
   getData(){
     return this.Http.get('https://linuxinfra.wdf.sap.corp/ldt/reports/osd.php?query=2&time=30')
