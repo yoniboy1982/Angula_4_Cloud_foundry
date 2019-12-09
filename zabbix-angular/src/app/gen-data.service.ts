@@ -93,8 +93,8 @@ export class GenDataService {
       returnArr(){
         return [
           "Distribution",
-          "LDT Security Flag",
           "isVirt",
+          "LDT Security Flag",
           "Lapos Git Status",
           "System Region" 
       ];
@@ -112,11 +112,11 @@ export class GenDataService {
               //  "output":  "extend",
                 "output": ["name","lastvalue","lastclock","hostid","itemid"],
                 // "hostids": [ "10132", "10134", "10126", "10138", "10140", "10182", "10144", "10166", "10148", "10150", "10192", "10154"],
-                // "hostids": [ "13674"],
+                // "hostids": [ "13616"],
                 "filter": {"name": arr},
               "sortfield": "name"
           },
-          "auth": "3e82b6804f8f61967fea9462631a5946",
+          "auth": "b78273200edc8584c09d748aadbb5b83",
           "id": 1
         };
         
@@ -211,8 +211,8 @@ export class GenDataService {
           var total= [];
 
           var dist = arr[0];
-          var LDT = arr[1];
-          var isVirt = arr[2];
+          var isVirt = arr[1];          
+          var LDT = arr[2];
           var Lapos = arr[3];
           var region = arr[4];
           var isNewUI = arr[5];
@@ -254,7 +254,7 @@ export class GenDataService {
                               elm.lastvalue === "0" ||
                               elm.lastvalue === "" ||
                               elm.lastclock === "0" ||
-                              elm.lastvalue.indexOf("bash:") > -1){
+                              (elm.lastvalue.indexOf("bash:") > -1 || elm.lastvalue.indexOf("cat:") > -1)){
                                 // console.log(elm.hostid,elm)
                                 //###ADD TO UNKNOWN
                                   // console.log("unknown", elm);

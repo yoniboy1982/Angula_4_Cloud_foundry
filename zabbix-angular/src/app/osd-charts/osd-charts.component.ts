@@ -141,7 +141,7 @@ export class OsdChartsComponent implements OnInit {
 
       if (this.chartObject.hasOwnProperty(key)) {
           var data = {
-            labels: ["Jun","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],
+            labels: ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],
             datasets: this.chartObject[key]
           };
           this.createCharts(data,key);
