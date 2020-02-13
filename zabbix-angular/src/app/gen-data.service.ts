@@ -47,7 +47,7 @@ export class GenDataService {
       }
     
       initVars(year = 0){
-        this.regionArr = ["AMER","APJ","EMEA","TOTAL"];
+        this.regionArr = ["AMER","APJ","EMEA","Unknown","TOTAL"];
 
         this.initAllObjectsj();
 
@@ -96,7 +96,9 @@ export class GenDataService {
           "isVirt",
           "LDT Security Flag",
           "Lapos Git Status",
-          "System Region" 
+          "New Region",
+          "IP address",
+          "Host name FQDN"
       ];
       }
 
@@ -165,14 +167,15 @@ export class GenDataService {
                 }
                 
                 //Make region to be 1st element in host array
-                if (elm.name === "System Region") {
-
+                if (elm.name === "New Region") {
                   //## store all hostid that ddestnt match regions allowd
-                  var isInHost = this.regionArr.indexOf(elm.lastvalue); 
+                  var isInHost = this.regionArr.indexOf(elm.lastvalue);
                   if (isInHost < 0) {
+
+                    elm.lastvalue = "Unknown"
+                    // console.log(elm.lastvalue)
                     this.regionArrValidation.push(elm.hostid);
                   }
-                  //##
 
                   this.mainObj[elm.hostid].unshift(elm);
                 }else{
@@ -200,7 +203,7 @@ export class GenDataService {
       filterHostsWithoutRegion(){
         for (let index = 0; index < this.regionArrValidation.length; index++) {
           const hostId = this.regionArrValidation[index];
-          delete this.mainObj[hostId]; 
+          // delete this.mainObj[hostId]; 
         }
       }
 
@@ -233,8 +236,6 @@ export class GenDataService {
               var regionElm = this.mainObj[key][0];
               var regionPos = regionElm.lastvalue;
               var that = this;
-              
-              
 
               loop2:
               for (let i = 0; i < this.mainObj[key].length; i++) {
@@ -255,14 +256,11 @@ export class GenDataService {
                               elm.lastvalue === "" ||
                               elm.lastclock === "0" ||
                               (elm.lastvalue.indexOf("bash:") > -1 || elm.lastvalue.indexOf("cat:") > -1)){
-                                // console.log(elm.hostid,elm)
                                 //###ADD TO UNKNOWN
-                                  // console.log("unknown", elm);
-                                  // debugger;
                                   unknown_hosts.push(elm);
 
                                   var area = this.mainObj[key][0]["lastvalue"];
-                                  
+                                  // debugger;
                                   if(!("Unknown" in this.secondObj[area])){
                                     this.initObj("Unknown",area);
                                   }
