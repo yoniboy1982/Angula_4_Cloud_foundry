@@ -1,5 +1,5 @@
 import { element } from 'protractor';
-import { Component, OnInit,ViewChild,ElementRef } from '@angular/core';
+import { Component, OnInit,ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { GenDataService } from '../gen-data.service';
 import { Chart } from 'chart.js';
@@ -25,15 +25,23 @@ export class OsdChartsComponent implements OnInit {
   bigObject = <any>{};
   chartObject = <any>{};
   chartArr = [];
+  years = []
   htmlToAdd;
+  range = 4;
+  days = 3 * 365;
 
   @ViewChild('charts') input; 
   @ViewChild('container') container; 
   node: string;
-  constructor(private Http:HttpClient,private service:GenDataService,private elementRef: ElementRef) { 
+  constructor(private Http:HttpClient,private service:GenDataService) { 
     this.records = []
     this.isLoaded = false;
     this.bigObject = {};
+
+    var year = new Date().getFullYear();
+    for (let index = 0; index < this.range; index++) {
+        this.years.push(year-index)      
+    }
   }
 
   ngOnInit() {
@@ -42,25 +50,57 @@ export class OsdChartsComponent implements OnInit {
 
   getData(){
     var that = this;
-    return this.Http.get('https://linuxinfra.wdf.sap.corp/ldt/reports/osd.php?query=1&time=365')
+    return this.Http.get('https://linuxinfra.wdf.sap.corp/ldt/reports/osd.php?query=1&time='+this.days)
     .subscribe(data=>{
       this.records = data;
+      this.createData();
+    });
+  }
+
+  initData(){
+    var e = this.container.nativeElement;
+    var cld = e.lastElementChild;  
+      while (cld) {
+          e.removeChild(cld); 
+          cld = e.lastElementChild; 
+      } 
+
+    this.profiles = [];
+    this.total = {};
+    this.sum = {};
+    this.chartLapos = {};
+    this.chartNonLapos = {};
+    this.bigObject = {};
+    this.chartObject = {};
+    this.isLoaded = false;
+  }
+
+  createData(year=2020){
+    
+      this.initData();
+
       // get profiles
       for (let index = 0; index < this.records.length; index++) {
-        
-        const element = this.records[index];
-        this.createMonthObj(element);
+        var element = this.records[index];
+        var dateYEAR = new Date(element.timestamp).getFullYear();
 
+        if(dateYEAR !== year){
+          continue;
+        }
+        
+        this.createMonthObj(element);
         if(this.profiles.indexOf(element.name) === -1) {
           this.profiles.push(element.name);
         }
       }
       this.genCharts();
-      this.renderCharts()
-      console.log(that.chartObject,this.profiles)
+      this.renderCharts();
+      console.log(this.chartObject,this.profiles);
       // this.isLoaded = true;//now load all the charts
+  }
 
-    })
+  updateYear(yearValue) {
+    this.createData(parseInt(yearValue));
   }
 
   genCharts(){
@@ -70,6 +110,7 @@ export class OsdChartsComponent implements OnInit {
       }
     }
   }
+
   loopProfiles(dist,ind){
    
     var color = ["red","green","blue"];
@@ -137,6 +178,7 @@ export class OsdChartsComponent implements OnInit {
   }
 
   renderCharts(){
+
     for (var key in this.chartObject) {
 
       if (this.chartObject.hasOwnProperty(key)) {

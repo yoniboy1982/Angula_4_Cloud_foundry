@@ -1,2 +1,7 @@
+<div><span class="badge">Select Year</span></div>
+<select (change)="updateYear($event.target.value)" class="col-3 font-weight-bold list-group-item-info dropStyle" >
+  <option *ngFor="let item of years; let i = index" [value]="item" >{{item}}</option>
+</select>
+
 <div class="charts" #container></div>
 <canvas style="height:40vh; width:80vw" #charts></canvas>   

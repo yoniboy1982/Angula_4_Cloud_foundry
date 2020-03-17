@@ -24,17 +24,21 @@
               <td>{{dist[selectedRegion][k].LDT.nonLDT.p}}</td>
               <td>{{dist[selectedRegion][k].LDT.nonLDT.v}}</td>
             </tr>
-      </tbody>
+          </tbody>
+
       <tbody *ngIf="collapse">
-          <tr class="newLine" *ngFor="let k of zFunctions.objectKeys(sum[selectedRegion])">
+          <tr class="newLine" *ngFor="let k of zFunctions.objectKeys(sum[selectedRegion])" >
+                <!-- <td *ngIf="sum[selectedRegion][k].LDT === undefined ? iteration(k,sum[selectedRegion],selectedRegion,sum):false">
+                  <span> product.name </span>
+                </td> -->
               <td class="space" scope="row">{{k}}</td>
               <td>{{sum[selectedRegion][k].LDT.isLDT.p}}</td>
               <td class="space">{{sum[selectedRegion][k].LDT.isLDT.v}}</td>
               <td>{{sum[selectedRegion][k].LDT.nonLDT.p}}</td>
               <td>{{sum[selectedRegion][k].LDT.nonLDT.v}}</td>
             </tr>
-
       </tbody>
+
       <tfoot>
           <tr>
               <th scope="row">Total</th>

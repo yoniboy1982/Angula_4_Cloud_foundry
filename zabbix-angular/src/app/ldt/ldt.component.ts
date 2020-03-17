@@ -35,7 +35,19 @@ export class LdtComponent implements OnInit {
 
   ngAfterContentInit(){
     this.sorter.makeAllSortable(document.body);
+    console.log("fff",this.service.sumObj)
+    console.log("xxx",this.zFunctions.objectKeys(this.dist[this.selectedRegion]))
+    console.log("aaa",this.zFunctions.objectKeys(this.sum[this.selectedRegion]))
+    console.log("yyy",this.sum[this.selectedRegion])
   }
+
+
+  iteration(index, item,selectedRegion,sum) {
+    debugger;
+    // console.log('kkkk', index, item,selectedRegion,sum);
+    return item;
+  }
+  
   onClickMeGen(){
     this.collapse = !this.collapse;
   }

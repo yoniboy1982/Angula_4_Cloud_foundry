@@ -97,8 +97,8 @@ export class GenDataService {
           "LDT Security Flag",
           "Lapos Git Status",
           "New Region",
-          "IP address",
-          "Host name FQDN"
+          // "IP address",
+          // "Host name FQDN"
       ];
       }
 
@@ -114,7 +114,7 @@ export class GenDataService {
               //  "output":  "extend",
                 "output": ["name","lastvalue","lastclock","hostid","itemid"],
                 // "hostids": [ "10132", "10134", "10126", "10138", "10140", "10182", "10144", "10166", "10148", "10150", "10192", "10154"],
-                // "hostids": [ "13616"],
+                // "hostids": ["18968"],
                 "filter": {"name": arr},
               "sortfield": "name"
           },
@@ -173,7 +173,7 @@ export class GenDataService {
                   if (isInHost < 0) {
 
                     elm.lastvalue = "Unknown"
-                    // console.log(elm.lastvalue)
+                    // console.log('pp',elm)
                     this.regionArrValidation.push(elm.hostid);
                   }
 
@@ -236,14 +236,15 @@ export class GenDataService {
               var regionElm = this.mainObj[key][0];
               var regionPos = regionElm.lastvalue;
               var that = this;
-
+              
               loop2:
               for (let i = 0; i < this.mainObj[key].length; i++) {
                   const elm = this.mainObj[key][i];
+                  // console.log(elm)
                   var clock = elm.lastclock + '000'; //adding 3 zero's because the date format is not valid
                   var notValidTime = this.calctimeByYear(clock);
                   
-                  // if(elm.lastclock === '0'){
+                  // if(elm.lastvalue.indexOf("sh:") > -1){
                   //   debugger;
                   //   continue;
                   // }
@@ -255,7 +256,10 @@ export class GenDataService {
                               elm.lastvalue === "0" ||
                               elm.lastvalue === "" ||
                               elm.lastclock === "0" ||
-                              (elm.lastvalue.indexOf("bash:") > -1 || elm.lastvalue.indexOf("cat:") > -1)){
+                              (elm.lastvalue.indexOf("bash:") > -1 
+                              || elm.lastvalue.indexOf("cat:") > -1
+                              || elm.lastvalue.indexOf("sh:") > -1
+                              )){
                                 //###ADD TO UNKNOWN
                                   unknown_hosts.push(elm);
 
@@ -266,6 +270,12 @@ export class GenDataService {
                                   }
                                   if(!("Unknown" in this.secondObj["TOTAL"])){
                                     this.initObj("Unknown","TOTAL");
+                                  }
+                                  if(!("Unknown" in this.sumObj[area])){
+                                    this.addSumObj("Unknown",area);
+                                  }
+                                  if(!("Unknown" in this.sumObj["TOTAL"])){
+                                    this.addSumObj("Unknown","TOTAL");
                                   }
 
                                   this.secondObj[area]["Unknown"] = this.secondObj[area]["Unknown"] || {};
@@ -429,12 +439,13 @@ export class GenDataService {
                       }else{
                         checkIfLDT = "nonLDT";
                       }
-
+                      
                       this.secondObj[regionPos][elmContainer] =  this.secondObj[regionPos][elmContainer]|| {}; 
                       this.secondObj[regionPos][elmContainer]["LDT"] =  this.secondObj[regionPos][elmContainer]["LDT"]|| {}; 
                       this.secondObj[regionPos][elmContainer]["LDT"][checkIfLDT] =  this.secondObj[regionPos][elmContainer]["LDT"][checkIfLDT]|| {}; 
                       this.secondObj[regionPos][elmContainer]["LDT"][checkIfLDT][checkIfVirt] =  this.secondObj[regionPos][elmContainer]["LDT"][checkIfLDT][checkIfVirt]|| 0; 
                       
+
                       this.sumObj[regionPos][elmSum] =  this.sumObj[regionPos][elmSum]|| {}; 
                       this.sumObj[regionPos][elmSum]["LDT"] =  this.sumObj[regionPos][elmSum]["LDT"]|| {}; 
                       this.sumObj[regionPos][elmSum]["LDT"][checkIfLDT] =  this.sumObj[regionPos][elmSum]["LDT"][checkIfLDT]|| {}; 
