@@ -28,12 +28,12 @@ export class OsdChartsComponent implements OnInit {
   years = []
   htmlToAdd;
   range = 4;
-  days = 3 * 365;
+  days = 4 * 365;
 
   @ViewChild('charts') input; 
   @ViewChild('container') container; 
   node: string;
-  constructor(private Http:HttpClient,private service:GenDataService) { 
+  constructor(private Http:HttpClient,private service:GenDataService) {
     this.records = []
     this.isLoaded = false;
     this.bigObject = {};
@@ -64,7 +64,6 @@ export class OsdChartsComponent implements OnInit {
           e.removeChild(cld); 
           cld = e.lastElementChild; 
       } 
-
     this.profiles = [];
     this.total = {};
     this.sum = {};
